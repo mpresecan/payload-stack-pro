@@ -7,6 +7,7 @@ import { REGISTER_PAGE, RESET_PASSWORD_PAGE } from '../paths'
 import { PasswordField } from '../_components/password-field'
 import AuthCardWrapper from '../_components/auth-card-wrapper'
 import InputFieldWrapper from '../_components/input-field-wrapper'
+import SignInWithPasswordForm from '@/app/(frontend)/auth/_components/forms/sign-in-with-password-form'
 
 const LoginPage = () => {
   return (
@@ -22,19 +23,7 @@ const LoginPage = () => {
         </div>
       )}
     >
-      <InputFieldWrapper>
-        <Label htmlFor="email">Email</Label>
-        <Input
-          id="email"
-          type="email"
-          placeholder="m@example.com"
-          required
-        />
-      </InputFieldWrapper>
-      <PasswordField showStrengthIndicator={false} showForgotPasswordLink={true} />
-      <Button type="submit" className="w-full">
-        Login
-      </Button>
+      <SignInWithPasswordForm />
       {/*<Button variant="outline" className="w-full">*/}
       {/*  Login with Google*/}
       {/*</Button>*/}

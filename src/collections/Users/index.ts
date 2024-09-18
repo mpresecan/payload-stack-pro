@@ -12,13 +12,13 @@ const Users: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ['name', 'email'],
-    useAsTitle: 'name',
+    defaultColumns: ['fullName', 'email'],
+    useAsTitle: 'fullName',
   },
   auth: true,
   fields: [
     {
-      name: 'name',
+      name: 'fullName',
       type: 'text',
     },
   ],

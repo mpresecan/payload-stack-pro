@@ -18,6 +18,7 @@
     "start": "cross-env NODE_OPTIONS=--no-deprecation next start"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.0",
     "@payloadcms/db-mongodb": "beta",
     "@payloadcms/live-preview-react": "beta",
     "@payloadcms/next": "beta",
@@ -43,6 +44,7 @@
     "lexical": "0.17.0",
     "lucide-react": "^0.378.0",
     "next": "15.0.0-canary.104",
+    "next-themes": "^0.3.0",
     "payload": "beta",
     "payload-admin-bar": "^1.0.6",
     "prism-react-renderer": "^2.3.1",
@@ -50,8 +52,10 @@
     "react-dom": "19.0.0-rc-06d0b89e-20240801",
     "react-hook-form": "7.45.4",
     "sharp": "0.32.6",
+    "sonner": "^1.5.0",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^13.1.6",

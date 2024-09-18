@@ -4,3 +4,5 @@ export const RECOVER_PASSWORD_PAGE = '/auth/recover-password' as const;
 export const RESET_PASSWORD_PAGE = '/auth/reset-password' as const;
 export const VERIFY_EMAIL_PAGE = '/auth/verify-email' as const;
 export const LOGOUT_PAGE = '/auth/logout' as const;
+
+export const DEFAULT_LOGIN_REDIRECT = '/' as const;

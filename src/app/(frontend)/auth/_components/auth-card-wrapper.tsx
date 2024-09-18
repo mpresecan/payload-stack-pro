@@ -20,7 +20,7 @@ const AuthCardWrapper = ({children, title, subtitle, footer} : AuthCardWrapperPr
         <h1 className="text-3xl font-bold">{title}</h1>
         {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
       </div>
-      <div className="grid gap-6">{children}</div>
+      {children}
       {footer}
     </div>
   )
