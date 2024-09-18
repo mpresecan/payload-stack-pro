@@ -11,7 +11,7 @@ import type { Page as PageType } from '@/payload-types'
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
-import NotFound from '@/app/(frontend)/not-found'
+import NotFound from '@/app/not-found'
 
 export async function generateStaticParams() {
   const payload = await getPayloadHMR({ config: configPromise })
