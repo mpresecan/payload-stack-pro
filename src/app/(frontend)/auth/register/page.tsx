@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { PasswordField } from '../_components/password-field'
-import { LOGIN_PAGE } from '../paths'
+import { LOGIN_PAGE } from '../_config/routes'
 import AuthCardWrapper from '../_components/auth-card-wrapper'
 
 const SingUpPage = () => {

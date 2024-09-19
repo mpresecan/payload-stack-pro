@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress'
 import { cn } from '@/utilities/cn'
 import { Label } from '@/components/ui/label'
 import * as React from 'react'
-import { RESET_PASSWORD_PAGE } from '@/app/(frontend)/auth/paths'
+import { RESET_PASSWORD_PAGE } from '@/app/(frontend)/auth/_config/routes'
 import Link from 'next/link'
 import InputFieldWrapper from '@/app/(frontend)/auth/_components/input-field-wrapper'
 

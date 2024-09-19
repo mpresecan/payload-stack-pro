@@ -4,7 +4,7 @@ import { Input } from '@/components/ui/input'
 import { PasswordField } from '@/app/(frontend)/auth/_components/password-field'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
-import { REGISTER_PAGE } from '@/app/(frontend)/auth/paths'
+import { REGISTRATION_PAGE } from '@/app/(frontend)/auth/_config/routes'
 
 interface AuthCardWrapperProps {
   children: React.ReactNode

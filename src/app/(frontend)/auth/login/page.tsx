@@ -3,7 +3,7 @@ import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-import { REGISTER_PAGE, RESET_PASSWORD_PAGE } from '../paths'
+import { REGISTRATION_PAGE, RESET_PASSWORD_PAGE } from '../_config/routes'
 import { PasswordField } from '../_components/password-field'
 import AuthCardWrapper from '../_components/auth-card-wrapper'
 import InputFieldWrapper from '../_components/input-field-wrapper'
@@ -17,7 +17,7 @@ const LoginPage = () => {
       footer={(
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{' '}
-          <Link href={REGISTER_PAGE} className="underline">
+          <Link href={REGISTRATION_PAGE} className="underline">
             Sign up
           </Link>
         </div>
