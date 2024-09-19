@@ -20,7 +20,17 @@ const Users: CollectionConfig = {
     {
       name: 'fullName',
       type: 'text',
+      required: true,
+      saveToJWT: true,
     },
+    {
+      name: 'role',
+      type: 'select',
+      options: ['user', 'admin'],
+      defaultValue: 'user',
+      required: true,
+      saveToJWT: true,
+    }
   ],
   timestamps: true,
 }

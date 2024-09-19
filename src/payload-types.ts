@@ -333,7 +333,8 @@ export interface Post {
  */
 export interface User {
   id: string;
-  fullName?: string | null;
+  fullName: string;
+  role: 'user' | 'admin';
   updatedAt: string;
   createdAt: string;
   email: string;
