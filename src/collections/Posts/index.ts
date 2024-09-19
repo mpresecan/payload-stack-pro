@@ -26,9 +26,15 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
+import {
+  COLLECTION_SLUG_CATEGORIES,
+  COLLECTION_SLUG_MEDIA,
+  COLLECTION_SLUG_POSTS,
+  COLLECTION_SLUG_USERS,
+} from '@/collections/slugs'
 
 export const Posts: CollectionConfig = {
-  slug: 'posts',
+  slug: COLLECTION_SLUG_POSTS,
   access: {
     create: authenticated,
     delete: authenticated,
@@ -97,7 +103,7 @@ export const Posts: CollectionConfig = {
                 }
               },
               hasMany: true,
-              relationTo: 'posts',
+              relationTo: COLLECTION_SLUG_POSTS,
             },
             {
               name: 'categories',
@@ -106,7 +112,7 @@ export const Posts: CollectionConfig = {
                 position: 'sidebar',
               },
               hasMany: true,
-              relationTo: 'categories',
+              relationTo: COLLECTION_SLUG_CATEGORIES,
             },
           ],
           label: 'Meta',
@@ -124,7 +130,7 @@ export const Posts: CollectionConfig = {
               hasGenerateFn: true,
             }),
             MetaImageField({
-              relationTo: 'media',
+              relationTo: COLLECTION_SLUG_MEDIA,
             }),
 
             MetaDescriptionField({}),
@@ -167,7 +173,7 @@ export const Posts: CollectionConfig = {
         position: 'sidebar',
       },
       hasMany: true,
-      relationTo: 'users',
+      relationTo: COLLECTION_SLUG_USERS,
     },
     // This field is only used to populate the user data via the `populateAuthors` hook
     // This is because the `user` collection has access control locked to protect user privacy

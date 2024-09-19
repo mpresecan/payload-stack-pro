@@ -8,6 +8,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { linkGroup } from '@/fields/linkGroup'
+import { COLLECTION_SLUG_MEDIA } from '@/collections/slugs'
 
 export const hero: Field = {
   name: 'hero',
@@ -64,7 +65,7 @@ export const hero: Field = {
       admin: {
         condition: (_, { type } = {}) => ['highImpact', 'mediumImpact'].includes(type),
       },
-      relationTo: 'media',
+      relationTo: COLLECTION_SLUG_MEDIA,
       required: true,
     },
   ],

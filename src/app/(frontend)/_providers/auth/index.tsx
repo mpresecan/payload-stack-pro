@@ -45,19 +45,6 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
 
   const login = useCallback<Login>(
     async (args) => {
-      console.log('args', args) // TODO: Remove this line
-      // const validatedFields = signInWithPasswordSchema.safeParse(args)
-      //
-      // if(!validatedFields.success) {
-      //   throw new Error(
-      //     "Invalid fields",
-      //     {
-      //       cause: validatedFields.error.issues.map(issue => issue.message).join(", ")
-      //     }
-      //   );
-      // }
-      //
-      // console.log('validatedFields', validatedFields) // TODO: Remove this line
 
       if (api === 'rest') {
         const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, args)
@@ -107,6 +94,8 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
           {},
           {
             method: 'GET',
+            cache: 'force-cache',
+            next: { revalidate: 600 }
           },
         )
         setUser(user)

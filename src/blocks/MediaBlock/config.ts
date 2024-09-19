@@ -1,4 +1,5 @@
 import type { Block } from 'payload'
+import { COLLECTION_SLUG_MEDIA } from '@/collections/slugs'
 
 export const MediaBlock: Block = {
   slug: 'mediaBlock',
@@ -22,7 +23,7 @@ export const MediaBlock: Block = {
     {
       name: 'media',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: COLLECTION_SLUG_MEDIA,
       required: true,
     },
   ],

@@ -1,9 +1,10 @@
 import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
+import { COLLECTION_SLUG_USERS } from '@/collections/slugs'
 
 const Users: CollectionConfig = {
-  slug: 'users',
+  slug: COLLECTION_SLUG_USERS,
   access: {
     admin: authenticated,
     create: authenticated,
@@ -15,7 +16,9 @@ const Users: CollectionConfig = {
     defaultColumns: ['fullName', 'email'],
     useAsTitle: 'fullName',
   },
-  auth: true,
+  auth: {
+    verify: true,
+  },
   fields: [
     {
       name: 'fullName',

@@ -1,13 +1,17 @@
 import React from 'react'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { REGISTRATION_PAGE, RESET_PASSWORD_PAGE } from '../_config/routes'
-import { PasswordField } from '../_components/password-field'
+import { REGISTRATION_PAGE } from '../_config/routes'
 import AuthCardWrapper from '../_components/auth-card-wrapper'
-import InputFieldWrapper from '../_components/input-field-wrapper'
-import SignInWithPasswordForm from '@/app/(frontend)/auth/_components/forms/sign-in-with-password-form'
+import SignInWithPasswordForm from '../_components/forms/sign-in-with-password-form'
+import { Metadata } from 'next'
+
+const domain = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(domain),
+  title: "Login",
+  description: "Sign in to your account",
+}
 
 const LoginPage = () => {
   return (

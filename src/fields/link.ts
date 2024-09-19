@@ -1,6 +1,7 @@
 import type { Field } from 'payload'
 
 import deepMerge from '@/utilities/deepMerge'
+import { COLLECTION_SLUG_PAGES } from '@/collections/slugs'
 
 export type LinkAppearances = 'default' | 'outline'
 
@@ -76,7 +77,7 @@ export const link: LinkType = ({ appearances, disableLabel = false, overrides = 
       },
       label: 'Document to link to',
       maxDepth: 1,
-      relationTo: ['pages'],
+      relationTo: [COLLECTION_SLUG_PAGES],
       required: true,
     },
     {

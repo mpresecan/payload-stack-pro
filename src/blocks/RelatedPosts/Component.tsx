@@ -5,6 +5,7 @@ import RichText from '@/components/RichText'
 import type { Post } from '@/payload-types'
 
 import { Card } from '../../components/Card'
+import { COLLECTION_SLUG_POSTS } from '@/collections/slugs'
 
 export type RelatedPostsProps = {
   className?: string
@@ -23,7 +24,7 @@ export const RelatedPosts: React.FC<RelatedPostsProps> = (props) => {
         {docs?.map((doc, index) => {
           if (typeof doc === 'string') return null
 
-          return <Card key={index} doc={doc} relationTo="posts" showCategories />
+          return <Card key={index} doc={doc} relationTo={COLLECTION_SLUG_POSTS} showCategories />
         })}
       </div>
     </div>

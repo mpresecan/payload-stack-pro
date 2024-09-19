@@ -19,8 +19,10 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import { COLLECTION_SLUG_MEDIA, COLLECTION_SLUG_PAGES } from '@/collections/slugs'
+
 export const Pages: CollectionConfig = {
-  slug: 'pages',
+  slug: COLLECTION_SLUG_PAGES,
   access: {
     create: authenticated,
     delete: authenticated,
@@ -78,7 +80,7 @@ export const Pages: CollectionConfig = {
               hasGenerateFn: true,
             }),
             MetaImageField({
-              relationTo: 'media',
+              relationTo: COLLECTION_SLUG_MEDIA,
             }),
 
             MetaDescriptionField({}),

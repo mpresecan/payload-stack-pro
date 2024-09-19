@@ -10,12 +10,13 @@ import { fileURLToPath } from 'url'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { COLLECTION_SLUG_MEDIA } from '@/collections/slugs'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
-  slug: 'media',
+  slug: COLLECTION_SLUG_MEDIA,
   access: {
     create: authenticated,
     delete: authenticated,

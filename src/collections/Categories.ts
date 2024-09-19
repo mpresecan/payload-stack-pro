@@ -2,9 +2,10 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { COLLECTION_SLUG_CATEGORIES } from '@/collections/slugs'
 
 const Categories: CollectionConfig = {
-  slug: 'categories',
+  slug: COLLECTION_SLUG_CATEGORIES,
   access: {
     create: authenticated,
     delete: authenticated,

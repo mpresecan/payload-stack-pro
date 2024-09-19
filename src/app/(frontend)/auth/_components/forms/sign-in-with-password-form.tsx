@@ -11,24 +11,25 @@ import {
 import { Input } from '@/components/ui/input'
 
 import { Button } from '@/components/ui/button'
-import React, { useState, useTransition } from 'react'
+import React, { useTransition } from 'react'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod'
 import { signInWithPasswordSchema } from '../../_validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { DEFAULT_LOGIN_REDIRECT, RESET_PASSWORD_PAGE } from '../../_config/routes'
+import {  RESET_PASSWORD_PAGE } from '../../_config/routes'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ActionResultType } from '../../auth'
 import { PasswordInput } from '../password-input'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
 import { useAuth } from '@/app/(frontend)/_providers/auth'
+import { signInWithPassword } from '@/app/(frontend)/auth/_actions/sign-in-with-password'
 
 const SignInWithPasswordForm = () => {
   const [isPending, startTransition] = useTransition()
-  const searchParams = useSearchParams()
-  const callbackUrl = searchParams.get('callbackUrl')
+  // const searchParams = useSearchParams()
+  // const callbackUrl = searchParams.get('callbackUrl')
   const router = useRouter()
   // const [showTwoFactor, setShowTwoFactor] = useState(false)
   const { login } = useAuth()
@@ -46,6 +47,8 @@ const SignInWithPasswordForm = () => {
       try {
 
         const user = await login(formData)
+
+        // const user = await signInWithPassword(formData);
 
         // const res = await fetch('/api/auth/signin-custom', {
         //   method: 'POST',
