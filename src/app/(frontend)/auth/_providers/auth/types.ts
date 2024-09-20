@@ -14,7 +14,7 @@ export type ResetPassword = (args: {
 
 export type ForgotPassword = (args: { email: string }) => Promise<User>
 
-export type Create = (args: z.infer<typeof signUpWithPasswordSchema>) => Promise<User>
+export type Create = (args: z.infer<typeof signUpWithPasswordSchema>) => Promise<ActionResultType>
 
 export type Login = (args: { email: string, password: string }, callbackUrl: string | null) => Promise<ActionResultType>
 

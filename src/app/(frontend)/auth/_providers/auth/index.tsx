@@ -29,14 +29,24 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
     async (args) => {
 
       if (api === 'rest') {
-        const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, args) as User
-        setUser(user)
-        return user
+        try {
+          const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, args) as User
+          setUser(user)
+          return {
+            success: "Success!",
+            description: "Check your inbox to verify your email address."
+          }
+        } catch (error) {
+          return {
+            error: error.message || "Something went wrong",
+            description: "Please try again."
+          }
+        }
       }
 
       if (api === 'gql') {
         const { createUser: user } = await gql(`mutation {
-        createUser(data: { email: "${args.email}", password: "${args.password}", name: "${args.name}" }) {
+        createUser(data: { email: "${args.email}", password: "${args.password}" }) {
           ${USER}
         }
       }`)

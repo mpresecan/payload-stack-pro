@@ -7,7 +7,7 @@ const Users: CollectionConfig = {
   slug: COLLECTION_SLUG_USERS,
   access: {
     admin: authenticated,
-    create: authenticated,
+    create: () => true,
     delete: authenticated,
     read: authenticated,
     update: authenticated,
@@ -23,7 +23,7 @@ const Users: CollectionConfig = {
     {
       name: 'name',
       type: 'text',
-      required: true,
+      required: false,
       saveToJWT: true,
     },
     {

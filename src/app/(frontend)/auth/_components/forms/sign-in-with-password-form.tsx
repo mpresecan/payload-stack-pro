@@ -23,7 +23,7 @@ import { ActionResultType } from '../../auth'
 import { PasswordInput } from '../password-input'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
-import { useAuth } from '@/app/(frontend)/_providers/auth'
+import { useAuth } from 'src/app/(frontend)/auth/_providers/auth'
 
 const SignInWithPasswordForm = () => {
   const [isPending, startTransition] = useTransition()

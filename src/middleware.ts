@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { sessionUser } from '@/app/(frontend)/auth/lib'
+import { sessionUser } from 'src/app/(frontend)/auth/_lib'
 
 import {
   apiAuthPrefix,

@@ -39,13 +39,11 @@ export const passwordResetSchema = z.object({
 
 export const passwordUpdateSchema = z
   .object({
-    password: passwordSchema.regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      {
-        message:
-          'Password must contain at least 8 characters, including one uppercase, one lowercase, one number and one special character',
-      },
-    ),
+    password: passwordSchema
+      .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
+      .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
+      .regex(/[0-9]/, { message: 'Password must contain at least one number' })
+      .regex(/[!@#$%^&*]/, { message: 'Password must contain at least one special character (e.g., !@#$%^&*)' }),
     confirmPassword: z.string(),
   })
   .refine((schema) => schema.password === schema.confirmPassword, {
@@ -55,26 +53,10 @@ export const passwordUpdateSchema = z
 
 export const signUpWithPasswordSchema = z
   .object({
-    name: z
-      .string({
-        required_error: 'Your name is required',
-        invalid_type_error: 'Your name must be a string',
-      })
-      .min(2, {
-        message: 'Your name should be at least 2 characters',
-      })
-      .max(64),
     email: emailSchema,
-    password: passwordSchema.regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
-      {
-        message:
-          'Password must contain at least 8 characters, including one uppercase, one lowercase, one number and one special character',
-      },
-    ),
-    confirmPassword: z.string(),
-  })
-  .refine((schema) => schema.password === schema.confirmPassword, {
-    message: 'Passwords do not match',
-    path: ['confirmPassword'],
+    password: passwordSchema
+      .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })
+      .regex(/[a-z]/, { message: 'Password must contain at least one lowercase letter' })
+      .regex(/[0-9]/, { message: 'Password must contain at least one number' })
+      .regex(/[!@#$%^&*]/, { message: 'Password must contain at least one special character (e.g., !@#$%^&*)' }),
   })
