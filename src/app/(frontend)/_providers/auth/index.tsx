@@ -10,6 +10,10 @@ import type { AuthContext, Create, ForgotPassword, Login, Logout, ResetPassword 
 import { USER, gql } from './gql'
 import { rest } from './rest'
 import { signInWithPasswordSchema } from '@/app/(frontend)/auth/_validation'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { DEFAULT_LOGIN_REDIRECT, DEFAULT_LOGOUT_PAGE } from '@/app/(frontend)/auth/_config/routes'
+import { ActionResultType } from '@/app/(frontend)/auth/auth'
+import { toast } from 'sonner'
 
 const Context = createContext({} as AuthContext)
 
@@ -19,19 +23,20 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
                                                                                             }) => {
   const [user, setUser] = useState<User | null>()
   const [permissions, setPermissions] = useState<Permissions | null>(null)
+  const router = useRouter()
 
   const create = useCallback<Create>(
     async (args) => {
 
       if (api === 'rest') {
-        const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, args)
+        const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users`, args) as User
         setUser(user)
         return user
       }
 
       if (api === 'gql') {
         const { createUser: user } = await gql(`mutation {
-        createUser(data: { email: "${args.email}", password: "${args.password}", fullName: "${args.fullName}" }) {
+        createUser(data: { email: "${args.email}", password: "${args.password}", name: "${args.name}" }) {
           ${USER}
         }
       }`)
@@ -44,26 +49,53 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
   )
 
   const login = useCallback<Login>(
-    async (args) => {
+    async (args, callbackUrl) => {
 
       if (api === 'rest') {
-        const user = await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/login`, args)
-        setUser(user)
-        return user
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/auth/api/login`, {
+          method: 'POST',
+          body: JSON.stringify(args),
+          headers: { 'Content-Type': 'application/json' },
+          // credentials: 'include',
+        })// custom endpoint
+
+        const result = await res.json() as ActionResultType;
+
+        if('user' in result) {
+          setUser(result.user)
+        }
+        return result;
       }
 
       if (api === 'gql') {
         const { loginUser } = await gql(`mutation {
-        loginUser(email: "${args.email}", password: "${args.password}") {
-          user {
-            ${USER}
+          loginUser(email: "${args.email}", password: "${args.password}") {
+            user {
+              ${USER}
+            }
+            exp
           }
-          exp
-        }
-      }`)
+        }`)
 
         setUser(loginUser?.user)
-        return loginUser?.user
+        if(loginUser.user) {
+          return {
+            success: loginUser.user.name ? `Hi ${loginUser.user.name}!` : 'Success!',
+            description: loginUser.user.name ? "It is nice to see you back." : "Welcome to our community!",
+            user: loginUser.user
+          }
+        }
+        else {
+          return {
+            error: "Something went wrong",
+            description: "Please try again."
+          }
+        }
+      }
+
+      return {
+        error: "Something went wrong",
+        description: "Please try again."
       }
     },
     [api],
@@ -73,6 +105,7 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
     if (api === 'rest') {
       await rest(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/logout`)
       setUser(null)
+      router.push(DEFAULT_LOGOUT_PAGE)
       return
     }
 
@@ -82,8 +115,9 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
       }`)
 
       setUser(null)
+      router.push(DEFAULT_LOGOUT_PAGE)
     }
-  }, [api])
+  }, [router, api])
 
   // On mount, get user and set
   useEffect(() => {
@@ -95,7 +129,7 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
           {
             method: 'GET',
             cache: 'force-cache',
-            next: { revalidate: 600 }
+            next: { revalidate: 600 },
           },
         )
         setUser(user)

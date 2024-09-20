@@ -17,19 +17,18 @@ import * as z from 'zod'
 import { signInWithPasswordSchema } from '../../_validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import {  RESET_PASSWORD_PAGE } from '../../_config/routes'
+import { DEFAULT_LOGIN_REDIRECT, RESET_PASSWORD_PAGE } from '../../_config/routes'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ActionResultType } from '../../auth'
 import { PasswordInput } from '../password-input'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
 import { useAuth } from '@/app/(frontend)/_providers/auth'
-import { signInWithPassword } from '@/app/(frontend)/auth/_actions/sign-in-with-password'
 
 const SignInWithPasswordForm = () => {
   const [isPending, startTransition] = useTransition()
-  // const searchParams = useSearchParams()
-  // const callbackUrl = searchParams.get('callbackUrl')
+  const searchParams = useSearchParams()
+  const callbackUrl = searchParams.get('callbackUrl')
   const router = useRouter()
   // const [showTwoFactor, setShowTwoFactor] = useState(false)
   const { login } = useAuth()
@@ -46,56 +45,40 @@ const SignInWithPasswordForm = () => {
     startTransition(async () => {
       try {
 
-        const user = await login(formData)
+        const result = await login(formData, callbackUrl)
 
-        // const user = await signInWithPassword(formData);
-
-        // const res = await fetch('/api/auth/signin-custom', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify({
-        //     values: { ...formData, code: undefined }, // manually append
-        //     callbackUrl: callbackUrl || DEFAULT_LOGIN_REDIRECT,
-        //     'method': 'password',
-        //   }),
-        // })
-
-        // const result = await res.json() as ActionResultType
         // if ('specialAction' in result && result.specialAction === 'twoFactorAuth') {
-        //   setShowTwoFactor(true)
-        // }
-        //
-        // if ('success' in result) {
-        //   toast.success(result.success, {
-        //     description: result.description,
-        //     duration: 5000,
-        //   })
-        //
-        //   if (!('specialAction' in result)) {
-        //     router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT)
-        //   }
-        //   return
+        //   setShowTwoFactor(true);
         // }
 
-        // if ('error' in result) {
-        //   toast.error(result?.error || 'Something went wrong', {
-        //     description: result?.description || 'Please try again.',
-        //     action: result?.action && result.action?.redirect && result.action?.label ? {
-        //       label: result.action?.label,
-        //       onClick: () => router.push(result.action?.redirect || '/'),
-        //     } : undefined,
-        //     duration: 7000,
-        //   })
-        //   return
-        // }
+        if ('success' in result) {
+          toast.success(result.success, {
+            description: result.description,
+            duration: 5000,
+          })
 
-        router.push('/admin')
+          if(!('specialAction' in result)) {
+            router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT)
+          }
+          return;
+        }
+
+        if ('error' in result) {
+          toast.error(result?.error || "Something went wrong", {
+            description: result?.description || "Please try again.",
+            action: result?.action && result.action?.redirect && result.action?.label ? {
+              label: result.action?.label,
+              onClick: () => router.push(result.action?.redirect || "/")
+            } : undefined,
+            duration: 7000,
+          })
+          return;
+        }
+
 
       } catch (error) {
-        toast.error('Credentials error', {
-          description: 'There was an error with the credentials provided. Please try again.',
+        toast.error('Something went wrong', {
+          description: 'Please try again.',
         })
         console.error(error)
       }

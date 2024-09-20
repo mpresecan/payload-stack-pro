@@ -30,6 +30,7 @@ export const publicRoutes = [
   TOS_PAGE,
   PRIVACY_PAGE,
   '/email',
+  '/test',
 ]
 
 /**
@@ -43,6 +44,13 @@ export const authRoutes = [
   RECOVER_PASSWORD_PAGE,
   RESET_PASSWORD_PAGE,
 ]
+
+/**
+ * The prefix for API authentication routes
+ * Routes that start with this prefix are used for API authentication purposes
+ * @type {string}
+ * */
+export const apiAuthPrefix = '/auth/api';
 
 /**
  * The default redirect route after a user logs in

@@ -2,6 +2,7 @@ import { NextRequest } from 'next/server'
 import { sessionUser } from '@/app/(frontend)/auth/lib'
 
 import {
+  apiAuthPrefix,
   authRoutes,
   DEFAULT_LOGIN_REDIRECT,
   LOGIN_PAGE,
@@ -19,6 +20,9 @@ export default async function middleware(request: NextRequest) {
   const {nextUrl} = request;
 
   const isLoggedIn = !!user;
+
+  const isAPIAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  if (isAPIAuthRoute) return null; // do not apply anything, mind your own business
 
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   if (isAuthRoute) {
@@ -44,7 +48,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   // check if user has not completed onboarding
-  if(!isPublicRoute && isLoggedIn && !user?.fullName && nextUrl.pathname !== ONBOARDING_PAGE) {
+  if(!isPublicRoute && isLoggedIn && !user?.name && nextUrl.pathname !== ONBOARDING_PAGE) {
     let callbackUrl = nextUrl.pathname;
 
     if(nextUrl.search) {
@@ -60,7 +64,7 @@ export default async function middleware(request: NextRequest) {
   }
 
   // prevent logged-in user with onboarding to access onboarding page
-  if(isLoggedIn && user?.fullName && nextUrl.pathname === ONBOARDING_PAGE) {
+  if(isLoggedIn && user?.name && nextUrl.pathname === ONBOARDING_PAGE) {
     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
   }
 

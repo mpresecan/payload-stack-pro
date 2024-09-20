@@ -1,4 +1,5 @@
 import type { User } from '@/payload-types'
+import { ActionResultType } from '@/app/(frontend)/auth/auth'
 
 export const rest = async (
   url: string,

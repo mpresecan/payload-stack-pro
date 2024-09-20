@@ -2,7 +2,8 @@ import type { Permissions } from 'payload'
 import * as z from 'zod'
 
 import type { User } from '@/payload-types'
-import { signInWithPasswordSchema, signUpWithPasswordSchema } from '@/app/(frontend)/auth/_validation'
+import { signUpWithPasswordSchema } from '@/app/(frontend)/auth/_validation'
+import { ActionResultType } from '@/app/(frontend)/auth/auth'
 
 // eslint-disable-next-line no-unused-vars
 export type ResetPassword = (args: {
@@ -15,7 +16,7 @@ export type ForgotPassword = (args: { email: string }) => Promise<User>
 
 export type Create = (args: z.infer<typeof signUpWithPasswordSchema>) => Promise<User>
 
-export type Login = (args: { email: string, password: string }) => Promise<User>
+export type Login = (args: { email: string, password: string }, callbackUrl: string | null) => Promise<ActionResultType>
 
 export type Logout = () => Promise<void>
 

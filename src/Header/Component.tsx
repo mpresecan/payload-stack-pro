@@ -10,6 +10,7 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
+import LogoutButton from '@/app/(frontend)/auth/_components/logout-button'
 
 const Header = () => {
   return (
@@ -128,7 +129,7 @@ const Header = () => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Logout</DropdownMenuItem>
+            <DropdownMenuItem><LogoutButton variant='ghost' size='clear' /></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

@@ -10,6 +10,8 @@ export { generateMetadata }
 
 const Page = async () => {
 
+  const user = await sessionUser()
+
   return (
     <>
       <nav
@@ -73,6 +75,7 @@ const Page = async () => {
             <Button>Save</Button>
           </CardFooter>
         </Card>
+        {JSON.stringify(user, null, 2)}
       </div>
     </>
   )

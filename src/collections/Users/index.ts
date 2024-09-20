@@ -13,15 +13,15 @@ const Users: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    defaultColumns: ['fullName', 'email'],
-    useAsTitle: 'fullName',
+    defaultColumns: ['name', 'email'],
+    useAsTitle: 'name',
   },
   auth: {
     verify: true,
   },
   fields: [
     {
-      name: 'fullName',
+      name: 'name',
       type: 'text',
       required: true,
       saveToJWT: true,

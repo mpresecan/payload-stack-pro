@@ -1,3 +1,5 @@
+import { User } from '@/payload-types'
+
 export type FormCTAActionType = {
   label: string;
   redirect: string;
@@ -6,6 +8,7 @@ export type FormCTAActionType = {
 type SuccessResultType = {
   success: string;
   description?: string;
+  user?: User
 };
 
 type ErrorResultType = {

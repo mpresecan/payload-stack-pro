@@ -55,7 +55,7 @@ export const passwordUpdateSchema = z
 
 export const signUpWithPasswordSchema = z
   .object({
-    fullName: z
+    name: z
       .string({
         required_error: 'Your name is required',
         invalid_type_error: 'Your name must be a string',
