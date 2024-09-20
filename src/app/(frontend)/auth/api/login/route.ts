@@ -83,8 +83,8 @@ export const POST = async (request: Request) => {
     }
 
     return Response.json({
-      error: error.message || 'Something went wrong',
-      description: error.cause || 'Please try again.'
+      error: 'Something went wrong',
+      description: error.message || 'Please try again.'
     }, {
       status: 500
     })

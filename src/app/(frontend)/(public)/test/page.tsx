@@ -12,7 +12,7 @@ const Page = () => {
       },
       body: JSON.stringify({
         email: 'm_presecan@yahoo.com',
-        password: 'kkxtaoxfer',
+        password: 'kkxtaoxfer2',
       })
     })
   }
