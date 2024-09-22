@@ -109,7 +109,7 @@ export default buildConfig({
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   globals: [Header, Footer],
   email: resendAdapter({
-    defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || '',
+    defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'onboarding@resend.dev',
     defaultFromName: 'Payload Stack',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
