@@ -4,6 +4,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { ErrorCallToAction, SuccessCallToAction } from '@/app/(frontend)/(auth)/_components/verify-email/call-to-actions'
 import AuthCardWrapper from '@/app/(frontend)/(auth)/_components/auth-card-wrapper'
 import { Loader2 } from 'lucide-react'
+import { toast } from 'sonner'
 
 
 interface VerifyEmailCardProps {
@@ -30,7 +31,10 @@ const VerifyEmailCard = ({token}: VerifyEmailCardProps) => {
         setIsVerified(true);
       }
     } catch(error) {
-      console.log(error);
+      toast.error('Something went wrong', {
+        description: 'Please try again',
+      })
+      console.error(error);
     }
   }, [token])
 

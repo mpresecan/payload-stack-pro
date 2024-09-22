@@ -9,12 +9,14 @@ type SuccessResultType = {
   success: string;
   description?: string;
   user?: User
+  data?: any
 };
 
 type ErrorResultType = {
   error: string;
   description?: string;
   action?: FormCTAActionType;
+  data?: any;
 };
 
 type SpecialPayloadType = {

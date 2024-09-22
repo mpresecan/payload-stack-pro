@@ -14,6 +14,7 @@ import { DEFAULT_LOGIN_REDIRECT } from '../../_config/routes'
 import { onboardingSchema } from '../../_validation'
 
 import { siteConfig } from '@/config/app'
+import { ActionResultType } from '@/app/(frontend)/(auth)/auth'
 
 const OnboardingForm = () => {
   const searchParams = useSearchParams()
@@ -33,24 +34,34 @@ const OnboardingForm = () => {
     startTransition(async () => {
 
       try {
-        //wait for 2 seconds
-        await new Promise((resolve) => setTimeout(resolve, 2000))
+        const res = await fetch('/api/onboarding', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+          credentials: 'include',
+        })
 
-        // const response = await saveOnboardingData(formData)
-        //
-        // if ('success' in response) {
-        //     toast.success(response.success, {
-        //         description: response?.description || `Welcome to ${siteConfig.name}`
-        //     })
-        //     router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT)
-        //     return;
-        // }
-        //
-        // if('error' in response) {
-        //     toast.error(response?.error || "Something went wrong", {
-        //         description: response?.description || "Please try again."
-        //     })
-        // }
+        const response = await res.json() as ActionResultType
+
+        if ('success' in response) {
+          toast.success(response.success, {
+            description: response?.description || `Welcome to ${siteConfig.name}`,
+          })
+
+          await fetch('/api/users/refresh-token', {
+            method: 'POST',
+            credentials: 'include',
+          })
+
+          router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT)
+          return
+        }
+
+        if ('error' in response) {
+          toast.error(response?.error || 'Something went wrong', {
+            description: response?.description || 'Please try again.',
+          })
+        }
 
       } catch (error) {
         toast.error('Something went wrong', {

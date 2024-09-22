@@ -56,8 +56,6 @@ export function PasswordUpdateForm({
           token: resetPasswordToken,
         })
 
-        console.log(user)
-
         if (user) {
           toast.success('Success!', {
             description: 'Your password has been updated',

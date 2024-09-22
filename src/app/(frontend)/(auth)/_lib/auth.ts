@@ -53,5 +53,5 @@ export const sessionUser = async (request: NextRequest | undefined = undefined) 
     return null;
   }
 
-  return session.payload;
+  return session.payload as User;
 }

@@ -2,7 +2,7 @@ import configPromise from '@payload-config'
 import { createPayloadRequest, headersWithCors } from '@payloadcms/next/utilities'
 import { COLLECTION_SLUG_USERS } from '@/collections/slugs'
 import { loginOperation, generatePayloadCookie, AuthenticationError } from 'payload'
-import {isNumber} from 'payload/shared'
+import { isNumber } from 'payload/shared'
 
 export const POST = async (request: Request) => {
   try {
@@ -13,14 +13,14 @@ export const POST = async (request: Request) => {
 
     const collection = req.payload.collections?.[COLLECTION_SLUG_USERS]
 
-    if(!collection) {
+    if (!collection) {
       throw new Error('Collection not found')
     }
 
     const { searchParams } = req
     const depth = searchParams.get('depth')
 
-    const body = await request.json();
+    const body = await request.json()
     const { email, password, username } = body
 
     const authData =
@@ -54,7 +54,7 @@ export const POST = async (request: Request) => {
 
     return Response.json(
       {
-        success: result.user.name ? `Hi ${result.user.name.name}!` : 'Success!',
+        success: result.user.name ? `Hi ${result.user.name}!` : 'Success!',
         description: result.user.name ? 'It is nice to see you back.' : 'Welcome to our community!',
         user: result.user,
       },
@@ -71,22 +71,22 @@ export const POST = async (request: Request) => {
 
 
   } catch (error) {
-    console.error('ERROR CAUGHT in /auth/api/login route:',error)
+    console.error('ERROR CAUGHT in /api/login route:', error)
 
-    if(error instanceof AuthenticationError) {
+    if (error instanceof AuthenticationError) {
       return Response.json({
         error: 'Invalid credentials',
-        description: 'Please try again.'
+        description: 'Please try again.',
       }, {
-        status: 401
-      });
+        status: 401,
+      })
     }
 
     return Response.json({
       error: 'Something went wrong',
-      description: error.message || 'Please try again.'
+      description: error.message || 'Please try again.',
     }, {
-      status: 500
+      status: 500,
     })
   }
 }
