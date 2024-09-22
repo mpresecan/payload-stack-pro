@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { sessionUser } from 'src/app/(frontend)/auth/_lib'
+import { sessionUser } from 'src/app/(frontend)/(auth)/_lib'
 export { generateMetadata }
 
 const Page = async () => {

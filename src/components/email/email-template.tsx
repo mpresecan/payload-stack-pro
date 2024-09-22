@@ -6,7 +6,7 @@ import {Preview} from "@react-email/preview"
 import {emailConfig} from "@/config/email";
 import {siteConfig} from "@/config/app";
 import {absoluteUrl} from "@/utilities/absoluteUrl";
-import { PRIVACY_PAGE } from '@/app/(frontend)/auth/_config/routes'
+import { PRIVACY_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 
 interface EmailTemplateProps {
     previewText?: string
@@ -40,7 +40,7 @@ export const EmailTemplate = ({
                     {children}
                     <Hr/>
                     <SmallText align="left" italic>
-                        Saas Toolkit will never email you and ask you to disclose or verify your password, credit card, or banking account number.
+                      {siteConfig.name} will never email you and ask you to disclose or verify your password, credit card, or banking account number.
                     </SmallText>
                     <Hr marginBottom={0} marginTop={0}/>
                     <SmallText>

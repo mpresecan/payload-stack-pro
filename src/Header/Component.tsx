@@ -10,7 +10,7 @@ import {
   DropdownMenuLabel, DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import LogoutButton from '@/app/(frontend)/auth/_components/logout-button'
+import LogoutButton from '@/app/(frontend)/(auth)/_components/logout-button'
 
 const Header = () => {
   return (

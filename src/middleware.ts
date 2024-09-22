@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server'
-import { sessionUser } from 'src/app/(frontend)/auth/_lib'
+import { sessionUser } from 'src/app/(frontend)/(auth)/_lib'
 
 import {
   apiAuthPrefix,
@@ -8,7 +8,7 @@ import {
   LOGIN_PAGE,
   ONBOARDING_PAGE,
   publicRoutes,
-} from '@/app/(frontend)/auth/_config/routes'
+} from '@/app/(frontend)/(auth)/_config/routes'
 
 export default async function middleware(request: NextRequest) {
 
