@@ -4,6 +4,7 @@ import { authenticated } from '../../access/authenticated'
 import { COLLECTION_SLUG_USERS } from '@/collections/slugs'
 import { VerificationEmail } from '@/app/(frontend)/auth/_components/emails/verification-email'
 import { render } from '@react-email/render'
+import { ForgotPasswordEmail } from '@/app/(frontend)/auth/_components/emails/forgot-password-email'
 
 const Users: CollectionConfig = {
   slug: COLLECTION_SLUG_USERS,
@@ -24,6 +25,12 @@ const Users: CollectionConfig = {
         return render(VerificationEmail({emailVerificationToken: token, user}))
       }
     },
+    forgotPassword: {
+      // @ts-ignore
+      generateEmailHTML: ({ token, user }) => {
+        return render(ForgotPasswordEmail({ resetPasswordToken: token, userName: user?.name }))
+      }
+    }
   },
   fields: [
     {

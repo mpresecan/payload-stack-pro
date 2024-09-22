@@ -10,14 +10,11 @@ interface VerifyEmailCardProps {
   token?: string | string[],
 }
 
-
 const VerifyEmailCard = ({token}: VerifyEmailCardProps) => {
   const [isVerified, setIsVerified] = useState<boolean|null>(null)
 
-
   const onSubmit = useCallback(async () => {
     try {
-      console.log('trying to verify email', `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/verify/${token}`);
       const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/verify/${token}`, {
         method: 'POST',
         headers: {
@@ -26,7 +23,6 @@ const VerifyEmailCard = ({token}: VerifyEmailCardProps) => {
       })
 
       const data = await response.json()
-      console.log('DATA', data);
 
       if(data.errors) {
         setIsVerified(false);

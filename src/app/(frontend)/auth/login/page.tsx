@@ -5,7 +5,7 @@ import AuthCardWrapper from '../_components/auth-card-wrapper'
 import SignInWithPasswordForm from '../_components/forms/sign-in-with-password-form'
 import { Metadata } from 'next'
 
-const domain = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+const domain = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
   metadataBase: new URL(domain),

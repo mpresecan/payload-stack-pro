@@ -17,7 +17,7 @@ import * as z from 'zod'
 import { signInWithPasswordSchema } from '../../_validation'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { DEFAULT_LOGIN_REDIRECT, RESET_PASSWORD_PAGE } from '../../_config/routes'
+import { DEFAULT_LOGIN_REDIRECT, FORGOT_PASSWORD_PAGE } from '../../_config/routes'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { ActionResultType } from '../../auth'
 import { PasswordInput } from '../password-input'
@@ -116,7 +116,7 @@ const SignInWithPasswordForm = () => {
               <div className='flex items-center'>
                 <FormLabel>Password</FormLabel>
                 <Link
-                  href={RESET_PASSWORD_PAGE}
+                  href={FORGOT_PASSWORD_PAGE}
                   className="ml-auto inline-block text-sm underline"
                 >
                   Forgot your password?

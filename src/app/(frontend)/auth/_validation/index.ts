@@ -33,11 +33,11 @@ export const signInWithPasswordSchema = z.object({
   code: z.string().max(6).optional(),
 })
 
-export const passwordResetSchema = z.object({
+export const forgotPasswordSchema = z.object({
   email: emailSchema,
 })
 
-export const passwordUpdateSchema = z
+export const resetPasswordSchema = z
   .object({
     password: passwordSchema
       .regex(/[A-Z]/, { message: 'Password must contain at least one uppercase letter' })

@@ -8,7 +8,7 @@ import { Progress } from '@/components/ui/progress'
 import { cn } from '@/utilities/cn'
 import { Label } from '@/components/ui/label'
 import * as React from 'react'
-import { RESET_PASSWORD_PAGE } from '@/app/(frontend)/auth/_config/routes'
+import { FORGOT_PASSWORD_PAGE } from '@/app/(frontend)/auth/_config/routes'
 import Link from 'next/link'
 import InputFieldWrapper from '@/app/(frontend)/auth/_components/input-field-wrapper'
 
@@ -62,7 +62,7 @@ export function PasswordField({
         <div className='flex items-center'>
           <Label htmlFor={name}>{confirmPassword ? 'New Password' : 'Password'}</Label>
           {showForgotPasswordLink && <Link
-            href={RESET_PASSWORD_PAGE}
+            href={FORGOT_PASSWORD_PAGE}
             className="ml-auto inline-block text-sm underline"
           >
             Forgot your password?
