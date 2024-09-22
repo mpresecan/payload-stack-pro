@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 import Link from 'next/link'
 import { REGISTRATION_PAGE } from '../_config/routes'
 import AuthCardWrapper from '../_components/auth-card-wrapper'
@@ -27,7 +27,9 @@ const LoginPage = () => {
         </div>
       )}
     >
-      <SignInWithPasswordForm />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SignInWithPasswordForm />
+      </Suspense>
       {/*<Button variant="outline" className="w-full">*/}
       {/*  Login with Google*/}
       {/*</Button>*/}

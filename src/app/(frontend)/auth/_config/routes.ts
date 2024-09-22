@@ -6,6 +6,8 @@ export const RECOVER_PASSWORD_PAGE = '/auth/recover-password'
 export const RESET_PASSWORD_PAGE = '/auth/reset-password'
 export const VERIFY_EMAIL_PAGE = '/auth/verify-email'
 export const LOGOUT_PAGE = '/auth/logout';
+export const EMAIL_VERIFICATION_PAGE = '/auth/verify-email';
+export const REVERIFY_EMAIL_PAGE = '/auth/reverify-email';
 
 // OTHER PAGES
 export const HELP_CENTER_PAGE = '/help-center' as const;
@@ -25,7 +27,7 @@ export const ONBOARDING_PAGE = '/onboarding' as const;
  * */
 export const publicRoutes = [
   '/',
-  // EMAIL_VERIFICATION_PAGE, // because we want to allow users to verify their email from their settings page
+  EMAIL_VERIFICATION_PAGE, // because we want to allow users to verify their email from their settings page
   HELP_CENTER_PAGE,
   TOS_PAGE,
   PRIVACY_PAGE,
@@ -43,6 +45,7 @@ export const authRoutes = [
   REGISTRATION_PAGE,
   RECOVER_PASSWORD_PAGE,
   RESET_PASSWORD_PAGE,
+  REVERIFY_EMAIL_PAGE,
 ]
 
 /**

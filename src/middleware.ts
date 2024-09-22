@@ -10,16 +10,15 @@ import {
   publicRoutes,
 } from '@/app/(frontend)/auth/_config/routes'
 
-export const config = {
-  matcher: ['/((?!api|_next/static|_next/image|favicon.ico).*)']
-}
-
 export default async function middleware(request: NextRequest) {
 
   const user = await sessionUser(request);
   const {nextUrl} = request;
 
   const isLoggedIn = !!user;
+
+  const isAPIRoute = nextUrl.pathname.startsWith('/api');
+  if(isAPIRoute) return null; // allow API routes to be accessed
 
   const isAPIAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
   if (isAPIAuthRoute) return null; // do not apply anything, mind your own business
@@ -77,3 +76,10 @@ export default async function middleware(request: NextRequest) {
   // is public route, so ignore, and mind your own business
   return null;
 }
+
+// Optionally, don't invoke Middleware on some paths
+// Clerk's matcher is better than NextAuth's
+// https://clerk.com/docs/references/nextjs/auth-middleware
+export const config = {
+  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+};

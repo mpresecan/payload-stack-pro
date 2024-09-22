@@ -20,11 +20,11 @@ export default function Layout({children} : React.PropsWithChildren) {
       </div>
       <div className="hidden bg-muted lg:block">
         <Image
-          src="/auth-bg.png"
+          src="/auth-bg.webp"
           alt="Image"
           width="1920"
           height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="h-full w-full object-cover dark:brightness-[0.2]"
         />
       </div>
     </div>
