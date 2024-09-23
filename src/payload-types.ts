@@ -335,6 +335,7 @@ export interface User {
   id: string;
   name?: string | null;
   role: 'user' | 'admin';
+  status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
   updatedAt: string;
   createdAt: string;
   email: string;

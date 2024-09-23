@@ -7,7 +7,7 @@ import {
   DEFAULT_LOGIN_REDIRECT,
   LOGIN_PAGE,
   ONBOARDING_PAGE,
-  publicRoutes,
+  publicRoutes, WAITING_LIST_PAGE,
 } from '@/app/(frontend)/(auth)/_config/routes'
 
 export default async function middleware(request: NextRequest) {
@@ -44,6 +44,15 @@ export default async function middleware(request: NextRequest) {
       `${LOGIN_PAGE}?callbackUrl=${encodedCallbackUrl}`,
       nextUrl
     ));
+  }
+
+  // prevent waiting-list user to use private routes
+  if (user?.status === 'waiting-list' && nextUrl.pathname !== WAITING_LIST_PAGE) {
+    return Response.redirect(new URL(WAITING_LIST_PAGE, nextUrl))
+  }
+  // prevent no waiting-list users status to access waiting-list page
+  if (nextUrl.pathname === WAITING_LIST_PAGE && user?.status !== 'waiting-list') {
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
   }
 
   // check if user has not completed onboarding

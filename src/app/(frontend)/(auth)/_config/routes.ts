@@ -13,6 +13,7 @@ export const REVERIFY_EMAIL_PAGE = '/auth/reverify-email';
 export const HELP_CENTER_PAGE = '/help-center' as const;
 export const TOS_PAGE = '/tos' as const;
 export const PRIVACY_PAGE = '/privacy' as const;
+export const WAITING_LIST_PAGE = '/waiting-list' as const;
 
 // DASHBOARD PAGES
 export const DASHBOARD_PAGE = '/dashboard';

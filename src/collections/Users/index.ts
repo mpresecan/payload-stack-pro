@@ -40,13 +40,27 @@ const Users: CollectionConfig = {
       saveToJWT: true,
     },
     {
-      name: 'role',
-      type: 'select',
-      options: ['user', 'admin'],
-      defaultValue: 'user',
-      required: true,
-      saveToJWT: true,
-    }
+      type: 'row',
+      fields: [
+        {
+          name: 'role',
+          type: 'select',
+          options: ['user', 'admin'],
+          defaultValue: 'user',
+          required: true,
+          saveToJWT: true,
+        },
+        {
+          name: 'status',
+          type: 'select',
+          options: ['active', 'suspended', 'waiting-list', 'deleted'],
+          defaultValue: 'waiting-list',
+          required: true,
+          saveToJWT: true
+        }
+      ]
+    },
+
   ],
   timestamps: true,
 }

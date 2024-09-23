@@ -129,7 +129,7 @@ const Header = () => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem><LogoutButton variant='ghost' size='clear' /></DropdownMenuItem>
+            <DropdownMenuItem><LogoutButton className='w-full' variant='ghost' size='clear' /></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
