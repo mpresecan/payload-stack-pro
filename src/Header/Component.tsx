@@ -11,6 +11,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import LogoutButton from '@/app/(frontend)/(auth)/_components/logout-button'
+import { LogOut } from 'lucide-react'
 
 const Header = () => {
   return (
@@ -129,7 +130,7 @@ const Header = () => {
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuItem>Support</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem><LogoutButton className='w-full' variant='ghost' size='clear' /></DropdownMenuItem>
+            <DropdownMenuItem><LogoutButton className='w-full' variant='ghost' size='clear'><LogOut size='15' className='me-1.5' />Logout</LogoutButton></DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

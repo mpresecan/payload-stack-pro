@@ -9,7 +9,7 @@ export default function LogoutButton({ ...props }: Omit<ButtonProps, 'onClick'>)
 
   return (
     <Button onClick={logout} {...props}>
-      Logout
+      {props.children || 'Logout'}
     </Button>
   )
 }
