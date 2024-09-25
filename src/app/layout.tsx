@@ -1,32 +1,43 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 
 import { cn } from '@/utilities/cn'
-import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
 import React from 'react'
 
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { Providers } from '@/providers'
-import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import './globals.css'
 import { draftMode } from 'next/headers'
+import { Inter } from "next/font/google";
+import { TailwindIndicator } from '@/components/tailwind-indicator'
+
+
+const inter = Inter({ subsets: ["latin"] });
+
+export const viewport: Viewport = {
+  colorScheme: "light",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "white" },
+    { media: "(prefers-color-scheme: dark)", color: "black" },
+  ],
+};
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = draftMode()
 
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
-      <head>
-        <InitTheme />
-        <link href="/favicon.ico" rel="icon" sizes="32x32" />
-        <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-      </head>
-      <body>
-        <Providers>
-          <LivePreviewListener />
-          {children}
-        </Providers>
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={cn(
+          'min-h-screen bg-background font-sans antialiased w-full mx-auto scroll-smooth',
+          inter.className,
+        )}
+      >
+      <Providers>
+        <LivePreviewListener />
+        {children}
+        <TailwindIndicator />
+      </Providers>
       </body>
     </html>
   )

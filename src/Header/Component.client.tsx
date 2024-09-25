@@ -1,5 +1,5 @@
 'use client'
-import { useHeaderTheme } from '@/providers/HeaderTheme'
+
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -8,6 +8,7 @@ import type { Header } from '@/payload-types'
 
 import { Logo } from '@/components/Logo/Logo'
 import { HeaderNav } from './Nav'
+import { useTheme } from 'next-themes'
 
 interface HeaderClientProps {
   header: Header
@@ -15,24 +16,24 @@ interface HeaderClientProps {
 
 export const HeaderClient: React.FC<HeaderClientProps> = ({ header }) => {
   /* Storing the value in a useState to avoid hydration errors */
-  const [theme, setTheme] = useState<string | null>(null)
-  const { headerTheme, setHeaderTheme } = useHeaderTheme()
+  const [themeState, setThemeState] = useState<string | null>(null)
+  const { theme, setTheme } = useTheme()
   const pathname = usePathname()
 
   useEffect(() => {
-    setHeaderTheme(null)
+    setTheme('light')
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname])
 
   useEffect(() => {
-    if (headerTheme && headerTheme !== theme) setTheme(headerTheme)
+    if (theme && theme !== themeState) setThemeState(theme)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [headerTheme])
+  }, [theme])
 
   return (
     <header
       className="container relative z-20 py-8 flex justify-between"
-      {...(theme ? { 'data-theme': theme } : {})}
+      {...(themeState ? { 'data-theme': themeState } : {})}
     >
       <Link href="/">
         <Logo />

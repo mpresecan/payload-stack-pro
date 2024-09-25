@@ -1,5 +1,6 @@
 import React from 'react'
-import Header from '@/Header/Component'
+import Header from '@/app/(frontend)/(public)/_components/header'
+import Footer from './_components/footer'
 
 const Layout = ({children} : React.PropsWithChildren) => {
   return (
@@ -8,6 +9,7 @@ const Layout = ({children} : React.PropsWithChildren) => {
       <main className="flex-grow">
         {children}
       </main>
+      <Footer />
     </div>
 )
 }
