@@ -26,6 +26,10 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
 
 import {resendAdapter} from '@payloadcms/email-resend'
+import { Sessions } from '@/collections/Sessions'
+import { SessionTags } from '@/collections/Sessions/tags'
+import { interestedUsers } from '@/collections/Sessions/interested-users'
+import { SessionAttendees } from '@/collections/Sessions/session-attendees'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -104,7 +108,7 @@ export default buildConfig({
   db: mongooseAdapter({
     url: process.env.DATABASE_URI || '',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Sessions, SessionTags, interestedUsers, SessionAttendees, Pages, Posts, Media, Categories, Users],
   cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
   globals: [Header, Footer],

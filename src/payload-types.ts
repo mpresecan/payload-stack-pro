@@ -11,11 +11,16 @@ export interface Config {
     users: UserAuthOperations;
   };
   collections: {
+    sessions: Session;
+    'session-tags': SessionTag;
+    'session-interested-users': SessionInterestedUser;
+    'session-attendees': SessionAttendee;
     pages: Page;
     posts: Post;
     media: Media;
     categories: Category;
     users: User;
+    'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
@@ -48,6 +53,97 @@ export interface UserAuthOperations {
     email: string;
     password: string;
   };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "sessions".
+ */
+export interface Session {
+  id: string;
+  shortDescription: string;
+  fullDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  interestedUsers?: {
+    docs?: (string | SessionInterestedUser)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  attendees?: {
+    docs?: (string | SessionAttendee)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  type?: ('online' | 'onsite') | null;
+  onSiteEvent?: (string | null) | Page;
+  title: string;
+  presenters: (string | User)[];
+  dateTime?: string | null;
+  tags?: (string | null) | SessionTag;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "session-interested-users".
+ */
+export interface SessionInterestedUser {
+  id: string;
+  session: string | Session;
+  user: string | User;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  name?: string | null;
+  role: 'user' | 'admin';
+  status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
+  interestedSessions?: {
+    docs?: (string | SessionInterestedUser)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  attendedSessions?: {
+    docs?: (string | SessionAttendee)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "session-attendees".
+ */
+export interface SessionAttendee {
+  id: string;
+  session: string | Session;
+  user: string | User;
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -329,25 +425,68 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
+ * via the `definition` "session-tags".
  */
-export interface User {
+export interface SessionTag {
   id: string;
-  name?: string | null;
-  role: 'user' | 'admin';
-  status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
+  name: string;
+  sessions?: {
+    docs?: (string | Session)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
   updatedAt: string;
   createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  _verified?: boolean | null;
-  _verificationToken?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payload-locked-documents".
+ */
+export interface PayloadLockedDocument {
+  id: string;
+  document?:
+    | ({
+        relationTo: 'sessions';
+        value: string | Session;
+      } | null)
+    | ({
+        relationTo: 'session-tags';
+        value: string | SessionTag;
+      } | null)
+    | ({
+        relationTo: 'session-interested-users';
+        value: string | SessionInterestedUser;
+      } | null)
+    | ({
+        relationTo: 'session-attendees';
+        value: string | SessionAttendee;
+      } | null)
+    | ({
+        relationTo: 'pages';
+        value: string | Page;
+      } | null)
+    | ({
+        relationTo: 'posts';
+        value: string | Post;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'categories';
+        value: string | Category;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  globalSlug?: string | null;
+  user: {
+    relationTo: 'users';
+    value: string | User;
+  };
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
