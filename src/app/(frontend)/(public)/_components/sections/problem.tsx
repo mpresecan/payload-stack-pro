@@ -29,6 +29,7 @@ export default function Component() {
     <Section
       title="MOTIVATION"
       subtitle="Why join Advent UNconference?"
+      description={`The Advent UNconference is an event tailored for those at the forefront of Adventist innovation. Rooted in the dynamic spirit of unconference models, this gathering is about bringing together those who are passionate about hastening the Lord's return through practical, Spirit-led initiatives.`}
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
         {problems.map((problem, index) => (

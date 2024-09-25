@@ -14,7 +14,7 @@ interface AuthCardWrapperProps {
 
 const AuthCardWrapper = ({children, title, subtitle, footer} : AuthCardWrapperProps) => {
   return (
-    <div className="mx-auto grid w-[380px] gap-6">
+    <div className="mx-auto grid w-[380px] gap-6 px-4">
       <motion.div
         className="grid gap-2"
         initial={{ filter: "blur(10px)", opacity: 0, y: 20 }}

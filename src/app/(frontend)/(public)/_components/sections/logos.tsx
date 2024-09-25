@@ -25,7 +25,7 @@ export default function Logos() {
                 width={112}
                 height={40}
                 src={`/${logo}.png`}
-                className="h-14 w-44 dark:brightness-0 opacity-60 hover:opacity-100 transition-all duration-400 ease-in-out saturate-0 hover:saturate-100"
+                className="h-14 w-44 opacity-60 hover:opacity-100 transition-all duration-400 ease-in-out saturate-0 hover:saturate-100"
                 alt={logo}
               />
             ))}
