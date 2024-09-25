@@ -9,54 +9,42 @@ import { siteConfig } from '@/config/app'
 
 const faqs = [
   {
-    question: 'What is acme.ai?',
+    question: 'What is the Advent UNconference?',
     answer: (
       <span>
-          acme.ai is a platform that helps you build and manage your AI-powered
-          applications. It provides tools and services to streamline the
-          development and deployment of AI solutions.
+          The Advent UNconference is a participant-driven event designed to foster collaboration and spiritual growth within the Seventh-day Adventist community. Unlike traditional conferences with pre-set agendas, the topics at the UNconference are proposed by attendees and voted on each day, allowing for dynamic discussions and practical workshops that align with the participants’ interests.
         </span>
     ),
   },
   {
-    question: 'How can I get started with acme.ai?',
+    question: 'Who can attend the Advent UNconference?',
     answer: (
       <span>
-          You can get started with acme.ai by signing up for an account on our
-          website, creating a new project, and following our quick-start guide.
-          We also offer tutorials and documentation to help you along the way.
+          The Advent UNconference is open to all members of the Seventh-day Adventist community who are passionate about deepening their faith and preparing for Christ’s return. It is especially suited for innovators, thought leaders, and early adopters who are already taking action and want to engage in meaningful discussions on topics such as sustainable living, health, education, and missional business.
         </span>
     ),
   },
   {
-    question: 'What types of AI models does acme.ai support?',
+    question: 'What topics are discussed at the UNconference?',
     answer: (
       <span>
-          acme.ai supports a wide range of AI models, including but not limited
-          to natural language processing, computer vision, and predictive
-          analytics. We continuously update our platform to support the latest
-          AI technologies.
+        Topics are proposed by attendees and can range widely, but they often focus on areas like <strong>Country Living, Health & Healing, Missional Business, True Education, and Outposts governance</strong>. The format ensures that the discussions are relevant and directly applicable to the challenges facing the community today.
         </span>
     ),
   },
   {
-    question: 'Is acme.ai suitable for beginners in AI development?',
+    question: 'Where and when is the next Advent UNconference?',
     answer: (
       <span>
-          Yes, acme.ai is designed to be user-friendly for both beginners and
-          experienced developers. We offer intuitive interfaces, pre-built
-          templates, and extensive learning resources to help users of all skill
-          levels create AI-powered applications.
+        The next Advent UNconference will be held in-person at <strong>Advent Center, Berivoi, Romania, from October 16-19</strong>. Participants are encouraged to register in advance to secure their spot and to contribute to shaping the event by proposing discussion topics.
         </span>
     ),
   },
   {
-    question: 'What kind of support does acme.ai provide?',
+    question: 'How can I get involved in the AdventConference.com community?',
     answer: (
       <span>
-          acme.ai provides comprehensive support including documentation, video
-          tutorials, a community forum, and dedicated customer support. We also
-          offer premium support plans for enterprises with more complex needs.
+          To get involved, you can start by applying to join the community. Once accepted, you can introduce yourself, share your spiritual journey, and participate in planning and attending the next UNconference. You can also stay connected and contribute by engaging in ongoing discussions with fellow attendees.
         </span>
     ),
   },

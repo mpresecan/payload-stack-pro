@@ -9,6 +9,7 @@ import TestimonialsCarousel from "./_components/sections/testimonials-carousel";
 import Topics from './_components/sections/topics'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
 import FAQ from '@/app/(frontend)/(public)/_components/sections/faq'
+import CTA from '@/app/(frontend)/(public)/_components/sections/cta'
 export { generateMetadata }
 
 const Page = async () => {
@@ -24,6 +25,7 @@ const Page = async () => {
       <HowItWorks />
       <TestimonialsCarousel />
       <FAQ />
+      <CTA />
     </main>
   )
 }
