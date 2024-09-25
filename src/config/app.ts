@@ -8,6 +8,7 @@ const links = {
   authorsWebsite: "https://michaelpresecan.com",
   authorsGitHub: "https://github.com/mpresecan",
   openGraphImage: "https://saasyland.com/images/opengraph-image.png",
+  email: 'info@adventconference.com'
 }
 
 const companyLegals = {

@@ -7,7 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import Image from "next/image";
+// import Image from "next/image";
 import { MdOutlineFormatQuote } from "react-icons/md";
 
 const companies = [
