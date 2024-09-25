@@ -42,8 +42,9 @@ export default function Header() {
           title="brand-logo"
           className="relative mr-6 flex items-center space-x-2"
         >
-          <Icons.logo className="w-auto h-[40px]" />
-          <span className="font-bold text-xl">{siteConfig.name}</span>
+          <Icons.logoHasten className="w-auto h-[20px]" />
+          {/*<span className="font-bold text-xl">{siteConfig.name}</span>*/}
+          <span className='text-xl'>advent</span><span className='text-xl text-primary'>conference</span>
         </Link>
 
         <div className="hidden lg:block">

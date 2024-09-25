@@ -59,7 +59,7 @@ function HeroTitles() {
         {["Hastening", "Christ's", "Return"].map((text, index) => (
           <motion.span
             key={index}
-            className="inline-block px-1 md:px-2"
+            className="inline-block px-1 md:px-2 font-black"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{

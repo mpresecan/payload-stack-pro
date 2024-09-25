@@ -28,7 +28,7 @@ export default function Component() {
   return (
     <Section
       title="MOTIVATION"
-      subtitle="Why join advent UNconference?"
+      subtitle="Why join Advent UNconference?"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
         {problems.map((problem, index) => (
