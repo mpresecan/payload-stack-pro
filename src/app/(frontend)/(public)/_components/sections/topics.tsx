@@ -13,6 +13,7 @@ import { cn } from '@/utilities/cn'
 import { MdOutlineFormatQuote } from 'react-icons/md'
 import Section from '@/app/(frontend)/(public)/_components/section'
 import { BorderBeam } from '@/components/magicui/border-beam'
+import FlickeringGrid from '@/components/magicui/flickering-grid'
 
 type TopicDataProps = {
   title: string;
@@ -49,7 +50,7 @@ const topics: TopicDataProps[] = [
       <span className="text-primary">Medical missionary work</span> is <span
       className="text-primary-foreground bg-primary">the right hand of the gospel</span>. It is necessary to the
       advancement of the cause of God... Every city is to be entered by workers trained to do medical missionary work.
-      As <span className="bg-primary text-primary-foreground">the right hand of the third angel's message</span>, God's
+      As <span className="bg-primary text-primary-foreground">the right hand of the third angel&apos;s message</span>, God&apos;s
       methods of treating disease will open doors for the entrance of present truth.
     </p>),
     source: '7T 59.1',
@@ -59,7 +60,7 @@ const topics: TopicDataProps[] = [
     title: 'Evangelism',
     quote: (<p className="text-balance">
       By <span className="text-primary">giving the gospel</span> to the world it is in our <span
-      className="text-primary-foreground bg-primary">power to hasten</span> our Lord's return
+      className="text-primary-foreground bg-primary">power to hasten</span> our Lord&apos;s return
     </p>),
     source: 'DA 633.3',
     subtitle: `The proclamation of the three angels’ messages`,
@@ -314,20 +315,30 @@ const Feature = ({
           </Accordion.Root>
         </div>
         <div
-          className={`col-span-6 h-[350px] min-h-[200px] w-auto md:col-span-4 ${
+          className={`relative overflow-hidden col-span-6 h-[350px] min-h-[200px] w-auto md:col-span-4 ${
             ltr && 'md:order-1'} h-full`}
         >
           {topics[currentIndex]?.quote && (
             <motion.div
               key={currentIndex}
-              className="aspect-auto h-full w-full flex flex-col justify-center items center border rounded-lg shadow-lg p-8"
+              className="aspect-auto h-full w-full flex flex-col justify-center items-center border rounded-lg border-border/70 p-8"
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.98 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
             >
+              <FlickeringGrid
+                className="z-0 absolute inset-0 [mask:radial-gradient(circle_at_center,#fff_400px,transparent_0)]"
+                squareSize={4}
+                gridGap={6}
+                color="#000"
+                maxOpacity={0.1}
+                flickerChance={0.1}
+                height={800}
+                width={800}
+              />
               <MdOutlineFormatQuote className="text-7xl text-muted-foreground my-4 mx-auto self-start" />
-              <div className='text-2xl text-muted-foreground text-center'>
+              <div className='text-xl text-muted-foreground text-center'>
                 {topics[currentIndex]?.quote}
               </div>
               <div className='italic text-muted-foreground text-xl text-center mt-8'>

@@ -17,6 +17,7 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
+  // output: 'export',
 }
 
 export default withPayload(nextConfig)

@@ -37,7 +37,7 @@ const topics: TopicDataProps[] = [
       <span className="text-primary">Medical missionary work</span> is <span
       className="text-primary-foreground bg-primary">the right hand of the gospel</span>. It is necessary to the
       advancement of the cause of God... Every city is to be entered by workers trained to do medical missionary work.
-      As <span className="bg-primary text-primary-foreground">the right hand of the third angel's message</span>, God's
+      As <span className="bg-primary text-primary-foreground">the right hand of the third angel&apos;s message</span>, God&apos;s
       methods of treating disease will open doors for the entrance of present truth.
     </p>),
     source: '7T 59.1',
@@ -47,7 +47,7 @@ const topics: TopicDataProps[] = [
     title: 'Evangelism',
     quote: (<p className="text-balance">
       By <span className="text-primary">giving the gospel</span> to the world it is in our <span
-      className="text-primary-foreground bg-primary">power to hasten</span> our Lord's return
+      className="text-primary-foreground bg-primary">power to hasten</span> our Lord&apos;s return
     </p>),
     source: 'DA 633.3',
     subtitle: `Most solemn import - the proclamation of the three angels’ messages`,
