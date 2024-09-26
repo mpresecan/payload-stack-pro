@@ -9,7 +9,7 @@ const SessionSortBy = () => {
 
   return (
     <Select value={sortBy} onValueChange={setSortBy}>
-      <SelectTrigger className="w-[180px] grow sm:grow-0">
+      <SelectTrigger className="min-w-[180px] flex-1">
         <SelectValue placeholder="Sort by" />
       </SelectTrigger>
       <SelectContent>
