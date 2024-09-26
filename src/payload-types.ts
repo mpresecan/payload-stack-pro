@@ -430,6 +430,8 @@ export interface Post {
 export interface SessionTag {
   id: string;
   name: string;
+  slug: string;
+  slugLock?: boolean | null;
   sessions?: {
     docs?: (string | Session)[] | null;
     hasNextPage?: boolean | null;

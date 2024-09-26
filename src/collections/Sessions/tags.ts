@@ -2,6 +2,7 @@ import type { CollectionConfig } from 'payload'
 import { COLLECTION_SLUG_SESSION_TAGS, COLLECTION_SLUG_SESSIONS, GROUP_SLUG_SESSIONS } from '@/collections/slugs'
 import { authenticated } from '@/access/authenticated'
 import { anyone } from '@/access/anyone'
+import { slugField } from '@/fields/slug'
 
 export const SessionTags: CollectionConfig = {
   slug: COLLECTION_SLUG_SESSION_TAGS,
@@ -21,6 +22,7 @@ export const SessionTags: CollectionConfig = {
       type: 'text',
       required: true,
     },
+    ...slugField('name', {slugOverrides: {required: true}}),
     {
       name: 'sessions',
       type: 'join',

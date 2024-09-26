@@ -7,7 +7,7 @@ const TagsSkeleton = () => {
       {[...Array(5)].map((_, index) => (
         <Skeleton
           key={index}
-          className="h-6 w-20 rounded-full mr-2 shrink-0"
+          className="h-6 w-32 rounded-full mr-2 shrink-0"
         />
       ))}
     </div>

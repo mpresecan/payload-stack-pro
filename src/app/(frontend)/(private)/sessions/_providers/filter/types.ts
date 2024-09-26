@@ -13,5 +13,6 @@ export interface FilterContext {
   sortBy: SortBy,
   setSortBy: (sortBy: SortBy) => void,
   sessions: Session[],
-
+  showPastSessions: boolean,
+  setShowPastSessions: (showPastSessions: boolean) => void,
 }

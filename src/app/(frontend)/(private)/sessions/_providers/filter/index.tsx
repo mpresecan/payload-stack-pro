@@ -11,26 +11,33 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
   const [sessions, setSessions] = useState<Session[]>([])
   const [tab, setTab] = useState<SessionTabs>('all')
   const [search, setSearch] = useState<string>('')
-  const [tags, setTags] = useState<string[]>([])
+  const [selectedTags, setSelectedTags] = useState<string[]>([])
   const [sortBy, setSortBy] = useState<SortBy>('popularity')
+  const [showPastSessions, setShowPastSessions] = useState<boolean>(false)
 
   useEffect(() => {
     // fetch sessions
     console.log('FILTERS SETUP')
     console.log('tab:', tab)
     console.log('search:', search)
-    console.log('tags:', tags)
+    console.log('selectedTags:', selectedTags)
     console.log('sortBy:', sortBy)
+    console.log('showPastSessions:', showPastSessions)
+    console.log('sessions:', sessions)
     console.log('------------------')
-  }, [tab, search, tags, sortBy])
+  }, [tab, search, selectedTags, sortBy, showPastSessions])
+
+
 
   return (
     <Context.Provider value={{
       sessions,
       tab, setTab,
       search, setSearch,
-      selectedTags: tags, setSelectedTags: setTags,
+      selectedTags, setSelectedTags,
       sortBy, setSortBy,
+      showPastSessions,
+      setShowPastSessions,
     }}>
       {children}
     </Context.Provider>

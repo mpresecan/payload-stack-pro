@@ -13,10 +13,16 @@ const SessionTagsClient = ({ tags }: { tags: SessionTag[] }) => {
     <>
       {tags.map(tag => (
         <Badge
-          key={tag.id}
-          variant={selectedTags.includes(tag.id) ? 'default' : 'outline'}
+          key={tag.slug}
+          variant={selectedTags.includes(tag.slug) ? 'default' : 'outline'}
           className="cursor-pointer mr-2 whitespace-nowrap"
-          onClick={() => setSelectedTags(selectedTags.includes(tag.id) ? selectedTags.filter(t => t !== tag.id) : [...selectedTags, tag.id])}
+          onClick={() => {
+            if (selectedTags.includes(tag.slug)) {
+              setSelectedTags(selectedTags.filter(t => t !== tag.slug))
+            } else {
+              setSelectedTags([...selectedTags, tag.slug])
+            }
+          }}
         >
           {tag.name}
         </Badge>
