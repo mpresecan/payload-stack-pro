@@ -2,8 +2,7 @@ import type { CollectionConfig } from 'payload'
 
 import { authenticated } from '../../access/authenticated'
 import {
-  COLLECTION_SLUG_SESSION_ATTENDEES,
-  COLLECTION_SLUG_SESSION_INTERESTED_USERS,
+  COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES,
   COLLECTION_SLUG_USERS,
 } from '@/collections/slugs'
 import { VerificationEmail } from '@/app/(frontend)/(auth)/_components/emails/verification-email'
@@ -78,22 +77,11 @@ const Users: CollectionConfig = {
             {
               name: 'interestedSessions',
               type: 'join',
-              collection: COLLECTION_SLUG_SESSION_INTERESTED_USERS,
+              collection: COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES,
               on: 'user',
             }
           ]
         },
-        {
-          label: 'Attended Sessions',
-          fields: [
-            {
-              name: 'attendedSessions',
-              type: 'join',
-              collection: COLLECTION_SLUG_SESSION_ATTENDEES,
-              on: 'user',
-            }
-          ]
-        }
       ]
     },
   ],

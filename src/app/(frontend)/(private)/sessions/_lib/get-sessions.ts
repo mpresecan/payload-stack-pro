@@ -44,56 +44,161 @@ export const getSessionsBySearchParams = async (params: GetSessionsParams, user?
   console.log('onSiteId:', onSiteId)
   console.log('-------------------')
 
-  const where : Where = {
+  const where: Where = {
     and: [
-      {
-        title: {
-          like: s,
-        }
-      },
       {
         type: {
           equals: onSiteId ? 'onsite' : 'online',
-        }
-      }
-    ]
+        },
+      },
+    ],
   }
 
-  if(tab === 'my-sessions' && user) {
-    where.and = where.and || []; // un necessary, just for the sake of typescript
+  if (s !== '') {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    where.and.push({
+      title: {
+        like: s,
+      },
+    })
+  }
+
+  if (tab === 'my-sessions' && user) {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
     where.and.push({
       presenters: {
         in: user.id,
-      }
+      },
+    })
+  } else if (tab === 'proposals') {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    where.and.push({
+      or: [
+        {
+          status: {
+            in: ['proposed', 'scheduling'],
+          },
+        },
+        {
+          and: [
+            {
+              status: {
+                equals: 'cancelled',
+              },
+            },
+            {
+              scheduledAt: {
+                exists: false,
+              },
+            },
+          ],
+        },
+      ],
+    })
+  } else if (tab === 'scheduled') {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    where.and.push({
+      or: [
+        {
+          status: {
+            in: ['scheduled', 'live', 'finished'],
+          },
+        },
+        {
+          and: [
+            {
+              status: {
+                equals: 'cancelled',
+              },
+            },
+            {
+              scheduledAt: {
+                exists: true,
+              },
+            },
+          ],
+        },
+      ],
+    })
+  } // else if(tab === 'interested' && user) {
+  //   where.and = where.and || []; // un necessary, just for the sake of typescript
+  //   where.and.push({
+  //     'interestedUsers.user': {
+  //       in: user.id,
+  //     }
+  //   })
+  // }
+
+  if (past) {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    where.and.push({
+      or: [
+        {
+          status: {
+            equals: 'finished',
+          },
+        },
+        {
+          and: [
+            {
+              status: {
+                equals: 'cancelled',
+              },
+            },
+            {
+              scheduledAt: {
+                less_than_equal: new Date(),
+              },
+            },
+          ],
+        },
+      ],
     })
   }
 
   // for onsite events
-  if(onSiteId) {
-    where.and = where.and || []; // un necessary, just for the sake of typescript
+  if (onSiteId) {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
     where.and.push({
       onSiteEvent: {
         equals: onSiteId,
-      }
+      },
     })
   }
 
-  const joins : JoinQuery = {
-    interestedUsers: {
-      limit: 999999,
-    }
+  if (tags.length > 0) {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    const orTags: Where['or'] = []
+    tags.forEach(tag => {
+      orTags.push({
+        'tags.slug': {
+          in: tag,
+        },
+      })
+    })
+    where.and.push({
+      or: orTags,
+    })
   }
 
-  // const sort = interestedUsers
+  // console.log('where:', JSON.stringify(where, null, 2))
 
+  const joins: JoinQuery = {
+    interestedUsers: {
+      limit: 999999,
+    },
+  }
+
+  const sort = sortBy === 'popularity' ? '-interestedAttendeesCount' : '-scheduledAt'
 
   try {
-    const payload = await getPayload();
+    const payload = await getPayload()
 
     return await payload.find({
       collection: COLLECTION_SLUG_SESSIONS,
       where,
       joins,
+      sort,
       depth: 0,
     })
 

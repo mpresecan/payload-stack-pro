@@ -24,10 +24,13 @@ export const SessionTags: CollectionConfig = {
     },
     ...slugField('name', {slugOverrides: {required: true}}),
     {
-      name: 'sessions',
-      type: 'join',
-      collection: COLLECTION_SLUG_SESSIONS,
-      on: 'tags',
+      name: 'occurrences',
+      type: 'number',
+      required: true,
+      defaultValue: 0,
+      admin: {
+        readOnly: true,
+      }
     }
   ],
 }

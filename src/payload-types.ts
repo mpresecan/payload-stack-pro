@@ -13,8 +13,7 @@ export interface Config {
   collections: {
     sessions: Session;
     'session-tags': SessionTag;
-    'session-interested-users': SessionInterestedUser;
-    'session-attendees': SessionAttendee;
+    'session-interested-attendees': SessionInterestedAttendee;
     pages: Page;
     posts: Post;
     media: Media;
@@ -77,30 +76,29 @@ export interface Session {
     [k: string]: unknown;
   } | null;
   interestedUsers?: {
-    docs?: (string | SessionInterestedUser)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
-  attendees?: {
-    docs?: (string | SessionAttendee)[] | null;
+    docs?: (string | SessionInterestedAttendee)[] | null;
     hasNextPage?: boolean | null;
   } | null;
   type: 'online' | 'onsite';
   onSiteEvent?: (string | null) | Page;
-  title: string;
   presenters: (string | User)[];
-  dateTime?: string | null;
+  scheduledAt?: string | null;
+  title: string;
+  status: 'proposed' | 'scheduling' | 'scheduled' | 'live' | 'finished' | 'cancelled';
   tags?: (string | null) | SessionTag;
+  interestedAttendeesCount: number;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "session-interested-users".
+ * via the `definition` "session-interested-attendees".
  */
-export interface SessionInterestedUser {
+export interface SessionInterestedAttendee {
   id: string;
   session: string | Session;
   user: string | User;
+  type: 'interested' | 'attending' | 'cancelled' | 'attended';
   updatedAt: string;
   createdAt: string;
 }
@@ -114,11 +112,7 @@ export interface User {
   role: 'user' | 'admin';
   status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
   interestedSessions?: {
-    docs?: (string | SessionInterestedUser)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
-  attendedSessions?: {
-    docs?: (string | SessionAttendee)[] | null;
+    docs?: (string | SessionInterestedAttendee)[] | null;
     hasNextPage?: boolean | null;
   } | null;
   updatedAt: string;
@@ -133,17 +127,6 @@ export interface User {
   loginAttempts?: number | null;
   lockUntil?: string | null;
   password?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "session-attendees".
- */
-export interface SessionAttendee {
-  id: string;
-  session: string | Session;
-  user: string | User;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -455,12 +438,8 @@ export interface PayloadLockedDocument {
         value: string | SessionTag;
       } | null)
     | ({
-        relationTo: 'session-interested-users';
-        value: string | SessionInterestedUser;
-      } | null)
-    | ({
-        relationTo: 'session-attendees';
-        value: string | SessionAttendee;
+        relationTo: 'session-interested-attendees';
+        value: string | SessionInterestedAttendee;
       } | null)
     | ({
         relationTo: 'pages';
