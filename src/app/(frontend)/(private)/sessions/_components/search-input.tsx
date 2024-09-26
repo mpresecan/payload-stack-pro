@@ -11,7 +11,7 @@ const SearchInput = () => {
   const { search, setSearch } = useSessionFilter()
 
   return (
-    <div className="flex-1 min-w-[200px]">
+    <div className="flex-1 min-w-[200px] xs:min-w-[500px]">
       <Label htmlFor="search" className="sr-only">Search</Label>
       <div className="relative">
         <SearchIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />

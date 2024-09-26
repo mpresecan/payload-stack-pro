@@ -20,7 +20,7 @@ const SessionsPage = () => {
         <div className="mb-6 flex flex-wrap gap-4 items-center justify-between">
           <SearchInput />
           <SessionSortBy />
-          <Button asChild>
+          <Button asChild className='grow md:grow-0'>
             <Link href="#"><PlusIcon className="mr-2 h-4 w-4" />Add Session</Link>
           </Button>
         </div>
