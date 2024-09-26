@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { useSessionFilter } from '@/app/(frontend)/(private)/sessions/_providers/filter'
+import { useSessionFilter } from '../_providers/filter'
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 
 const SessionTabs = () => {

@@ -29,7 +29,7 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
       sessions,
       tab, setTab,
       search, setSearch,
-      tags, setTags,
+      selectedTags: tags, setSelectedTags: setTags,
       sortBy, setSortBy,
     }}>
       {children}
