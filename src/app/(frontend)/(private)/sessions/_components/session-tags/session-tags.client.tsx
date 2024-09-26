@@ -1,6 +1,5 @@
 'use client'
 
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area'
 import React from 'react'
 import { SessionTag } from '@/payload-types'
 import { useSessionFilter } from '@/app/(frontend)/(private)/sessions/_providers/filter'
@@ -14,10 +13,10 @@ const SessionTagsClient = ({ tags }: { tags: SessionTag[] }) => {
       {tags.map(tag => (
         <Badge
           key={tag.slug}
-          variant={selectedTags.includes(tag.slug) ? 'default' : 'outline'}
+          variant={selectedTags && selectedTags.includes(tag.slug) ? 'default' : 'outline'}
           className="cursor-pointer mr-2 whitespace-nowrap"
           onClick={() => {
-            if (selectedTags.includes(tag.slug)) {
+            if (selectedTags && selectedTags.includes(tag.slug)) {
               setSelectedTags(selectedTags.filter(t => t !== tag.slug))
             } else {
               setSelectedTags([...selectedTags, tag.slug])

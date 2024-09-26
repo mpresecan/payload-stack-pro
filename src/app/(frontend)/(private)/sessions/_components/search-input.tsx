@@ -13,7 +13,9 @@ export default function SearchInput() {
 
   const debouncedSetSearch = useCallback(
     debounce((value: string) => {
-      setSearch(value)
+      if (value !== search) {
+        setSearch(value)
+      }
     }, 500),
     [setSearch]
   )
