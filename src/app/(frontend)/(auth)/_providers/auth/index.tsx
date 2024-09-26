@@ -9,11 +9,9 @@ import type { AuthContext, Create, ForgotPassword, Login, Logout, ResetPassword 
 
 import { USER, gql } from './gql'
 import { rest } from './rest'
-import { signInWithPasswordSchema } from 'src/app/(frontend)/(auth)/_validation'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { DEFAULT_LOGIN_REDIRECT, DEFAULT_LOGOUT_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { useRouter } from 'next/navigation'
+import { DEFAULT_LOGOUT_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import { ActionResultType } from '@/app/(frontend)/(auth)/auth'
-import { toast } from 'sonner'
 
 const Context = createContext({} as AuthContext)
 

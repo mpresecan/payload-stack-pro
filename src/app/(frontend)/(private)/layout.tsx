@@ -1,7 +1,17 @@
 import React from 'react'
+import Header from '@/app/(frontend)/(public)/_components/header'
+import Footer from '@/app/(frontend)/(public)/_components/footer'
 
-const PrivatePagesLayout = ({children} : React.PropsWithChildren) => {
-  return children;
+const Layout = ({ children }: React.PropsWithChildren) => {
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main className="flex-grow">
+        {children}
+      </main>
+      <Footer />
+    </div>
+  )
 }
 
-export default PrivatePagesLayout
+export default Layout
