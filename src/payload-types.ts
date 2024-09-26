@@ -84,7 +84,7 @@ export interface Session {
     docs?: (string | SessionAttendee)[] | null;
     hasNextPage?: boolean | null;
   } | null;
-  type?: ('online' | 'onsite') | null;
+  type: 'online' | 'onsite';
   onSiteEvent?: (string | null) | Page;
   title: string;
   presenters: (string | User)[];

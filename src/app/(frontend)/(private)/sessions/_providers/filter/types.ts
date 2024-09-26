@@ -1,7 +1,6 @@
-import { Session, SessionTag } from '@/payload-types'
-
-export type SessionTabs = 'all' | 'proposals' | 'scheduled' | 'interested' | 'my-sessions'
-export type SortBy = 'popularity' | 'newest'
+import { Session } from '@/payload-types'
+import { SessionTabs, SortBy } from '../../types/params'
+import { PaginatedDocs } from 'payload'
 
 export interface FilterContext {
   tab: SessionTabs,
@@ -12,7 +11,11 @@ export interface FilterContext {
   setSelectedTags: (tags: string[]) => void,
   sortBy: SortBy,
   setSortBy: (sortBy: SortBy) => void,
-  sessions: Session[],
   queryPastSessions: boolean,
   setQueryPastSessions: (showPastSessions: boolean) => void,
+  sessionDocs: PaginatedDocs<Session>,
+  isLoading: boolean,
+  page?: number,
+  canLoadMore: boolean,
+  isError: boolean,
 }

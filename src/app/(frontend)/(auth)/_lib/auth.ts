@@ -44,13 +44,13 @@ export const sessionUser = async (request: NextRequest | undefined = undefined) 
   const jwtFromCookie = getJWTFromCookie(request)
 
   if(!jwtFromCookie) {
-    return null;
+    return undefined;
   }
 
   const session = await validateJWT(jwtFromCookie);
 
   if(!session) {
-    return null;
+    return undefined;
   }
 
   return session.payload as User;

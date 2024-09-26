@@ -77,7 +77,9 @@ export const Sessions: CollectionConfig = {
                   label: 'On-site',
                   value: 'onsite',
                 }
-              ]
+              ],
+              required: true,
+              defaultValue: 'online',
             },
             {
               name: 'onSiteEvent',

@@ -1,30 +1,75 @@
 'use client'
 
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
-import { FilterContext, SessionTabs, SortBy } from './types'
+import React, { createContext, useCallback, useContext, useEffect, useState, useTransition } from 'react'
+import { SessionTabs, SortBy } from '../../types/params'
 import { Session } from '@/payload-types'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+import { FilterContext } from './types'
+import { PaginatedDocs} from 'payload'
 
+interface SessionFilterProviderProps {
+  children: React.ReactNode,
+  initialSessionsData: PaginatedDocs<Session>,
+}
+
+const emptySessionDocs: PaginatedDocs<Session> = {
+  docs: [],
+  totalDocs: 0,
+  limit: 0,
+  totalPages: 0,
+  page: 0,
+  pagingCounter: 0,
+  hasPrevPage: false,
+  hasNextPage: false,
+  prevPage: null,
+  nextPage: null,
+}
 
 const Context = createContext({} as FilterContext)
 
 export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => {
-  const [sessions, setSessions] = useState<Session[]>([])
+  const [sessionDocs, setSessionDocs] = useState<PaginatedDocs<Session>>(emptySessionDocs)
   const [tab, setTabValue] = useState<SessionTabs>('all')
   const [search, setSearchValue] = useState<string>('')
   const [selectedTags, setSelectedTagsValues] = useState<string[]>([])
   const [sortBy, setSortByValue] = useState<SortBy>('popularity')
   const [queryPastSessions, setQueryPastSessionsValue] = useState<boolean>(false)
+  const [isError, setIsError] = useState<boolean>(false)
 
   const searchParams = useSearchParams()
   const pathname = usePathname()
-  const { replace } = useRouter()
+  const {replace} = useRouter()
+
+  const [isPending, startTransition] = useTransition()
+
+  const updateSessions = useCallback(async (params: URLSearchParams) => {
+    try {
+      const response = await fetch(`/api/sessions?${params}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+      })
+      const results = await response.json()
+      if ('error' in results) {
+        setIsError(true)
+        console.error('Error getting sessions:', results.error)
+      } else {
+        setSessionDocs(results as PaginatedDocs<Session>)
+        console.log('results:', results)
+      }
+    } catch (error) {
+      console.error('Error getting sessions:', error)
+      setIsError(true)
+    }
+  }, [])
 
   // set selected tags
   const setTab: typeof setTabValue = useCallback((newTab: SessionTabs) => {
     console.log('newTab:', newTab)
     const params = new URLSearchParams(searchParams)
-    if(newTab === 'all') {
+    if (newTab === 'all') {
       params.delete('tab')
     } else {
       params.set('tab', newTab)
@@ -37,12 +82,12 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
   const setQueryPastSessions: typeof setQueryPastSessionsValue = useCallback((showPastSessions: boolean) => {
     console.log('showPastSessions:', showPastSessions)
     const params = new URLSearchParams(searchParams)
-    if(!showPastSessions) {
+    if (!showPastSessions) {
       params.delete('past')
     } else {
       params.set('past', 'true')
     }
-    if(['proposals', 'scheduled'].includes(tab) && showPastSessions) {
+    if (['proposals', 'scheduled'].includes(tab) && showPastSessions) {
       setTabValue('all')
       params.delete('tab')
     }
@@ -54,7 +99,7 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
   const setSearch: typeof setSearchValue = useCallback((newSearch: string) => {
     console.log('newSearch:', newSearch)
     const params = new URLSearchParams(searchParams)
-    if(newSearch === '') {
+    if (newSearch === '') {
       params.delete('s')
     } else {
       params.set('s', newSearch)
@@ -67,10 +112,10 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
   const setSortBy: typeof setSortByValue = useCallback((newSortBy: SortBy) => {
     console.log('newSortBy:', newSortBy)
     const params = new URLSearchParams(searchParams)
-    if(newSortBy === 'popularity') {
-      params.delete('sort-by')
+    if (newSortBy === 'popularity') {
+      params.delete('sortBy')
     } else {
-      params.set('sort-by', newSortBy)
+      params.set('sortBy', newSortBy)
     }
     replace(`${pathname}?${params.toString()}`)
     setSortByValue(newSortBy)
@@ -80,7 +125,7 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
   const setSelectedTags: typeof setSelectedTagsValues = useCallback((tags: string[]) => {
     console.log('tags:', tags)
     const params = new URLSearchParams(searchParams)
-    if(tags.length === 0) {
+    if (tags.length === 0) {
       params.delete('tags')
     } else {
       params.set('tags', tags.join(','))
@@ -89,16 +134,24 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
     setSelectedTagsValues(tags)
   }, [searchParams, pathname, replace])
 
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams)
+    startTransition(() => updateSessions(params))
+  }, [searchParams, updateSessions])
 
   return (
     <Context.Provider value={{
-      sessions,
+      sessionDocs,
       tab, setTab,
       search, setSearch,
       selectedTags, setSelectedTags,
       sortBy, setSortBy,
       queryPastSessions,
       setQueryPastSessions,
+      isLoading: isPending,
+      page: sessionDocs.page,
+      canLoadMore: sessionDocs.hasNextPage,
+      isError,
     }}>
       {children}
     </Context.Provider>
