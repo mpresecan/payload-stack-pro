@@ -8,12 +8,10 @@ import Link from 'next/link'
 import { PlusIcon } from 'lucide-react'
 import SessionTags from '@/app/(frontend)/(private)/sessions/_components/session-tags'
 import PastSessionToggle from '@/app/(frontend)/(private)/sessions/_components/past-session-toggle'
-import { getSessionsBySearchParams } from './_lib/get-sessions'
-import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
 import SessionsList from '@/app/(frontend)/(private)/sessions/_components/sessions-list'
 
-const SessionsPage = async ({searchParams}) => {
-
+const SessionsPage = async () => {
+  
   return (
     <div className="container mx-auto p-4 max-w-4xl mt-12">
       <div className="flex flex-row justify-between">

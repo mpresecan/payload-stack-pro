@@ -36,14 +36,6 @@ const getCorrectSearchParams = (params: GetSessionsParams, user?: User) => {
 export const getSessionsBySearchParams = async (params: GetSessionsParams, user?: User) => {
   const { s, tab, past, sortBy, tags, onSiteId } = getCorrectSearchParams(params, user)
 
-  console.log('s:', s)
-  console.log('tab:', tab)
-  console.log('past:', past)
-  console.log('sortBy:', sortBy)
-  console.log('tags:', tags)
-  console.log('onSiteId:', onSiteId)
-  console.log('-------------------')
-
   const where: Where = {
     and: [
       {
