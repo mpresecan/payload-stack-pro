@@ -20,6 +20,10 @@ import { Session, SessionInterestedAttendee, SessionTag, User } from '@/payload-
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 
+import Presenters from './presenters'
+import StatusBadge from '@/app/(frontend)/(private)/sessions/_components/session-item/status-badge'
+import { AnimatedSubscribeButton } from '@/components/ui/animated-subscribe-button'
+
 const SessionComponent = ({ session }: { session: Session }) => {
   const { user: currentUser } = useAuth()
   const [ showMore, setShowMore ] = useState(false)
@@ -33,35 +37,21 @@ const SessionComponent = ({ session }: { session: Session }) => {
         <div className="flex flex-wrap justify-between items-start mb-2">
           <div>
             <h2 className="text-lg font-semibold">{session.title}</h2>
-            <div className="text-sm text-muted-foreground mt-1">
-              {session.presenters.map((presenter: User, index) => (
-                <span key={index} className="inline-flex items-center mr-2">
-                                  <Avatar className="w-5 h-5 mr-1">
-                                    <AvatarImage src={presenter.avatarUrl!} alt={presenter.name!} />
-                                    <AvatarFallback>{presenter.name![0]}</AvatarFallback>
-                                  </Avatar>
-                  {presenter.name}
-                                </span>
-              ))}
-            </div>
+            <Presenters presenters={session.presenters} />
           </div>
-          {session.scheduledAt && (
-            <Badge variant="secondary" className="ml-2 mt-1">
-              <CalendarIcon className="mr-1 h-3 w-3" />
-              {new Date(session.scheduledAt).toLocaleString()}
-            </Badge>
-          )}
+          <StatusBadge status={session.status} scheduledAt={session.scheduledAt} />
         </div>
         <div className="flex flex-wrap items-center justify-between mb-2">
           <div className="flex items-center mb-2 sm:mb-0">
             <Button
               variant={currentUser && session.interestedUsers && session.interestedUsers.docs && session.interestedUsers.docs.some(voter => voter === currentUser.id) ? 'default' : 'outline'} // TODO; bug here
               size="sm"
-              // onClick={() => handleVote(session.id)}
+              // onClick={() => handleVote(session-item.id)}
             >
               <ThumbsUpIcon className="mr-2 h-4 w-4" />
               Interested
             </Button>
+            {/*<AnimatedSubscribeButton buttonColor='#00000' subscribeStatus={false} initialText="interested" changeText='subscribed' />*/}
             <div className="ml-2 flex items-center">
               <div className="flex -space-x-2 overflow-hidden">
                 <TooltipProvider>

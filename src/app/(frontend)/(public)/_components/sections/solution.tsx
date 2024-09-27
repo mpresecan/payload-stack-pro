@@ -40,7 +40,7 @@ const features = [
   {
     title: "Annual on-site UNconference Support",
     description:
-      "Empower our yearly on-site gatherings with digital tools for session proposals, voting, and scheduling. Maximize engagement at these pivotal in-person.",
+      "Empower our yearly on-site gatherings with digital tools for session-item proposals, voting, and scheduling. Maximize engagement at these pivotal in-person.",
     className:
       "md:row-span-2 hover:bg-orange-500/10 transition-all duration-500 ease-out",
     content: (

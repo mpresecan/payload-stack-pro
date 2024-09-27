@@ -10,6 +10,7 @@ import { Icons } from "./icons";
 import Drawer from "./drawer";
 import { Menu } from 'lucide-react'
 import { LOGIN_PAGE, REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { BiSolidChevronsRight } from "react-icons/bi"
 
 export default function Header() {
   const [addBorder, setAddBorder] = useState(false);
@@ -40,10 +41,9 @@ export default function Header() {
         <Link
           href="/"
           title="brand-logo"
-          className="relative mr-6 flex items-center space-x-2"
+          className="relative mr-6 flex items-center justify-center"
         >
-          <Icons.logoHasten className="w-auto h-[20px]" />
-          {/*<span className="font-bold text-xl">{siteConfig.name}</span>*/}
+          <BiSolidChevronsRight size={27} className='text-primary'/>
           <span className='text-xl'>advent</span><span className='text-xl text-primary'>conference</span>
         </Link>
 

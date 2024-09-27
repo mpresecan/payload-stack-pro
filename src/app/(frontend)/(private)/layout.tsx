@@ -6,7 +6,7 @@ const Layout = ({ children }: React.PropsWithChildren) => {
   return (
     <div className="flex flex-col min-h-screen">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow bg-muted/20">
         {children}
       </main>
       <Footer />

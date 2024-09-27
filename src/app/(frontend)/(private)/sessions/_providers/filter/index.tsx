@@ -32,9 +32,9 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
   const [isError, setIsError] = useState<boolean>(false)
   const [initialLoad, setInitialLoad] = useState<boolean>(true)
 
+  const [searchParamsValue, setSearchParamsValue] = useState<URLSearchParams>(new URLSearchParams())
+
   const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const {replace} = useRouter()
 
   const [isPending, startTransition] = useTransition()
 
@@ -47,6 +47,9 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
         },
         credentials: 'include',
         cache: 'force-cache',
+        next: {
+          tags: ['sessions'],
+        }
       })
       const results = await response.json()
       if ('error' in results) {
@@ -71,9 +74,10 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
     } else {
       params.set('tab', newTab)
     }
-    replace(`${pathname}?${params.toString()}`)
+    // replace(`${pathname}?${params.toString()}`)
+    setSearchParamsValue(params)
     setTabValue(newTab)
-  }, [searchParams, pathname, replace])
+  }, [searchParams])
 
   // set query past sessions
   const setQueryPastSessions: typeof setQueryPastSessionsValue = useCallback((showPastSessions: boolean) => {
@@ -88,9 +92,10 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
       setTabValue('all')
       params.delete('tab')
     }
-    replace(`${pathname}?${params.toString()}`)
+    // replace(`${pathname}?${params.toString()}`)
+    setSearchParamsValue(params)
     setQueryPastSessionsValue(showPastSessions)
-  }, [searchParams, pathname, replace, tab])
+  }, [searchParams, tab])
 
   // set search
   const setSearch: typeof setSearchValue = useCallback((newSearch: string) => {
@@ -101,9 +106,10 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
     } else {
       params.set('s', newSearch)
     }
-    replace(`${pathname}?${params.toString()}`)
+    // replace(`${pathname}?${params.toString()}`)
+    setSearchParamsValue(params)
     setSearchValue(newSearch)
-  }, [searchParams, pathname, replace])
+  }, [searchParams])
 
   // set sort by
   const setSortBy: typeof setSortByValue = useCallback((newSortBy: SortBy) => {
@@ -114,9 +120,10 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
     } else {
       params.set('sortBy', newSortBy)
     }
-    replace(`${pathname}?${params.toString()}`)
+    // replace(`${pathname}?${params.toString()}`)
+    setSearchParamsValue(params)
     setSortByValue(newSortBy)
-  }, [searchParams, pathname, replace])
+  }, [searchParams])
 
   // set selected tags
   const setSelectedTags: typeof setSelectedTagsValues = useCallback((tags: string[]) => {
@@ -127,14 +134,15 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
     } else {
       params.set('tags', tags.join(','))
     }
-    replace(`${pathname}?${params.toString()}`)
+    // replace(`${pathname}?${params.toString()}`)
+    setSearchParamsValue(params)
     setSelectedTagsValues(tags)
-  }, [searchParams, pathname, replace])
+  }, [searchParams])
 
   useEffect(() => {
-    const params = new URLSearchParams(searchParams)
-    startTransition(() => updateSessions(params))
-  }, [searchParams, updateSessions])
+    // const params = new URLSearchParams(searchParams)
+    startTransition(() => updateSessions(searchParamsValue))
+  }, [updateSessions, searchParamsValue])
 
   useEffect(() => {
     if (initialLoad) {

@@ -8,6 +8,7 @@ import {
 } from '@/collections/slugs'
 import { authenticated } from '@/access/authenticated'
 import { anyone } from '@/access/anyone'
+import { revalidatePath, revalidateTag } from 'next/cache'
 
 export const Sessions: CollectionConfig = {
   slug: COLLECTION_SLUG_SESSIONS,
@@ -159,7 +160,7 @@ export const Sessions: CollectionConfig = {
               defaultValue: 0,
               admin: {
                 readOnly: true,
-                hidden: true,
+                hidden: false,
               }
             }
           ]
@@ -177,5 +178,12 @@ export const Sessions: CollectionConfig = {
         }
       ]
     },
-  ]
+  ],
+  hooks: {
+    afterChange: [
+      async () => {
+        revalidateTag('sessions')
+      }
+    ]
+  }
 }

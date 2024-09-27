@@ -2,6 +2,7 @@ import { Icons } from "./icons";
 import { siteConfig } from "@/config/app";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { BiSolidChevronsRight } from 'react-icons/bi'
 
 export default function Footer() {
   return (
@@ -12,8 +13,14 @@ export default function Footer() {
           title={siteConfig.name}
           className="relative mr-6 flex items-center space-x-2"
         >
-          <Icons.logo className="w-auto h-[40px]" />
-          <span className="font-bold text-xl">{siteConfig.name}</span>
+          <Link
+            href="/"
+            title="brand-logo"
+            className="relative mr-6 flex items-center justify-center"
+          >
+            <BiSolidChevronsRight size={27} className='text-primary'/>
+            <span className='text-xl'>advent</span><span className='text-xl text-primary'>conference</span>
+          </Link>
         </a>
 
         <div className="grid md:grid-cols-3 lg:grid-cols-4 sm:grid-cols-2 mt-8">
