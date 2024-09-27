@@ -15,6 +15,9 @@ export const GET = async (request: NextRequest) => {
     // Fetch sessions using the provided function
     const sessions = await getSessionsBySearchParams(paramsObject, user)
 
+    // wait 1 second
+    // await new Promise((resolve) => setTimeout(resolve, 3000))
+
     // Return the sessions as JSON
     return NextResponse.json(sessions)
   } catch (error) {

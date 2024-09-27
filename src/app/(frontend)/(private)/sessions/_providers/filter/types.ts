@@ -18,4 +18,5 @@ export interface FilterContext {
   page?: number,
   canLoadMore: boolean,
   isError: boolean,
+  initialLoad: boolean,
 }

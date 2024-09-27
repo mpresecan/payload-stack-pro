@@ -7,11 +7,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { FilterContext } from './types'
 import { PaginatedDocs} from 'payload'
 
-interface SessionFilterProviderProps {
-  children: React.ReactNode,
-  initialSessionsData: PaginatedDocs<Session>,
-}
-
 const emptySessionDocs: PaginatedDocs<Session> = {
   docs: [],
   totalDocs: 0,
@@ -35,6 +30,7 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
   const [sortBy, setSortByValue] = useState<SortBy>('popularity')
   const [queryPastSessions, setQueryPastSessionsValue] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
+  const [initialLoad, setInitialLoad] = useState<boolean>(true)
 
   const searchParams = useSearchParams()
   const pathname = usePathname()
@@ -50,6 +46,7 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
           'Content-Type': 'application/json',
         },
         credentials: 'include',
+        cache: 'force-cache',
       })
       const results = await response.json()
       if ('error' in results) {
@@ -139,6 +136,12 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
     startTransition(() => updateSessions(params))
   }, [searchParams, updateSessions])
 
+  useEffect(() => {
+    if (initialLoad) {
+      setInitialLoad(false)
+    }
+  }, [initialLoad])
+
   return (
     <Context.Provider value={{
       sessionDocs,
@@ -152,6 +155,7 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
       page: sessionDocs.page,
       canLoadMore: sessionDocs.hasNextPage,
       isError,
+      initialLoad,
     }}>
       {children}
     </Context.Provider>

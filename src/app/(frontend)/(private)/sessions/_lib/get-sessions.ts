@@ -191,7 +191,7 @@ export const getSessionsBySearchParams = async (params: GetSessionsParams, user?
       where,
       joins,
       sort,
-      depth: 0,
+      depth: 1,
     })
 
   } catch (e) {

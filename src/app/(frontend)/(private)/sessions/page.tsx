@@ -11,7 +11,7 @@ import PastSessionToggle from '@/app/(frontend)/(private)/sessions/_components/p
 import SessionsList from '@/app/(frontend)/(private)/sessions/_components/sessions-list'
 
 const SessionsPage = async () => {
-  
+
   return (
     <div className="container mx-auto p-4 max-w-4xl mt-12">
       <div className="flex flex-row justify-between">
@@ -31,9 +31,7 @@ const SessionsPage = async () => {
             </div>
           </div>
           <SessionTags />
-          <div className="space-y-4 mb-6">
-            <SessionsList />
-          </div>
+          <SessionsList />
         </SessionFilterProvider>
       </Suspense>
     </div>

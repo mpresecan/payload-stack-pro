@@ -69,6 +69,10 @@ const Users: CollectionConfig = {
                 },
               ]
             },
+            {
+              name: 'avatarUrl',
+              type: 'text',
+            }
           ]
         },
         {

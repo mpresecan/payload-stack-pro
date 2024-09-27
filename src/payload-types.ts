@@ -59,6 +59,7 @@ export interface UserAuthOperations {
  */
 export interface Session {
   id: string;
+  title: string;
   shortDescription: string;
   fullDescription?: {
     root: {
@@ -75,58 +76,19 @@ export interface Session {
     };
     [k: string]: unknown;
   } | null;
+  type: 'online' | 'onsite';
+  onSiteEvent?: (string | null) | Page;
+  status: 'proposed' | 'scheduling' | 'scheduled' | 'live' | 'finished' | 'cancelled';
+  scheduledAt?: string | null;
+  presenters: (string | User)[];
+  tags: (string | SessionTag)[];
+  interestedAttendeesCount: number;
   interestedUsers?: {
     docs?: (string | SessionInterestedAttendee)[] | null;
     hasNextPage?: boolean | null;
   } | null;
-  type: 'online' | 'onsite';
-  onSiteEvent?: (string | null) | Page;
-  presenters: (string | User)[];
-  scheduledAt?: string | null;
-  title: string;
-  status: 'proposed' | 'scheduling' | 'scheduled' | 'live' | 'finished' | 'cancelled';
-  tags?: (string | null) | SessionTag;
-  interestedAttendeesCount: number;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "session-interested-attendees".
- */
-export interface SessionInterestedAttendee {
-  id: string;
-  session: string | Session;
-  user: string | User;
-  type: 'interested' | 'attending' | 'cancelled' | 'attended';
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "users".
- */
-export interface User {
-  id: string;
-  name?: string | null;
-  role: 'user' | 'admin';
-  status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
-  interestedSessions?: {
-    docs?: (string | SessionInterestedAttendee)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
-  updatedAt: string;
-  createdAt: string;
-  email: string;
-  resetPasswordToken?: string | null;
-  resetPasswordExpiration?: string | null;
-  salt?: string | null;
-  hash?: string | null;
-  _verified?: boolean | null;
-  _verificationToken?: string | null;
-  loginAttempts?: number | null;
-  lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -408,6 +370,45 @@ export interface Post {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "users".
+ */
+export interface User {
+  id: string;
+  name?: string | null;
+  role: 'user' | 'admin';
+  status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
+  avatarUrl?: string | null;
+  interestedSessions?: {
+    docs?: (string | SessionInterestedAttendee)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  _verified?: boolean | null;
+  _verificationToken?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "session-interested-attendees".
+ */
+export interface SessionInterestedAttendee {
+  id: string;
+  session: string | Session;
+  user: string | User;
+  type: 'interested' | 'attending' | 'cancelled' | 'attended';
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "session-tags".
  */
 export interface SessionTag {
@@ -415,10 +416,7 @@ export interface SessionTag {
   name: string;
   slug: string;
   slugLock?: boolean | null;
-  sessions?: {
-    docs?: (string | Session)[] | null;
-    hasNextPage?: boolean | null;
-  } | null;
+  occurrences: number;
   updatedAt: string;
   createdAt: string;
 }

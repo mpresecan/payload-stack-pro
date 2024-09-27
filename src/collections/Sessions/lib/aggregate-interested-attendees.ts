@@ -1,4 +1,3 @@
-import 'server-only'
 import { PayloadRequest } from 'payload'
 import { Session } from '@/payload-types'
 import { COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES, COLLECTION_SLUG_SESSIONS } from '@/collections/slugs'
