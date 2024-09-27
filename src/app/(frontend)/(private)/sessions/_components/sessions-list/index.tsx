@@ -7,19 +7,31 @@ import SessionSkeleton from '@/app/(frontend)/(private)/sessions/_components/ses
 import Session from '../session-item'
 
 const SessionsList = () => {
-  const { sessionDocs, isLoading, initialLoad } = useSessionFilter()
+  const { sessionDocs, isLoading } = useSessionFilter()
 
   return (
     <div className="space-y-4 mb-6">
-      <AnimatePresence>
-        {isLoading && initialLoad ? (
-          <>
+      <AnimatePresence mode="wait">
+        {isLoading && sessionDocs.totalDocs === 0 ? (
+          <motion.div
+            key="loading"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: {duration: 0.1} }}
+            className='space-y-4'
+          >
             <SessionSkeleton />
             <SessionSkeleton />
             <SessionSkeleton />
-          </>
-        ): (
-          <motion.div layout>
+          </motion.div>
+        ) : sessionDocs.docs.length > 0 ? (
+          <motion.div
+            layout
+            key="sessions"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: {duration: 0.1} }}
+          >
             <AnimatePresence initial={false}>
               {sessionDocs.docs.map((session) => (
                 <motion.div
@@ -34,6 +46,15 @@ const SessionsList = () => {
                 </motion.div>
               ))}
             </AnimatePresence>
+          </motion.div>
+        ) : (
+          <motion.div
+            key="no-sessions"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0, transition: {duration: 0.1} }}
+          >
+            <p className="text-center text-gray-500">No sessions found.</p>
           </motion.div>
         )}
       </AnimatePresence>

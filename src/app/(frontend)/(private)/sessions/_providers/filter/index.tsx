@@ -1,88 +1,67 @@
 'use client'
 
-import React, { createContext, useCallback, useContext, useEffect, useState, useTransition } from 'react'
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { SessionTabs, SortBy } from '../../types/params'
 import { Session } from '@/payload-types'
-import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { FilterContext } from './types'
-import { PaginatedDocs} from 'payload'
-
-const emptySessionDocs: PaginatedDocs<Session> = {
-  docs: [],
-  totalDocs: 0,
-  limit: 0,
-  totalPages: 0,
-  page: 0,
-  pagingCounter: 0,
-  hasPrevPage: false,
-  hasNextPage: false,
-  prevPage: null,
-  nextPage: null,
-}
+import { PaginatedDocs } from 'payload'
+import { useQuery } from '@tanstack/react-query'
 
 const Context = createContext({} as FilterContext)
 
-export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => {
-  const [sessionDocs, setSessionDocs] = useState<PaginatedDocs<Session>>(emptySessionDocs)
+const fetchSessions = async (params: URLSearchParams): Promise<PaginatedDocs<Session>> => {
+  const response = await fetch(`/api/sessions?${params}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    credentials: 'include',
+  })
+  if (!response.ok) {
+    throw new Error('Network response was not ok')
+  }
+  return response.json()
+}
+
+export const SessionFilterProvider = ({ children, initialSessionsDoc }: {children: React.ReactNode, initialSessionsDoc: PaginatedDocs<Session>}) => {
   const [tab, setTabValue] = useState<SessionTabs>('all')
   const [search, setSearchValue] = useState<string>('')
   const [selectedTags, setSelectedTagsValues] = useState<string[]>([])
   const [sortBy, setSortByValue] = useState<SortBy>('popularity')
   const [queryPastSessions, setQueryPastSessionsValue] = useState<boolean>(false)
-  const [isError, setIsError] = useState<boolean>(false)
-  const [initialLoad, setInitialLoad] = useState<boolean>(true)
 
   const [searchParamsValue, setSearchParamsValue] = useState<URLSearchParams>(new URLSearchParams())
+  const [sessionDocs, setSessionDocs] = useState<PaginatedDocs<Session>>(initialSessionsDoc)
 
-  const searchParams = useSearchParams()
+  const { data, isLoading, isFetching, isError, refetch } = useQuery<PaginatedDocs<Session>, Error>({
+    queryKey: ['sessions', Object.fromEntries(searchParamsValue.entries())],
+    queryFn: () => fetchSessions(searchParamsValue),
+    refetchInterval: 10000, // 10 seconds polling
+    staleTime: 0, // Always consider data stale to enable immediate refetching
+    initialData: initialSessionsDoc,
+  })
 
-  const [isPending, startTransition] = useTransition()
+  const updateSearchParams = useCallback((params: URLSearchParams) => {
+    setSearchParamsValue(params)
+    // Trigger an immediate refetch when search params change
+    refetch()
+  }, [refetch])
 
-  const updateSessions = useCallback(async (params: URLSearchParams) => {
-    try {
-      const response = await fetch(`/api/sessions?${params}`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        credentials: 'include',
-        cache: 'force-cache',
-        next: {
-          tags: ['sessions'],
-        }
-      })
-      const results = await response.json()
-      if ('error' in results) {
-        setIsError(true)
-        console.error('Error getting sessions:', results.error)
-      } else {
-        setSessionDocs(results as PaginatedDocs<Session>)
-        console.log('results:', results)
-      }
-    } catch (error) {
-      console.error('Error getting sessions:', error)
-      setIsError(true)
-    }
-  }, [])
-
-  // set selected tags
   const setTab: typeof setTabValue = useCallback((newTab: SessionTabs) => {
     console.log('newTab:', newTab)
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParamsValue)
     if (newTab === 'all') {
       params.delete('tab')
     } else {
       params.set('tab', newTab)
     }
-    // replace(`${pathname}?${params.toString()}`)
-    setSearchParamsValue(params)
+    updateSearchParams(params)
     setTabValue(newTab)
-  }, [searchParams])
+  }, [searchParamsValue, updateSearchParams])
 
-  // set query past sessions
   const setQueryPastSessions: typeof setQueryPastSessionsValue = useCallback((showPastSessions: boolean) => {
     console.log('showPastSessions:', showPastSessions)
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParamsValue)
     if (!showPastSessions) {
       params.delete('past')
     } else {
@@ -92,63 +71,52 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
       setTabValue('all')
       params.delete('tab')
     }
-    // replace(`${pathname}?${params.toString()}`)
-    setSearchParamsValue(params)
+    updateSearchParams(params)
     setQueryPastSessionsValue(showPastSessions)
-  }, [searchParams, tab])
+  }, [searchParamsValue, tab, updateSearchParams, setTabValue])
 
-  // set search
   const setSearch: typeof setSearchValue = useCallback((newSearch: string) => {
     console.log('newSearch:', newSearch)
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParamsValue)
     if (newSearch === '') {
       params.delete('s')
     } else {
       params.set('s', newSearch)
     }
-    // replace(`${pathname}?${params.toString()}`)
-    setSearchParamsValue(params)
+    updateSearchParams(params)
     setSearchValue(newSearch)
-  }, [searchParams])
+  }, [searchParamsValue, updateSearchParams])
 
-  // set sort by
   const setSortBy: typeof setSortByValue = useCallback((newSortBy: SortBy) => {
     console.log('newSortBy:', newSortBy)
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParamsValue)
     if (newSortBy === 'popularity') {
       params.delete('sortBy')
     } else {
       params.set('sortBy', newSortBy)
     }
-    // replace(`${pathname}?${params.toString()}`)
-    setSearchParamsValue(params)
+    updateSearchParams(params)
     setSortByValue(newSortBy)
-  }, [searchParams])
+  }, [searchParamsValue, updateSearchParams])
 
-  // set selected tags
   const setSelectedTags: typeof setSelectedTagsValues = useCallback((tags: string[]) => {
     console.log('tags:', tags)
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParamsValue)
     if (tags.length === 0) {
       params.delete('tags')
     } else {
       params.set('tags', tags.join(','))
     }
-    // replace(`${pathname}?${params.toString()}`)
-    setSearchParamsValue(params)
+    updateSearchParams(params)
     setSelectedTagsValues(tags)
-  }, [searchParams])
+  }, [searchParamsValue, updateSearchParams])
 
   useEffect(() => {
-    // const params = new URLSearchParams(searchParams)
-    startTransition(() => updateSessions(searchParamsValue))
-  }, [updateSessions, searchParamsValue])
-
-  useEffect(() => {
-    if (initialLoad) {
-      setInitialLoad(false)
+    if(isFetching) return
+    if(data) {
+      setSessionDocs(data)
     }
-  }, [initialLoad])
+  }, [data, isFetching])
 
   return (
     <Context.Provider value={{
@@ -159,11 +127,10 @@ export const SessionFilterProvider = ({ children }: React.PropsWithChildren) => 
       sortBy, setSortBy,
       queryPastSessions,
       setQueryPastSessions,
-      isLoading: isPending,
+      isLoading: isFetching,
       page: sessionDocs.page,
       canLoadMore: sessionDocs.hasNextPage,
       isError,
-      initialLoad,
     }}>
       {children}
     </Context.Provider>

@@ -14,7 +14,7 @@ interface GetSessionsParams {
   onSiteId?: string
 }
 
-const getCorrectSearchParams = (params: GetSessionsParams, user?: User) => {
+const getCorrectSearchParams = (params: GetSessionsParams = {}, user?: User) => {
   const { s, tab, past, sortBy, tags, onSiteId } = params
 
   const search = s ? s : ''
@@ -33,8 +33,11 @@ const getCorrectSearchParams = (params: GetSessionsParams, user?: User) => {
   }
 }
 
-export const getSessionsBySearchParams = async (params: GetSessionsParams, user?: User) => {
+export const getSessionsBySearchParams = async (params?: GetSessionsParams, user?: User) => {
   const { s, tab, past, sortBy, tags, onSiteId } = getCorrectSearchParams(params, user)
+
+  // wait for half a second
+  // await new Promise((resolve) => setTimeout(resolve, 500))
 
   const where: Where = {
     and: [
@@ -146,6 +149,31 @@ export const getSessionsBySearchParams = async (params: GetSessionsParams, user?
         },
       ],
     })
+  } else {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    where.and.push({
+      or: [
+        {
+          status: {
+            not_in: ['finished', 'cancelled'],
+          },
+        },
+        {
+          and: [
+            {
+              status: {
+                equals: 'cancelled',
+              },
+            },
+            {
+              scheduledAt: {
+                greater_than: new Date(),
+              },
+            },
+          ],
+        },
+      ],
+    })
   }
 
   // for onsite events
@@ -192,6 +220,8 @@ export const getSessionsBySearchParams = async (params: GetSessionsParams, user?
       joins,
       sort,
       depth: 1,
+      limit: 10,
+      // page: page // TODO: implement pagination
     })
 
   } catch (e) {
