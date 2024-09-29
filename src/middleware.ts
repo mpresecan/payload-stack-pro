@@ -46,15 +46,6 @@ export default async function middleware(request: NextRequest) {
     ));
   }
 
-  // prevent waiting-list user to use private routes
-  if (user?.status === 'waiting-list' && nextUrl.pathname !== WAITING_LIST_PAGE) {
-    return Response.redirect(new URL(WAITING_LIST_PAGE, nextUrl))
-  }
-  // prevent no waiting-list users status to access waiting-list page
-  if (nextUrl.pathname === WAITING_LIST_PAGE && user?.status !== 'waiting-list') {
-    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
-  }
-
   // check if user has not completed onboarding
   if(!isPublicRoute && isLoggedIn && !user?.name && nextUrl.pathname !== ONBOARDING_PAGE) {
     let callbackUrl = nextUrl.pathname;
@@ -74,6 +65,16 @@ export default async function middleware(request: NextRequest) {
   // prevent logged-in user with onboarding to access onboarding page
   if(isLoggedIn && user?.name && nextUrl.pathname === ONBOARDING_PAGE) {
     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+  }
+
+
+  // prevent waiting-list user to use private routes
+  if (user?.status === 'waiting-list' && nextUrl.pathname !== WAITING_LIST_PAGE && nextUrl.pathname !== ONBOARDING_PAGE) {
+    return Response.redirect(new URL(WAITING_LIST_PAGE, nextUrl))
+  }
+  // prevent no waiting-list users status to access waiting-list page
+  if (nextUrl.pathname === WAITING_LIST_PAGE && user?.status !== 'waiting-list') {
+    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl))
   }
 
   // prevent non-admin user from accessing admin routes

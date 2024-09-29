@@ -79,4 +79,8 @@ export const onboardingSchema = z.object({
       message: "Image must be a valid URL",
     })
     .optional(),
+  phone: z.string()
+    .regex(/^\+?\d{10,15}$/, {
+      message: "Phone number must be a valid 10-digit phone number",
+    })
 });

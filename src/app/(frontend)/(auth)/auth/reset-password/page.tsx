@@ -55,7 +55,7 @@ const ResetPasswordPage = async ({searchParams}: UpdatePasswordPageProps) => {
       <Link
         aria-label="Cancel password update"
         href={LOGIN_PAGE}
-        className={buttonVariants({variant: "outline"})}
+        className={buttonVariants({variant: "outline"}) + " w-full mt-2"}
       >
         <span className="sr-only">Cancel password update</span>
         Cancel

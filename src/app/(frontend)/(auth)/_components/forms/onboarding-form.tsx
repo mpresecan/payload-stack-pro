@@ -15,6 +15,7 @@ import { onboardingSchema } from '../../_validation'
 
 import { siteConfig } from '@/config/app'
 import { ActionResultType } from '@/app/(frontend)/(auth)/auth'
+import PhoneInput from '@/components/ui/phone-input'
 
 const OnboardingForm = () => {
   const searchParams = useSearchParams()
@@ -96,6 +97,25 @@ const OnboardingForm = () => {
             </FormItem>
           )}
         />
+
+        <FormField
+          control={form.control}
+          name="phone"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>What is Your Phone Number?</FormLabel>
+              <FormControl>
+                <PhoneInput
+                  disabled={isPending}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className="pt-2 sm:text-sm" />
+            </FormItem>
+          )}
+        >
+
+        </FormField>
 
         <Button disabled={isPending}>
           {isPending ? (

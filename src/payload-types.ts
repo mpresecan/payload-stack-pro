@@ -378,6 +378,7 @@ export interface User {
   role: 'user' | 'admin';
   status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
   avatarUrl?: string | null;
+  phone?: string | null;
   interestedSessions?: {
     docs?: (string | SessionInterestedAttendee)[] | null;
     hasNextPage?: boolean | null;

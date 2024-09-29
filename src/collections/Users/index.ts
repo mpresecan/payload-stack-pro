@@ -72,6 +72,10 @@ const Users: CollectionConfig = {
             {
               name: 'avatarUrl',
               type: 'text',
+            },
+            {
+              name: 'phone',
+              type: 'text',
             }
           ]
         },
