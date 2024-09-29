@@ -100,7 +100,7 @@ function HeroCTA() {
         <Link
           href={REGISTRATION_PAGE}
           className={cn(
-            buttonVariants({ variant: "default" }),
+            buttonVariants({ variant: "default", size: "lg" }),
             "w-full sm:w-auto text-background flex gap-2"
           )}
         >

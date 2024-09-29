@@ -12,7 +12,7 @@ import { Menu } from 'lucide-react'
 import { LOGIN_PAGE, REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import { BiSolidChevronsRight } from "react-icons/bi"
 
-export default function Header() {
+export default function Header({className} : {className?: string}) {
   const [addBorder, setAddBorder] = useState(false);
 
   useEffect(() => {
@@ -33,9 +33,7 @@ export default function Header() {
 
   return (
     <header
-      className={
-        "relative sticky top-0 z-50 py-2 bg-background/60 backdrop-blur"
-      }
+      className={cn("sticky top-0 z-50 py-2 bg-background/60 backdrop-blur", className)}
     >
       <div className="flex justify-between items-center container">
         <Link

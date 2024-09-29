@@ -18,9 +18,9 @@ const Page = async () => {
       <Hero2 />
       <Logos />
       <Problem />
-      <Solution />
       <Topics />
       <HowItWorks />
+      <Solution />
       <TestimonialsCarousel />
       <FAQ />
       <CTA />

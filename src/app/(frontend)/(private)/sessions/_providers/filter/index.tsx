@@ -6,6 +6,7 @@ import { Session } from '@/payload-types'
 import { FilterContext } from './types'
 import { PaginatedDocs } from 'payload'
 import { useQuery } from '@tanstack/react-query'
+import deepMerge from '@/utilities/deepMerge'
 
 const Context = createContext({} as FilterContext)
 
@@ -34,7 +35,7 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
   const [sessionDocs, setSessionDocs] = useState<PaginatedDocs<Session>>(initialSessionsDoc)
 
   const { data, isLoading, isFetching, isError, refetch } = useQuery<PaginatedDocs<Session>, Error>({
-    queryKey: ['sessions', Object.fromEntries(searchParamsValue.entries())],
+    queryKey: [deepMerge(Object.fromEntries(searchParamsValue.entries()), { action: 'sessions'})],
     queryFn: () => fetchSessions(searchParamsValue),
     refetchInterval: 10000, // 10 seconds polling
     staleTime: 0, // Always consider data stale to enable immediate refetching
