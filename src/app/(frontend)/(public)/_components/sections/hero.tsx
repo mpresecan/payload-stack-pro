@@ -19,7 +19,7 @@ function HeroPill() {
       className="flex w-auto items-center space-x-2 rounded-full bg-primary/20 px-2 py-1 ring-1 ring-accent whitespace-pre"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease }}
+      transition={{ duration: 0.8, ease, delay: 0.8 }}
     >
       <div className="w-fit rounded-full bg-accent px-2 py-0.5 text-center text-xs font-medium text-primary sm:text-sm">
         📣 Announcement
@@ -78,7 +78,7 @@ function HeroTitles() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          delay: 0.6,
+          delay: 0.8,
           duration: 0.8,
           ease,
         }}
@@ -127,7 +127,7 @@ function HeroImage() {
       className="relative mx-auto flex w-full items-center justify-center"
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 1.2, duration: 1, ease }}
+      transition={{ delay: 0.8, duration: 1, ease }}
     >
       <HeroVideoDialog
         animationStyle="from-center"

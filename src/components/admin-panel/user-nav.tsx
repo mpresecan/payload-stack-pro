@@ -73,7 +73,7 @@ export function UserNav({user} : {user: User}) {
           </DropdownMenuItem>
           {user.role === 'admin' && (
             <DropdownMenuItem className="hover:cursor-pointer" asChild>
-              <Link href="/admin" className="flex items-center">
+              <Link href="/admin" className="flex items-center" target='_blank'>
                 <Settings className="w-4 h-4 mr-3 text-muted-foreground" />
                 Admin
               </Link>

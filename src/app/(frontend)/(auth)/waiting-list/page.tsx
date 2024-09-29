@@ -7,10 +7,10 @@ const Page = () => {
   return (
     <div>
       <AuthCardWrapper
-        title='You are now on the waiting list for early access.'
-        subtitle='Please wait for our approval notification in your inbox. We appreciate your patience and are excited to have you join us soon!'
+        title='Your request for the 2nd Annual Advent UNconfernece is submitted succesfully!'
+        subtitle='We will contact you soon, and once your request is approved you will get the notification in your inbox. We appreciate your patience and are excited to have you join us soon!'
       >
-        <LogoutButton  />
+        <LogoutButton>Logout for now</LogoutButton>
       </AuthCardWrapper>
     </div>
   )

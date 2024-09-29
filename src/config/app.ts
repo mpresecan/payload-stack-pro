@@ -12,27 +12,27 @@ const links = {
 }
 
 const companyLegals = {
-  name: 'ACME Inc.',
-  address: '1234 Main St, Springfield, IL 62701',
+  name: 'Fortbit d.o.o',
+  address: 'Gradiščak 31 A, Gradiščak, 40313, Sveti Martin na Muri, Croatia',
 }
 
 const logo = {
-  png: "https://react-email-demo-7s5r0trkn-resend.vercel.app/static/yelp-logo.png",
+  png: "https://forgotten-pillar.s3.us-east-2.amazonaws.com/Group+9.jpg",
   svg: "/images/logo.svg",
 }
 
 export const siteConfig = {
-  name: "Payload Stack",
+  name: "Advent Conference",
   description:
-    "NextJS on rails boiler place by Payload Stack.",
+    "Hastening Christ's return",
   links,
   logo,
-  url: "https://payloadstack.com",
-  supportEmail: "info@payloadstack.com",
+  url: "https://adventconference.com",
+  supportEmail: "info@adventconference.com",
   ogImage: links.openGraphImage,
   author: "mpresecan",
   hostingRegion: "fra1",
-  keywords: ["SaaS", "Next.js", "Template", "Boilerplate"],
+  keywords: ["Seventh-day Adventists", "SDA", "Conference", "UNconference", "Adventist", "Advent", "Advent Conference", "hastening Christ's return"],
   companyLegals,
   header: [
     {

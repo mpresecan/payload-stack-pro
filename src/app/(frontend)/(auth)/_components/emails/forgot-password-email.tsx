@@ -1,6 +1,6 @@
 import {siteConfig} from "@/config/app"
 import {absoluteUrl} from "@/utilities/absoluteUrl"
-import {ACCOUNT_PAGE, RESET_PASSWORD_PAGE} from "../../_config/routes";
+import { ACCOUNT_PAGE, FORGOT_PASSWORD_PAGE, RESET_PASSWORD_PAGE } from '../../_config/routes'
 import {Button, Link, Section, Text} from "@/components/email/components";
 import {EmailTemplate, emailTemplateText} from "@/components/email/email-template";
 import React, { JSX } from "react";
@@ -52,7 +52,7 @@ export function ForgotPasswordEmail({
                 <Text>
                     If you did not initiate this request, it&apos;s possible someone else is trying to access your account.{" "}
                     Please secure your account by changing your password and reviewing your security settings.{" "}
-                    You can change your password <Link href={absoluteUrl(RESET_PASSWORD_PAGE)}>here</Link>.{" "}
+                    You can change your password <Link href={absoluteUrl(FORGOT_PASSWORD_PAGE)}>here</Link>.{" "}
                 </Text>
                 {/*<Text>*/}
                 {/*    For additional security, consider enabling two-factor authentication (2FA) if you haven&apos;t already.{" "}*/}

@@ -18,7 +18,7 @@ const SessionsPage = async () => {
   const sessions = await getSessionsBySearchParams()
 
   return (
-    <ContentLayout title="2n Annual Advent Conference, Berivoi, Oct 16-19, 2024">
+    <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
       <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
         <div className="flex flex-row justify-between">
           <h1 className="text-3xl font-bold mb-6">Sessions</h1>
