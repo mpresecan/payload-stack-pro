@@ -16,7 +16,7 @@ export const PRIVACY_PAGE = '/privacy' as const;
 export const WAITING_LIST_PAGE = '/waiting-list' as const;
 
 // DASHBOARD PAGES
-export const DASHBOARD_PAGE = '/dashboard';
+export const DASHBOARD_PAGE = '/sessions';
 export const DASHBOARD_ACCOUNT_PAGE = '/dashboard/account' as const;
 export const DASHBOARD_SETTINGS_PAGE = '/dashboard/settings' as const;
 export const ONBOARDING_PAGE = '/onboarding' as const;

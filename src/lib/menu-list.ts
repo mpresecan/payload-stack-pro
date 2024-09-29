@@ -1,12 +1,8 @@
 import {
-  Tag,
   Users,
   Settings,
-  Bookmark,
-  SquarePen,
-  LayoutGrid,
-  LucideIcon
-} from "lucide-react";
+  LucideIcon, NotebookText, Info, Flame, ChevronsDown, Navigation, User,
+} from 'lucide-react'
 
 type Submenu = {
   href: string;
@@ -20,6 +16,7 @@ type Menu = {
   active: boolean;
   icon: LucideIcon
   submenus: Submenu[];
+  newTab?: boolean;
 };
 
 type Group = {
@@ -33,48 +30,54 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "",
       menus: [
         {
-          href: "/dashboard",
-          label: "Dashboard",
-          active: pathname.includes("/dashboard"),
-          icon: LayoutGrid,
+          href: "/sessions",
+          label: "Sessions",
+          active: pathname.includes("/sessions"),
+          icon: NotebookText,
           submenus: []
-        }
+        },
+        {
+          href: "/topic-suggestions",
+          label: "Topic Suggestions",
+          active: pathname.includes("/topic-suggestions"),
+          icon: Flame,
+          submenus: []
+        },
+        {
+          href: "/attendees",
+          label: "Attendees",
+          active: pathname.includes("/attendees"),
+          icon: Users,
+          submenus: []
+        },
       ]
     },
     {
-      groupLabel: "Contents",
+      groupLabel: "Info",
       menus: [
         {
-          href: "",
-          label: "Posts",
-          active: pathname.includes("/posts"),
-          icon: SquarePen,
-          submenus: [
-            {
-              href: "/posts",
-              label: "All Posts",
-              active: pathname === "/posts"
-            },
-            {
-              href: "/posts/new",
-              label: "New Post",
-              active: pathname === "/posts/new"
-            }
-          ]
+          href: "https://adventleaders.com/unconference",
+          label: "About UNconference",
+          active: pathname.includes("/info"),
+          icon: Info,
+          submenus: [],
+          newTab: true,
         },
         {
-          href: "/categories",
-          label: "Categories",
-          active: pathname.includes("/categories"),
-          icon: Bookmark,
-          submenus: []
+          href: "https://adventleaders.com/operation-hasten",
+          label: "Operation HASTEN",
+          active: pathname.includes("/operation-hasten"),
+          icon: ChevronsDown,
+          submenus: [],
+          newTab: true,
         },
         {
-          href: "/tags",
-          label: "Tags",
-          active: pathname.includes("/tags"),
-          icon: Tag,
-          submenus: []
+          href: "https://adventleaders.com/unconference/location",
+          label: "Travel Guide",
+          active: pathname.includes("/location"),
+          icon: Navigation,
+          submenus: [],
+          newTab: true,
         }
       ]
     },
@@ -82,10 +85,10 @@ export function getMenuList(pathname: string): Group[] {
       groupLabel: "Settings",
       menus: [
         {
-          href: "/users",
-          label: "Users",
-          active: pathname.includes("/users"),
-          icon: Users,
+          href: "/profile",
+          label: "My Profile",
+          active: pathname.includes("/profile"),
+          icon: User,
           submenus: []
         },
         {

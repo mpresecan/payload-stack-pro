@@ -15,6 +15,7 @@ import {
   TooltipContent,
   TooltipProvider
 } from "@/components/ui/tooltip";
+import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -23,6 +24,7 @@ interface MenuProps {
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const menuList = getMenuList(pathname);
+  const { logout } = useAuth();
 
   return (
     <ScrollArea className="[&>div>div[style]]:!block">
@@ -51,7 +53,7 @@ export function Menu({ isOpen }: MenuProps) {
                 <p className="pb-2"></p>
               )}
               {menus.map(
-                ({ href, label, icon: Icon, active, submenus }, index) =>
+                ({ href, label, icon: Icon, active, submenus, newTab }, index) =>
                   submenus.length === 0 ? (
                     <div className="w-full" key={index}>
                       <TooltipProvider disableHoverableContent>
@@ -62,7 +64,7 @@ export function Menu({ isOpen }: MenuProps) {
                               className="w-full justify-start h-10 mb-1"
                               asChild
                             >
-                              <Link href={href}>
+                              <Link href={href} target={newTab ? '_blank' : '_self'}>
                                 <span
                                   className={cn(isOpen === false ? "" : "mr-4")}
                                 >
@@ -108,7 +110,7 @@ export function Menu({ isOpen }: MenuProps) {
               <Tooltip delayDuration={100}>
                 <TooltipTrigger asChild>
                   <Button
-                    onClick={() => {}}
+                    onClick={logout}
                     variant="outline"
                     className="w-full justify-center h-10 mt-5"
                   >
