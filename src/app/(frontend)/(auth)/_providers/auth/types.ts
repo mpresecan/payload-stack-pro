@@ -29,5 +29,6 @@ export interface AuthContext {
   resetPassword: ResetPassword
   setPermissions: (permissions: Permissions | null) => void
   setUser: (user: User | null) => void // eslint-disable-line no-unused-vars
-  user?: User | null
+  user?: User | null,
+  loading: boolean,
 }

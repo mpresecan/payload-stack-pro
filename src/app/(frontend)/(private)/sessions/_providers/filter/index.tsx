@@ -7,6 +7,7 @@ import { FilterContext } from './types'
 import { PaginatedDocs } from 'payload'
 import { useQuery } from '@tanstack/react-query'
 import deepMerge from '@/utilities/deepMerge'
+import { REFETCH_INTERVAL } from '@/app/(frontend)/(private)/sessions/_lib/refetch-interval'
 
 const Context = createContext({} as FilterContext)
 
@@ -37,7 +38,7 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
   const { data, isLoading, isFetching, isError, refetch } = useQuery<PaginatedDocs<Session>, Error>({
     queryKey: [deepMerge(Object.fromEntries(searchParamsValue.entries()), { action: 'sessions'})],
     queryFn: () => fetchSessions(searchParamsValue),
-    refetchInterval: 10000, // 10 seconds polling
+    refetchInterval: REFETCH_INTERVAL, // 10 seconds polling
     staleTime: 0, // Always consider data stale to enable immediate refetching
     initialData: initialSessionsDoc,
   })
@@ -132,6 +133,7 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
       page: sessionDocs.page,
       canLoadMore: sessionDocs.hasNextPage,
       isError,
+      refetchSessions: refetch,
     }}>
       {children}
     </Context.Provider>

@@ -21,6 +21,7 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
                                                                                             }) => {
   const [user, setUser] = useState<User | null>()
   const [permissions, setPermissions] = useState<Permissions | null>(null)
+  const [loading, setLoading] = useState<boolean>(true)
   const router = useRouter()
 
   const create = useCallback<Create>(
@@ -130,30 +131,38 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
   // On mount, get user and set
   useEffect(() => {
     const fetchMe = async () => {
-      if (api === 'rest') {
-        const user = await rest(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`,
-          {},
-          {
-            method: 'GET',
-            cache: 'force-cache',
-            next: { revalidate: 600 },
-          },
-        )
-        setUser(user)
-      }
+      setLoading(true)
+      try {
+        if (api === 'rest') {
+          const user = await rest(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/api/users/me`,
+            {},
+            {
+              method: 'GET',
+              cache: 'force-cache',
+              next: { revalidate: 600 },
+            },
+          )
+          setUser(user)
+        }
 
-      if (api === 'gql') {
-        const { meUser } = await gql(`query {
-          meUser {
-            user {
-              ${USER}
+        if (api === 'gql') {
+          const { meUser } = await gql(`query {
+            meUser {
+              user {
+                ${USER}
+              }
+              exp
             }
-            exp
-          }
-        }`)
+          }`)
 
-        setUser(meUser.user)
+          setUser(meUser.user)
+        }
+      } catch (error) {
+        console.error('Failed to fetch user:', error)
+        setUser(null)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -221,6 +230,7 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
         setPermissions,
         setUser,
         user,
+        loading,
       }}
     >
       {children}

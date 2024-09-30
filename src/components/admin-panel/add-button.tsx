@@ -30,13 +30,13 @@ export function AddButton() {
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link href="/sessions/add" className="flex items-center">
               <Plus className="w-4 h-4 mr-3 text-muted-foreground" />
-              Propose Sessions
+              I want to present about...
             </Link>
           </DropdownMenuItem>
           <DropdownMenuItem className="hover:cursor-pointer" asChild>
             <Link href="/topic-suggestions/add" className="flex items-center">
               <Plus className="w-4 h-4 mr-3 text-muted-foreground" />
-              Suggest a topic
+              I want to learn about...
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>

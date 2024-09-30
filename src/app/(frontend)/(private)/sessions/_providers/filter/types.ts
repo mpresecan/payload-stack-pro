@@ -1,6 +1,7 @@
 import { Session } from '@/payload-types'
 import { SessionTabs, SortBy } from '../../types/params'
 import { PaginatedDocs } from 'payload'
+import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query'
 
 export interface FilterContext {
   tab: SessionTabs,
@@ -18,4 +19,5 @@ export interface FilterContext {
   page?: number,
   canLoadMore: boolean,
   isError: boolean,
+  refetchSessions:  (options?: RefetchOptions) => Promise<QueryObserverResult<PaginatedDocs<Session>, Error>>
 }
