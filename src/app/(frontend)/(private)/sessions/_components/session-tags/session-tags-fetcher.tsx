@@ -1,16 +1,19 @@
-import React from 'react'
+import React, { cache } from 'react'
 import { getPayload } from '@/lib/payload'
 import { COLLECTION_SLUG_SESSION_TAGS } from '@/collections/slugs'
 import SessionTagsClient from '@/app/(frontend)/(private)/sessions/_components/session-tags/session-tags.client'
 
-const SessionTagFetcher = async () => {
+const getTags = cache(async () => {
   const payload = await getPayload()
-
-  const tags = await payload.find({
+  return await payload.find({
     collection: COLLECTION_SLUG_SESSION_TAGS,
     sort: 'createdAt',
     depth: 0,
   })
+});
+
+const SessionTagFetcher = async () => {
+  const tags = await getTags()
 
   // wait for 2 seconds
   await new Promise(resolve => setTimeout(resolve, 2000))

@@ -20,7 +20,7 @@ import { useInterestedUsers } from '../sessions/hooks/useInterestedUsers'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import { getInitials } from '@/utilities/getInitials'
 
-const InterestComponent = ({ session, refetchSessions = false }: { session: Session, refetchSessions?: boolean }) => {
+const InterestComponent = ({ session, refetchSessions = false, bigButton = false }: { session: Session, refetchSessions?: boolean, bigButton?: boolean }) => {
   const { user } = useAuth()
   const shouldVote = !['live', 'finished', 'cancelled'].includes(session.status)
 
@@ -42,11 +42,11 @@ const InterestComponent = ({ session, refetchSessions = false }: { session: Sess
   }
 
   return (
-    <div ref={ref} className="flex flex-wrap items-center justify-between mb-2">
+    <div ref={ref} className="flex flex-wrap items-center justify-between mb-2" style={{viewTransitionName: `session-interest-component-${session.id}`}}>
       <div className="flex-initial items-center mb-2 sm:mb-0">
         <Button
           variant={isUserInterested ? 'default' : 'outline'}
-          size="sm"
+          size={bigButton ? 'lg' : 'sm'}
           onClick={handleInterestToggle}
           disabled={!user || isToggling || !shouldVote}
         >

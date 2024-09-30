@@ -2,28 +2,16 @@
 
 import React, { useState } from 'react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
-import { ScrollArea } from '@/components/ui/scroll-area'
 import { Button } from '@/components/ui/button'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDownIcon, ChevronUpIcon, TagIcon, ThumbsUpIcon } from 'lucide-react'
 import { Session, SessionInterestedAttendee, SessionTag, User } from '@/payload-types'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 
 import Presenters from './presenters'
 import StatusBadge from '@/app/(frontend)/(private)/_components/status-badge'
 import InterestComponent from '@/app/(frontend)/(private)/_components/interest-component'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 
 const SessionComponent = ({ session }: { session: Session }) => {
@@ -34,16 +22,16 @@ const SessionComponent = ({ session }: { session: Session }) => {
   const tags: SessionTag[] = session.tags.map(tag => tag as SessionTag)
 
   return (
-    <Card className="overflow-hidden mb-4">
+    <Card className="overflow-hidden mb-4" style={{viewTransitionName: `card-session-${session.id}`}}>
       <CardContent className="p-4">
         <div className="flex flex-wrap justify-between items-start mb-2">
           <div>
             <Link href={`/session/${session.id}`}>
-              <h2 className="text-lg font-semibold">{session.title}</h2>
+              <h2 className="text-lg font-semibold" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</h2>
             </Link>
-            <Presenters presenters={session.presenters} />
+            <Presenters presenters={session.presenters} styles={{viewTransitionName: `session-presenters-${session.id}`}} />
           </div>
-          <StatusBadge status={session.status} scheduledAt={session.scheduledAt} />
+          <StatusBadge status={session.status} scheduledAt={session.scheduledAt} styles={{viewTransitionName: `session-status-badge-${session.id}`}}/>
         </div>
         <InterestComponent session={session} refetchSessions={true} />
         <div className="mt-2">
@@ -60,7 +48,7 @@ const SessionComponent = ({ session }: { session: Session }) => {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
               className="relative overflow-hidden"
             >
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground" style={{viewTransitionName: `session-short-description-${session.id}`}}>
                 {session.shortDescription}
               </p>
               {!showMore && (

@@ -6,11 +6,12 @@ import { CalendarIcon } from 'lucide-react'
 interface StatusBadgeProps {
   scheduledAt?: string | null,
   status: Session['status']
+  styles?: React.CSSProperties
 }
 
-const StatusBadge = ({status, scheduledAt} : StatusBadgeProps) => {
+const StatusBadge = ({status, scheduledAt, styles} : StatusBadgeProps) => {
   return (
-    <div className='flex justify-center items-center'>
+    <div className='flex justify-center items-center' style={styles}>
       {status === 'cancelled' && (
         <Badge variant="destructive" className="ml-2 mt-1">
           Cancelled

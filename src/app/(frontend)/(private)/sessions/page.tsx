@@ -1,10 +1,9 @@
 import React, { Suspense } from 'react'
-import SessionTabs from './_components/session-tabs'
 import { SessionFilterProvider } from './_providers/filter'
 import SearchInput from './_components/search-input'
 import SessionSortBy from './_components/session-sort-by'
 import { Button } from '@/components/ui/button'
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 import { PlusIcon } from 'lucide-react'
 import SessionTags from '@/app/(frontend)/(private)/sessions/_components/session-tags'
 import PastSessionToggle from '@/app/(frontend)/(private)/sessions/_components/past-session-toggle'
@@ -21,7 +20,7 @@ const SessionsPage = async () => {
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
       <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
         <div className="flex flex-row justify-between">
-          <h1 className="text-3xl font-bold mb-6">Sessions</h1>
+          <h1 className="text-3xl font-bold mb-6" style={{viewTransitionName: `page-session-title`}}>Sessions</h1>
           <Button asChild className="grow-0 ms-8">
             <Link href="#"><PlusIcon className="mr-2 h-4 w-4" />Propose Session</Link>
           </Button>

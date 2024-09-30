@@ -159,6 +159,9 @@ importers:
       next-themes:
         specifier: ^0.3.0
         version: 0.3.0(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918)
+      next-view-transitions:
+        specifier: ^0.3.2
+        version: 0.3.2(next@15.0.0-canary.168(@babel/core@7.24.5)(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918)(sass@1.77.4))(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918)
       oslo:
         specifier: ^1.2.1
         version: 1.2.1
@@ -4327,6 +4330,13 @@ packages:
     peerDependencies:
       react: ^16.8 || ^17 || ^18
       react-dom: ^16.8 || ^17 || ^18
+
+  next-view-transitions@0.3.2:
+    resolution: {integrity: sha512-77QRvHjKDQHBDbe/qTVh/p9zbx2AWUFvlmLpHZQtc+q0/a+QWn5fejU9TqrJdrHvwuc9rzqL6K5xpkRtyjQajw==}
+    peerDependencies:
+      next: ^14.0.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
 
   next@14.2.3:
     resolution: {integrity: sha512-dowFkFTR8v79NPJO4QsBUtxv0g9BrS/phluVpMAt2ku7H+cbcBJlopXjkWlwxrk/xGqMemr7JkGPGemPrLLX7A==}
@@ -10460,6 +10470,12 @@ snapshots:
 
   next-themes@0.3.0(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918):
     dependencies:
+      react: 19.0.0-rc-5dcb0097-20240918
+      react-dom: 19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918)
+
+  next-view-transitions@0.3.2(next@15.0.0-canary.168(@babel/core@7.24.5)(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918)(sass@1.77.4))(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918):
+    dependencies:
+      next: 15.0.0-canary.168(@babel/core@7.24.5)(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918)(sass@1.77.4)
       react: 19.0.0-rc-5dcb0097-20240918
       react-dom: 19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918)
 

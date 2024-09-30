@@ -12,7 +12,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import Link from 'next/link'
+import { Link } from 'next-view-transitions'
 
 const Session = async ({ params }: { params: { id: string } }) => {
   const session = await getSession(params.id)
@@ -27,7 +27,7 @@ const Session = async ({ params }: { params: { id: string } }) => {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/sessions">Sessions</Link>
+              <Link href="/sessions" style={{viewTransitionName: `page-session-title`}}>Sessions</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -37,7 +37,7 @@ const Session = async ({ params }: { params: { id: string } }) => {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
-        <Card className="w-full max-w-4xl mx-auto">
+        <Card className="w-full max-w-4xl mx-auto" style={{viewTransitionName: `card-session-${session.id}`}}>
           {/*<Suspense>*/}
             <SessionDetails session={session} />
           {/*</Suspense>*/}

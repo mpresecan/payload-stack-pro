@@ -13,10 +13,10 @@ const SessionDetails = ({ session }: { session: Session }) => {
     <>
       <CardHeader className="space-y-6">
         <div className="flex justify-between items-start">
-          <CardTitle className="text-3xl font-bold pr-4">{session.title}</CardTitle>
+          <CardTitle className="text-3xl font-bold pr-4" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</CardTitle>
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex flex-wrap items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4" style={{viewTransitionName: `session-presenters-${session.id}`}}>
             {session.presenters.map(sessionPresenter => {
               const presenter = sessionPresenter as User
               return (<div key={presenter.id} className="flex items-center gap-2">
@@ -28,7 +28,7 @@ const SessionDetails = ({ session }: { session: Session }) => {
               </div>)
             })}
           </div>
-          <StatusBadge status={session.status} scheduledAt={session.scheduledAt} />
+          <StatusBadge status={session.status} scheduledAt={session.scheduledAt} styles={{viewTransitionName: `session-status-badge-${session.id}`}} />
         </div>
         <div className="flex flex-wrap gap-2">
           {session.tags.map(sessionTag => {
@@ -38,11 +38,11 @@ const SessionDetails = ({ session }: { session: Session }) => {
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
-        <InterestComponent session={session} />
+        <InterestComponent session={session} bigButton={true} />
 
         <div className="space-y-4">
           <h3 className="text-xl font-semibold">Description</h3>
-          <p className="">{session.shortDescription}</p>
+          <p className="" style={{viewTransitionName: `session-short-description-${session.id}`}}>{session.shortDescription}</p>
           <h3 className="text-xl font-semibold">Detailed Content</h3>
           <p className="whitespace-pre-line">
             <RichText content={session.fullDescription ?? {}} enableGutter={false} />
