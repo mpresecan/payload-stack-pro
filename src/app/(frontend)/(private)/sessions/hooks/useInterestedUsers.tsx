@@ -26,7 +26,7 @@ const toggleInterest = async (sessionId: string, userId: string, isInterested: b
   }
 }
 
-export function useInterestedUsers(sessionId: string, shouldRefetch: boolean = true) {
+export function useInterestedUsers(sessionId: string, shouldRefetch: boolean = true, refetchSessionsControl = false) {
   const { ref, inView } = useInView({
     threshold: 0,
   })
@@ -46,7 +46,6 @@ export function useInterestedUsers(sessionId: string, shouldRefetch: boolean = t
   interface MutationContext {
     previousUsers?: User[];
   }
-
 
   const mutation = useMutation<void, Error, { userId: string; isInterested: boolean }, MutationContext>({
     mutationFn: ({ userId, isInterested }) => toggleInterest(sessionId, userId, isInterested),
@@ -71,7 +70,9 @@ export function useInterestedUsers(sessionId: string, shouldRefetch: boolean = t
       queryClient.invalidateQueries(queryFilter)
     },
     onSuccess: () => {
-      refetchSessions();
+      if(refetchSessionsControl) {
+        refetchSessions();
+      }
     }
   })
 

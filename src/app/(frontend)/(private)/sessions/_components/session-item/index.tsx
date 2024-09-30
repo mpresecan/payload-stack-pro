@@ -21,13 +21,14 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/comp
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 
 import Presenters from './presenters'
-import StatusBadge from '@/app/(frontend)/(private)/sessions/_components/session-item/status-badge'
-import InterestComponent from '@/app/(frontend)/(private)/sessions/_components/session-item/interest-component'
+import StatusBadge from '@/app/(frontend)/(private)/_components/status-badge'
+import InterestComponent from '@/app/(frontend)/(private)/_components/interest-component'
+import Link from 'next/link'
 
 
 const SessionComponent = ({ session }: { session: Session }) => {
   const { user: currentUser } = useAuth()
-  const [ showMore, setShowMore ] = useState(false)
+  const [showMore, setShowMore] = useState(false)
 
   const voters: User[] = session.interestedUsers?.docs?.map(voter => (voter as SessionInterestedAttendee).user as User) || []
   const tags: SessionTag[] = session.tags.map(tag => tag as SessionTag)
@@ -37,12 +38,14 @@ const SessionComponent = ({ session }: { session: Session }) => {
       <CardContent className="p-4">
         <div className="flex flex-wrap justify-between items-start mb-2">
           <div>
-            <h2 className="text-lg font-semibold">{session.title}</h2>
+            <Link href={`/session/${session.id}`}>
+              <h2 className="text-lg font-semibold">{session.title}</h2>
+            </Link>
             <Presenters presenters={session.presenters} />
           </div>
           <StatusBadge status={session.status} scheduledAt={session.scheduledAt} />
         </div>
-        <InterestComponent session={session} />
+        <InterestComponent session={session} refetchSessions={true} />
         <div className="mt-2">
           <AnimatePresence initial={false}>
             <motion.div

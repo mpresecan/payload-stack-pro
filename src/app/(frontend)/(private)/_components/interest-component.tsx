@@ -16,11 +16,11 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area'
 
 import { Session, User } from '@/payload-types'
-import { useInterestedUsers } from '../../hooks/useInterestedUsers'
+import { useInterestedUsers } from '../sessions/hooks/useInterestedUsers'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import { getInitials } from '@/utilities/getInitials'
 
-const InterestComponent = ({ session }: { session: Session }) => {
+const InterestComponent = ({ session, refetchSessions = false }: { session: Session, refetchSessions?: boolean }) => {
   const { user } = useAuth()
   const shouldVote = !['live', 'finished', 'cancelled'].includes(session.status)
 
@@ -31,7 +31,7 @@ const InterestComponent = ({ session }: { session: Session }) => {
     error,
     toggleUserInterest,
     isToggling,
-  } = useInterestedUsers(session.id, shouldVote)
+  } = useInterestedUsers(session.id, shouldVote, refetchSessions)
 
   const isUserInterested = user && voters.some(voter => voter.id === user.id) || false
 
