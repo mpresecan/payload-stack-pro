@@ -33,6 +33,7 @@ export const interestedAttendees: CollectionConfig = {
       type: 'relationship',
       relationTo: COLLECTION_SLUG_USERS,
       required: true,
+
     },
     {
       name: 'type',

@@ -33,7 +33,7 @@ const SessionsList = ({topicList = false} : {topicList?: boolean}) => {
             exit={{ opacity: 0, transition: {duration: 0.1} }}
           >
             <AnimatePresence initial={false}>
-              {sessionDocs.docs.map((session) => (
+              {sessionDocs.docs.map((session, index) => (
                 <motion.div
                   key={session.id}
                   layout
@@ -41,6 +41,8 @@ const SessionsList = ({topicList = false} : {topicList?: boolean}) => {
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0, transition: { duration: 0.1 }}}
                   transition={{ duration: 0.3 }}
+                  className={'relative'}
+                  style={{ zIndex: sessionDocs.docs.length - index }}
                 >
                   <Session session={session} />
                 </motion.div>

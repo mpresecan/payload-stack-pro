@@ -19,8 +19,15 @@ import { SessionEvent } from '@/payload-types'
 import { useInterestedUsers } from '../sessions/hooks/useInterestedUsers'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import { getInitials } from '@/utilities/getInitials'
+import { HoverUserCard } from '@/app/(frontend)/(private)/_components/user-hover-card'
+import { Link } from 'next-view-transitions'
+import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 
-const InterestComponent = ({ session, refetchSessions = false, bigButton = false }: { session: SessionEvent, refetchSessions?: boolean, bigButton?: boolean }) => {
+const InterestComponent = ({ session, refetchSessions = false, bigButton = false }: {
+  session: SessionEvent,
+  refetchSessions?: boolean,
+  bigButton?: boolean
+}) => {
   const { user } = useAuth()
   const shouldVote = !['live', 'finished', 'cancelled'].includes(session.status)
 
@@ -42,14 +49,15 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
   }
 
   return (
-    <div ref={ref} className="flex flex-wrap items-center justify-between mb-2" style={{viewTransitionName: `session-interest-component-${session.id}`}}>
+    <div ref={ref} className="flex flex-wrap items-center justify-between mb-2"
+         style={{ viewTransitionName: `session-interest-component-${session.id}` }}>
       <div className="flex-initial items-center mb-2 sm:mb-0">
         <Button
           variant={isUserInterested ? 'default' : 'outline'}
           size={bigButton ? 'lg' : 'sm'}
           onClick={handleInterestToggle}
           disabled={!user || isToggling || !shouldVote}
-          style={{viewTransitionName: `session-interest-component-button-${session.id}`}}
+          style={{ viewTransitionName: `session-interest-component-button-${session.id}` }}
         >
           <ThumbsUpIcon className="mr-2 h-4 w-4" />
           {isToggling ? 'Updating...' : (isUserInterested ? 'Interested' : 'Show Interest')}
@@ -78,13 +86,10 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
               <div className="space-y-4">
                 {voters.map((voter) => (
                   <div key={voter.id} className="flex items-center space-x-4">
-                    <Avatar>
-                      <AvatarImage src={voter.avatarUrl!} alt={voter.name!} />
-                      <AvatarFallback>{voter.name![0]}</AvatarFallback>
-                    </Avatar>
+                    <UserAvatar user={voter} numberOfInitials={1} />
                     <div>
-                      <p className="text-sm font-medium leading-none">{voter.name}</p>
-                      <p className="text-sm text-muted-foreground">@{voter.id}</p>
+                      <p className="text-sm font-medium leading-none"><Link href={`/p/${voter.handle}`}>{voter.name}</Link></p>
+                      <p className="text-sm text-muted-foreground">@{voter.handle}</p>
                     </div>
                   </div>
                 ))}
@@ -93,21 +98,14 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
           </DialogContent>
         </Dialog>
         <div className="flex -space-x-2">
-          <TooltipProvider>
-            {voters.slice(0, 3).map(voter => (
-              <Tooltip key={voter.id}>
-                <TooltipTrigger asChild>
-                  <Avatar key={voter.id} className="inline-block border-2 border-background cursor-default">
-                    <AvatarImage src={voter.avatarUrl!} alt={voter.name!} />
-                    <AvatarFallback>{getInitials(voter.name)}</AvatarFallback>
-                  </Avatar>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>{voter.name}</p>
-                </TooltipContent>
-              </Tooltip>
-            ))}
-          </TooltipProvider>
+          {voters.slice(0, 3).map(voter => (
+            <HoverUserCard user={voter} key={voter.id}>
+              <Avatar key={voter.id} className="inline-block border-2 border-background cursor-default">
+                <AvatarImage src={voter.avatarUrl!} alt={voter.name!} />
+                <AvatarFallback>{getInitials(voter.name)}</AvatarFallback>
+              </Avatar>
+            </HoverUserCard>
+          ))}
           {voters.length > 3 && (
             <Avatar className="inline-block border-2 border-background cursor-default">
               <AvatarFallback>+{voters.length - 3}</AvatarFallback>

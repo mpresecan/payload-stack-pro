@@ -7,12 +7,11 @@ import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDownIcon, ChevronUpIcon, TagIcon } from 'lucide-react'
 import { SessionEvent, SessionInterestedAttendee, SessionTag, User } from '@/payload-types'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
-
 import Presenters from './presenters'
 import StatusBadge from '@/app/(frontend)/(private)/_components/status-badge'
 import InterestComponent from '@/app/(frontend)/(private)/_components/interest-component'
 import { Link } from 'next-view-transitions'
-
+import SuggestedBy from '@/app/(frontend)/(private)/sessions/_components/session-item/sugessted-by'
 
 const SessionComponent = ({ session }: { session: SessionEvent }) => {
   const { user: currentUser } = useAuth()
@@ -22,19 +21,24 @@ const SessionComponent = ({ session }: { session: SessionEvent }) => {
   const tags: SessionTag[] = session.tags.map(tag => tag as SessionTag)
 
   return (
-    <Card className="overflow-hidden mb-4" style={{viewTransitionName: `card-session-${session.id}`}}>
+    <Card className="overflow-visible mb-4" style={{ viewTransitionName: `card-session-${session.id}` }}>
       <CardContent className="p-4">
         <div className="flex flex-wrap justify-between items-start mb-2">
           <div>
             <Link href={session.status === 'wished' ? `/suggested-topic/${session.id}` : `/session/${session.id}`}>
-              <h2 className="text-lg font-semibold" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</h2>
+              <h2 className="text-lg font-semibold"
+                  style={{ viewTransitionName: `session-title-${session.id}` }}>{session.title}</h2>
             </Link>
-            <Presenters presenters={session.presenters} styles={{viewTransitionName: `session-presenters-${session.id}`}} />
+            {session.status !== 'wished' && <Presenters presenters={session.presenters} styles={{ viewTransitionName: `session-presenters-${session.id}` }} />}
+            {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}
           </div>
-          <StatusBadge status={session.status} scheduledAt={session.scheduledAt} styles={{viewTransitionName: `session-status-badge-${session.id}`}}/>
+          <StatusBadge status={session.status} scheduledAt={session.scheduledAt}
+                       styles={{ viewTransitionName: `session-status-badge-${session.id}` }} />
         </div>
-        <InterestComponent session={session} refetchSessions={true} />
-        <div className="mt-2">
+        <div className="relative z-10">
+          <InterestComponent session={session} refetchSessions={true} />
+        </div>
+        <div className="mt-2 relative z-0">
           <AnimatePresence initial={false}>
             <motion.div
               key={`description-${session.id}`}
@@ -48,11 +52,13 @@ const SessionComponent = ({ session }: { session: SessionEvent }) => {
               transition={{ duration: 0.3, ease: 'easeInOut' }}
               className="relative overflow-hidden"
             >
-              <p className="text-sm text-muted-foreground" style={{viewTransitionName: `session-short-description-${session.id}`}}>
+              <p className="text-sm text-muted-foreground"
+                 style={{ viewTransitionName: `session-short-description-${session.id}` }}>
                 {session.shortDescription}
               </p>
               {!showMore && (
-                <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-background to-transparent" />
+                <div
+                  className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-background to-transparent" />
               )}
             </motion.div>
           </AnimatePresence>
@@ -81,8 +87,8 @@ const SessionComponent = ({ session }: { session: SessionEvent }) => {
           <TagIcon className="mr-2 h-3 w-3" />
           {tags.map((tag, index) => (
             <span key={index} className="mr-2">
-                              {tag.name}{index < tags.length - 1 ? ',' : ''}
-                            </span>
+              {tag.name}{index < tags.length - 1 ? ',' : ''}
+            </span>
           ))}
         </div>
       </CardFooter>

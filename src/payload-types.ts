@@ -80,6 +80,7 @@ export interface SessionEvent {
   onSiteEvent?: (string | null) | Page;
   status: 'wished' | 'proposed' | 'scheduling' | 'scheduled' | 'live' | 'finished' | 'cancelled';
   scheduledAt?: string | null;
+  suggestedBy?: (string | null) | User;
   presenters?: (string | User)[] | null;
   tags: (string | SessionTag)[];
   interestedAttendeesCount: number;
@@ -375,10 +376,12 @@ export interface Post {
 export interface User {
   id: string;
   name?: string | null;
+  handle?: string | null;
   role: 'user' | 'admin';
   status: 'active' | 'suspended' | 'waiting-list' | 'deleted';
   avatarUrl?: string | null;
   phone?: string | null;
+  bio?: string | null;
   interestedSessions?: {
     docs?: (string | SessionInterestedAttendee)[] | null;
     hasNextPage?: boolean | null;

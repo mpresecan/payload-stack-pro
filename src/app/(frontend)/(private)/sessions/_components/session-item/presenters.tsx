@@ -2,6 +2,7 @@ import React from 'react'
 import { User } from '@/payload-types'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/utilities/getInitials'
+import { Link } from 'next-view-transitions'
 
 const Presenters = ({presenters, styles} : {presenters?: (string | User)[] | null, styles: React.CSSProperties}) => {
   const presentersUser: User[] = presenters as User[]
@@ -18,7 +19,7 @@ const Presenters = ({presenters, styles} : {presenters?: (string | User)[] | nul
             <AvatarImage src={presenter.avatarUrl!} alt={presenter.name!} />
             <AvatarFallback>{getInitials(presenter.name, 1)}</AvatarFallback>
           </Avatar>
-          {presenter.name}
+          <Link href={`/p/${presenter.handle}`}>{presenter.name}</Link>
         </span>
       )) : (<span className="italic">No presenters</span>)}
     </div>

@@ -43,10 +43,31 @@ const Users: CollectionConfig = {
           label: 'Settings',
           fields: [
             {
-              name: 'name',
-              type: 'text',
-              required: false,
-              saveToJWT: true,
+              type: 'row',
+              fields: [
+                {
+                  name: 'name',
+                  type: 'text',
+                  required: false,
+                  saveToJWT: true,
+                  admin: {
+                    width: '50%'
+                  }
+                },
+                {
+                  name: 'handle',
+                  type: 'text',
+                  required: false,
+                  saveToJWT: true,
+                  admin: {
+                    width: '50%',
+                    placeholder: '@'
+                  },
+                  unique: true,
+                  minLength: 3,
+                  maxLength: 50,
+                }
+              ]
             },
             {
               type: 'row',
@@ -76,6 +97,10 @@ const Users: CollectionConfig = {
             {
               name: 'phone',
               type: 'text',
+            },
+            {
+              name: 'bio',
+              type: 'textarea',
             }
           ]
         },

@@ -138,6 +138,16 @@ export const Sessions: CollectionConfig = {
                     ]
                   }
                 },
+                {
+                  name: 'suggestedBy',
+                  type: 'relationship',
+                  relationTo: COLLECTION_SLUG_USERS,
+                  required: true,
+                  admin: {
+                    condition: (_, siblingData) => siblingData.status === 'wished',
+                    width: '50%',
+                  }
+                }
               ]
             },
             {

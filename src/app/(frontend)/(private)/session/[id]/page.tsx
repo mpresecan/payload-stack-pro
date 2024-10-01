@@ -43,7 +43,6 @@ const Session = async ({ params }: { params: { id: string } }) => {
           {/*</Suspense>*/}
         </Card>
       </div>
-
     </ContentLayout>
   )
 }
