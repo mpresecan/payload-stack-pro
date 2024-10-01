@@ -1,5 +1,5 @@
 import React from 'react'
-import { Session, SessionTag, User } from '@/payload-types'
+import { SessionEvent, SessionTag, User } from '@/payload-types'
 import { CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/utilities/getInitials'
@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge'
 import InterestComponent from '@/app/(frontend)/(private)/_components/interest-component'
 import RichText from '@/components/RichText'
 
-const SessionDetails = ({ session }: { session: Session }) => {
+const SessionDetails = ({ session, topic = false }: { session: SessionEvent, topic?: boolean }) => {
   return (
     <>
       <CardHeader className="space-y-6">
@@ -17,7 +17,7 @@ const SessionDetails = ({ session }: { session: Session }) => {
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-4" style={{viewTransitionName: `session-presenters-${session.id}`}}>
-            {session.presenters.map(sessionPresenter => {
+            {session.presenters && session.presenters.map(sessionPresenter => {
               const presenter = sessionPresenter as User
               return (<div key={presenter.id} className="flex items-center gap-2">
                 <Avatar className="h-10 w-10">

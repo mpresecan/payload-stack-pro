@@ -1,8 +1,8 @@
 import { PayloadRequest } from 'payload'
-import { Session } from '@/payload-types'
+import { SessionEvent } from '@/payload-types'
 import { COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES, COLLECTION_SLUG_SESSIONS } from '@/collections/slugs'
 
-export const aggregateInterestedAttendees = async (req: PayloadRequest, session: Session | string) => {
+export const aggregateInterestedAttendees = async (req: PayloadRequest, session: SessionEvent | string) => {
   const sessionId = typeof session === 'string' ? session : session.id
 
   try {

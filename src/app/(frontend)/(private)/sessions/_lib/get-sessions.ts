@@ -1,9 +1,9 @@
 import 'server-only'
 import { SessionTabs, SortBy } from '../types/params'
 import { getPayload } from '@/lib/payload'
-import { Session, User } from '@/payload-types'
+import { SessionEvent, User } from '@/payload-types'
 import { COLLECTION_SLUG_SESSIONS } from '@/collections/slugs'
-import { JoinQuery, PaginatedDocs, Where } from 'payload'
+import { PaginatedDocs, Where } from 'payload'
 
 interface GetSessionsParams {
   s?: string,
@@ -11,17 +11,19 @@ interface GetSessionsParams {
   past?: boolean,
   sortBy?: SortBy,
   tags?: string,
-  onSiteId?: string
+  onSiteId?: string,
+  wished?: string,
 }
 
 const getCorrectSearchParams = (params: GetSessionsParams = {}, user?: User) => {
-  const { s, tab, past, sortBy, tags, onSiteId } = params
+  const { s, tab, past, sortBy, tags, onSiteId, wished } = params
 
   const search = s ? s : ''
   const queryPast = past ? past : false
-  const sessionTab = tab ? ((['proposals', 'scheduled'].includes(tab) && queryPast) || ((!user || onSiteId) && ['interested', 'my-sessions'].includes(tab)) ? 'all' : tab) : 'all'
+  const sessionTab = tab ? ((['proposals', 'scheduled'].includes(tab) && queryPast) || ((!user || onSiteId) && ['interested', 'my-sessions'].includes(tab)) || wished ? 'all' : tab) : 'all'
   const sort = sortBy ? sortBy : 'popularity'
   const selectedTags = tags ? tags.split(',') : []
+  const wishedSessions = wished ? wished === 'true' : false
 
   return {
     s: search,
@@ -30,11 +32,12 @@ const getCorrectSearchParams = (params: GetSessionsParams = {}, user?: User) => 
     sortBy: sort,
     tags: selectedTags,
     onSiteId,
+    wished: wishedSessions,
   }
 }
 
 export const getSessionsBySearchParams = async (params?: GetSessionsParams, user?: User) => {
-  const { s, tab, past, sortBy, tags, onSiteId } = getCorrectSearchParams(params, user)
+  const { s, tab, past, sortBy, tags, onSiteId, wished } = getCorrectSearchParams(params, user)
 
   // wait for half a second
   // await new Promise((resolve) => setTimeout(resolve, 500))
@@ -47,6 +50,22 @@ export const getSessionsBySearchParams = async (params?: GetSessionsParams, user
         },
       },
     ],
+  }
+
+  if(wished) {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    where.and.push({
+      status: {
+        equals: 'wished',
+      }
+    })
+  } else {
+    where.and = where.and || [] // un necessary, just for the sake of typescript
+    where.and.push({
+      status: {
+        not_equals: 'wished',
+      }
+    });
   }
 
   if (s !== '') {
@@ -203,11 +222,6 @@ export const getSessionsBySearchParams = async (params?: GetSessionsParams, user
 
   // console.log('where:', JSON.stringify(where, null, 2))
 
-  const joins: JoinQuery = {
-    interestedUsers: {
-      limit: 999999,
-    },
-  }
 
   const sort = sortBy === 'popularity' ? '-interestedAttendeesCount' : '-scheduledAt'
 
@@ -217,7 +231,6 @@ export const getSessionsBySearchParams = async (params?: GetSessionsParams, user
     return await payload.find({
       collection: COLLECTION_SLUG_SESSIONS,
       where,
-      joins,
       sort,
       depth: 1,
       limit: 10,
@@ -239,5 +252,5 @@ export const getSessionsBySearchParams = async (params?: GetSessionsParams, user
     hasNextPage: false,
     prevPage: null,
     nextPage: null,
-  } as PaginatedDocs<Session>
+  } as PaginatedDocs<SessionEvent>
 }

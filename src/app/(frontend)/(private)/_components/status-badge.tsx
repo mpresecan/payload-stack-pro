@@ -1,11 +1,11 @@
 import React from 'react'
-import { Session } from '@/payload-types'
+import { SessionEvent } from '@/payload-types'
 import { Badge } from '@/components/ui/badge'
 import { CalendarIcon } from 'lucide-react'
 
 interface StatusBadgeProps {
   scheduledAt?: string | null,
-  status: Session['status']
+  status: SessionEvent['status']
   styles?: React.CSSProperties
 }
 
@@ -15,6 +15,11 @@ const StatusBadge = ({status, scheduledAt, styles} : StatusBadgeProps) => {
       {status === 'cancelled' && (
         <Badge variant="destructive" className="ml-2 mt-1">
           Cancelled
+        </Badge>
+      )}
+      {status === 'live' && (
+        <Badge variant="destructive" className="ml-2 mt-1 animate-pulse">
+          Live
         </Badge>
       )}
       {scheduledAt && (

@@ -3,15 +3,14 @@ import {
   COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES,
   COLLECTION_SLUG_PAGES,
   COLLECTION_SLUG_SESSION_TAGS,
-  COLLECTION_SLUG_SESSIONS,
   COLLECTION_SLUG_USERS, GROUP_SLUG_SESSIONS,
 } from '@/collections/slugs'
 import { authenticated } from '@/access/authenticated'
 import { anyone } from '@/access/anyone'
-import { revalidatePath, revalidateTag } from 'next/cache'
+import { revalidateTag } from 'next/cache'
 
-export const Sessions: CollectionConfig = {
-  slug: COLLECTION_SLUG_SESSIONS,
+export const SessionsNew: CollectionConfig = {
+  slug: 'sessions-new',
   access: {
     create: authenticated,
     read: anyone,
@@ -146,7 +145,7 @@ export const Sessions: CollectionConfig = {
               relationTo: COLLECTION_SLUG_USERS,
               hasMany: true,
               required: false,
-              // validate: TODO: Check if the user is a presenter
+              // validate: TODO: Check if status is not 'wished', then it must have a presenter
             },
             {
               name: 'tags',

@@ -15,12 +15,12 @@ import {
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { Session, User } from '@/payload-types'
+import { SessionEvent } from '@/payload-types'
 import { useInterestedUsers } from '../sessions/hooks/useInterestedUsers'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import { getInitials } from '@/utilities/getInitials'
 
-const InterestComponent = ({ session, refetchSessions = false, bigButton = false }: { session: Session, refetchSessions?: boolean, bigButton?: boolean }) => {
+const InterestComponent = ({ session, refetchSessions = false, bigButton = false }: { session: SessionEvent, refetchSessions?: boolean, bigButton?: boolean }) => {
   const { user } = useAuth()
   const shouldVote = !['live', 'finished', 'cancelled'].includes(session.status)
 

@@ -3,8 +3,12 @@ import { User } from '@/payload-types'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/utilities/getInitials'
 
-const Presenters = ({presenters, styles} : {presenters: (string | User)[], styles: React.CSSProperties}) => {
+const Presenters = ({presenters, styles} : {presenters?: (string | User)[] | null, styles: React.CSSProperties}) => {
   const presentersUser: User[] = presenters as User[]
+
+  if(!presenters) {
+    return;
+  }
 
   return (
     <div className="text-sm text-muted-foreground mt-1" style={styles}>

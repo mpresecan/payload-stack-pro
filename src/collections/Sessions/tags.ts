@@ -1,5 +1,5 @@
 import type { CollectionConfig } from 'payload'
-import { COLLECTION_SLUG_SESSION_TAGS, COLLECTION_SLUG_SESSIONS, GROUP_SLUG_SESSIONS } from '@/collections/slugs'
+import { COLLECTION_SLUG_SESSION_TAGS, GROUP_SLUG_SESSIONS } from '@/collections/slugs'
 import { authenticated } from '@/access/authenticated'
 import { anyone } from '@/access/anyone'
 import { slugField } from '@/fields/slug'

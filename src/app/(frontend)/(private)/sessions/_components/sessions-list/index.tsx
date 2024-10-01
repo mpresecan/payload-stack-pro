@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import SessionSkeleton from '@/app/(frontend)/(private)/sessions/_components/session-item/session-skeleton'
 import Session from '../session-item'
 
-const SessionsList = () => {
+const SessionsList = ({topicList = false} : {topicList?: boolean}) => {
   const { sessionDocs, isLoading } = useSessionFilter()
 
   return (
@@ -54,7 +54,7 @@ const SessionsList = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0, transition: {duration: 0.1} }}
           >
-            <p className="text-center text-gray-500">No sessions found.</p>
+            <p className="text-center text-gray-500">No {topicList ? 'topics' : 'sessions'} found.</p>
           </motion.div>
         )}
       </AnimatePresence>

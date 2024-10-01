@@ -2,7 +2,7 @@
 
 import React, { createContext, useCallback, useContext, useEffect, useState } from 'react'
 import { SessionTabs, SortBy } from '../../types/params'
-import { Session } from '@/payload-types'
+import { SessionEvent } from '@/payload-types'
 import { FilterContext } from './types'
 import { PaginatedDocs } from 'payload'
 import { useQuery } from '@tanstack/react-query'
@@ -11,7 +11,7 @@ import { REFETCH_INTERVAL } from '@/app/(frontend)/(private)/sessions/_lib/refet
 
 const Context = createContext({} as FilterContext)
 
-const fetchSessions = async (params: URLSearchParams): Promise<PaginatedDocs<Session>> => {
+const fetchSessions = async (params: URLSearchParams): Promise<PaginatedDocs<SessionEvent>> => {
   const response = await fetch(`/api/sessions?${params}`, {
     method: 'GET',
     headers: {
@@ -25,17 +25,17 @@ const fetchSessions = async (params: URLSearchParams): Promise<PaginatedDocs<Ses
   return response.json()
 }
 
-export const SessionFilterProvider = ({ children, initialSessionsDoc }: {children: React.ReactNode, initialSessionsDoc: PaginatedDocs<Session>}) => {
+export const SessionFilterProvider = ({ children, initialSessionsDoc, wished = false }: {children: React.ReactNode, initialSessionsDoc: PaginatedDocs<SessionEvent>, wished?: boolean}) => {
   const [tab, setTabValue] = useState<SessionTabs>('all')
   const [search, setSearchValue] = useState<string>('')
   const [selectedTags, setSelectedTagsValues] = useState<string[]>([])
   const [sortBy, setSortByValue] = useState<SortBy>('popularity')
   const [queryPastSessions, setQueryPastSessionsValue] = useState<boolean>(false)
 
-  const [searchParamsValue, setSearchParamsValue] = useState<URLSearchParams>(new URLSearchParams())
-  const [sessionDocs, setSessionDocs] = useState<PaginatedDocs<Session>>(initialSessionsDoc)
+  const [searchParamsValue, setSearchParamsValue] = useState<URLSearchParams>(new URLSearchParams({ 'wished': wished.toString() }))
+  const [sessionDocs, setSessionDocs] = useState<PaginatedDocs<SessionEvent>>(initialSessionsDoc)
 
-  const { data, isLoading, isFetching, isError, refetch } = useQuery<PaginatedDocs<Session>, Error>({
+  const { data, isLoading, isFetching, isError, refetch } = useQuery<PaginatedDocs<SessionEvent>, Error>({
     queryKey: [deepMerge(Object.fromEntries(searchParamsValue.entries()), { action: 'sessions'})],
     queryFn: () => fetchSessions(searchParamsValue),
     refetchInterval: REFETCH_INTERVAL, // 10 seconds polling
@@ -44,13 +44,13 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
   })
 
   const updateSearchParams = useCallback((params: URLSearchParams) => {
+    params.set('wished', wished.toString())
     setSearchParamsValue(params)
     // Trigger an immediate refetch when search params change
     refetch()
-  }, [refetch])
+  }, [refetch, wished])
 
   const setTab: typeof setTabValue = useCallback((newTab: SessionTabs) => {
-    console.log('newTab:', newTab)
     const params = new URLSearchParams(searchParamsValue)
     if (newTab === 'all') {
       params.delete('tab')
@@ -62,7 +62,6 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
   }, [searchParamsValue, updateSearchParams])
 
   const setQueryPastSessions: typeof setQueryPastSessionsValue = useCallback((showPastSessions: boolean) => {
-    console.log('showPastSessions:', showPastSessions)
     const params = new URLSearchParams(searchParamsValue)
     if (!showPastSessions) {
       params.delete('past')
@@ -78,7 +77,6 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
   }, [searchParamsValue, tab, updateSearchParams, setTabValue])
 
   const setSearch: typeof setSearchValue = useCallback((newSearch: string) => {
-    console.log('newSearch:', newSearch)
     const params = new URLSearchParams(searchParamsValue)
     if (newSearch === '') {
       params.delete('s')
@@ -90,7 +88,6 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
   }, [searchParamsValue, updateSearchParams])
 
   const setSortBy: typeof setSortByValue = useCallback((newSortBy: SortBy) => {
-    console.log('newSortBy:', newSortBy)
     const params = new URLSearchParams(searchParamsValue)
     if (newSortBy === 'popularity') {
       params.delete('sortBy')
@@ -102,7 +99,6 @@ export const SessionFilterProvider = ({ children, initialSessionsDoc }: {childre
   }, [searchParamsValue, updateSearchParams])
 
   const setSelectedTags: typeof setSelectedTagsValues = useCallback((tags: string[]) => {
-    console.log('tags:', tags)
     const params = new URLSearchParams(searchParamsValue)
     if (tags.length === 0) {
       params.delete('tags')

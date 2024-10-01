@@ -4,8 +4,8 @@ import React, { useState } from 'react'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { AnimatePresence, motion } from 'framer-motion'
-import { ChevronDownIcon, ChevronUpIcon, TagIcon, ThumbsUpIcon } from 'lucide-react'
-import { Session, SessionInterestedAttendee, SessionTag, User } from '@/payload-types'
+import { ChevronDownIcon, ChevronUpIcon, TagIcon } from 'lucide-react'
+import { SessionEvent, SessionInterestedAttendee, SessionTag, User } from '@/payload-types'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 
 import Presenters from './presenters'
@@ -14,7 +14,7 @@ import InterestComponent from '@/app/(frontend)/(private)/_components/interest-c
 import { Link } from 'next-view-transitions'
 
 
-const SessionComponent = ({ session }: { session: Session }) => {
+const SessionComponent = ({ session }: { session: SessionEvent }) => {
   const { user: currentUser } = useAuth()
   const [showMore, setShowMore] = useState(false)
 
@@ -26,7 +26,7 @@ const SessionComponent = ({ session }: { session: Session }) => {
       <CardContent className="p-4">
         <div className="flex flex-wrap justify-between items-start mb-2">
           <div>
-            <Link href={`/session/${session.id}`}>
+            <Link href={session.status === 'wished' ? `/suggested-topic/${session.id}` : `/session/${session.id}`}>
               <h2 className="text-lg font-semibold" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</h2>
             </Link>
             <Presenters presenters={session.presenters} styles={{viewTransitionName: `session-presenters-${session.id}`}} />

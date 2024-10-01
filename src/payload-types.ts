@@ -11,7 +11,7 @@ export interface Config {
     users: UserAuthOperations;
   };
   collections: {
-    sessions: Session;
+    'session-events': SessionEvent;
     'session-tags': SessionTag;
     'session-interested-attendees': SessionInterestedAttendee;
     pages: Page;
@@ -55,9 +55,9 @@ export interface UserAuthOperations {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "sessions".
+ * via the `definition` "session-events".
  */
-export interface Session {
+export interface SessionEvent {
   id: string;
   title: string;
   shortDescription: string;
@@ -78,9 +78,9 @@ export interface Session {
   } | null;
   type: 'online' | 'onsite';
   onSiteEvent?: (string | null) | Page;
-  status: 'proposed' | 'scheduling' | 'scheduled' | 'live' | 'finished' | 'cancelled';
+  status: 'wished' | 'proposed' | 'scheduling' | 'scheduled' | 'live' | 'finished' | 'cancelled';
   scheduledAt?: string | null;
-  presenters: (string | User)[];
+  presenters?: (string | User)[] | null;
   tags: (string | SessionTag)[];
   interestedAttendeesCount: number;
   interestedUsers?: {
@@ -402,7 +402,7 @@ export interface User {
  */
 export interface SessionInterestedAttendee {
   id: string;
-  session: string | Session;
+  session: string | SessionEvent;
   user: string | User;
   type: 'interested' | 'attending' | 'cancelled' | 'attended';
   updatedAt: string;
@@ -429,8 +429,8 @@ export interface PayloadLockedDocument {
   id: string;
   document?:
     | ({
-        relationTo: 'sessions';
-        value: string | Session;
+        relationTo: 'session-events';
+        value: string | SessionEvent;
       } | null)
     | ({
         relationTo: 'session-tags';

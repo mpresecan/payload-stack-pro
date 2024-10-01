@@ -1,4 +1,4 @@
-import { Session } from '@/payload-types'
+import { SessionEvent } from '@/payload-types'
 import { SessionTabs, SortBy } from '../../types/params'
 import { PaginatedDocs } from 'payload'
 import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query'
@@ -14,10 +14,10 @@ export interface FilterContext {
   setSortBy: (sortBy: SortBy) => void,
   queryPastSessions: boolean,
   setQueryPastSessions: (showPastSessions: boolean) => void,
-  sessionDocs: PaginatedDocs<Session>,
+  sessionDocs: PaginatedDocs<SessionEvent>,
   isLoading: boolean,
   page?: number,
   canLoadMore: boolean,
   isError: boolean,
-  refetchSessions:  (options?: RefetchOptions) => Promise<QueryObserverResult<PaginatedDocs<Session>, Error>>
+  refetchSessions:  (options?: RefetchOptions) => Promise<QueryObserverResult<PaginatedDocs<SessionEvent>, Error>>
 }
