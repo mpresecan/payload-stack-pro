@@ -3,7 +3,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 
 const TagsSkeleton = () => {
   return (
-    <div className="flex overflow-x-auto pb-2 scrollbar-hide">
+    <div className="flex overflow-x-auto scrollbar-hide">
       {[...Array(5)].map((_, index) => (
         <Skeleton
           key={index}

@@ -11,6 +11,8 @@ import SessionsList from '@/app/(frontend)/(private)/sessions/_components/sessio
 import { getSessionsBySearchParams } from '@/app/(frontend)/(private)/sessions/_lib/get-sessions'
 import FetchLoader from '@/app/(frontend)/(private)/sessions/_components/fetch-loader'
 import { ContentLayout } from '@/components/admin-panel/content-layout'
+import TopDownAnimation from '@/components/animations/top-down'
+import ProposeSessionButton from '@/app/(frontend)/(private)/sessions/_components/propose-session-button'
 
 const SessionsPage = async () => {
 
@@ -20,21 +22,19 @@ const SessionsPage = async () => {
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
       <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
         <div className="flex flex-row justify-between">
-          <h1 className="text-3xl font-bold mb-6" style={{viewTransitionName: `page-session-title`}}>Sessions</h1>
-          <Button asChild className="grow-0 ms-8">
-            <Link href="#"><PlusIcon className="mr-2 h-4 w-4" />Propose Session</Link>
-          </Button>
+          <h1 className="text-3xl font-bold mb-6" style={{ viewTransitionName: `page-session-title` }}>Sessions</h1>
+          <ProposeSessionButton />
         </div>
         <Suspense>
           <SessionFilterProvider initialSessionsDoc={sessions}>
             {/*<SessionTabs />*/}
-            <div className="mb-6 flex flex-wrap gap-4 items-center justify-between">
+            <TopDownAnimation className="mb-6 flex flex-wrap gap-4 items-center justify-between">
               <SearchInput />
               <div className="flex flex-wrap gap-4 justify-between items-center">
                 <SessionSortBy />
                 <PastSessionToggle />
               </div>
-            </div>
+            </TopDownAnimation>
             <SessionTags />
             <FetchLoader />
             <SessionsList />

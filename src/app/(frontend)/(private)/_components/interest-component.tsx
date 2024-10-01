@@ -49,6 +49,7 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
           size={bigButton ? 'lg' : 'sm'}
           onClick={handleInterestToggle}
           disabled={!user || isToggling || !shouldVote}
+          style={{viewTransitionName: `session-interest-component-button-${session.id}`}}
         >
           <ThumbsUpIcon className="mr-2 h-4 w-4" />
           {isToggling ? 'Updating...' : (isUserInterested ? 'Interested' : 'Show Interest')}
