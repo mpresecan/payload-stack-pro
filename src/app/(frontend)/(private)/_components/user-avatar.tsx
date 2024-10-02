@@ -29,7 +29,7 @@ const UserAvatar = ({ user, numberOfInitials = 2, className, fallbackClassName }
   }
 
   return (
-    <Avatar className={className} >
+    <Avatar className={className}>
       <AvatarImage src={user.avatarUrl!} alt={user.name!} />
       <AvatarFallback className={fallbackClassName}>{getInitials(user.name, numberOfInitials)}</AvatarFallback>
     </Avatar>

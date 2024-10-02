@@ -56,6 +56,7 @@ const OnboardingForm = () => {
           })
 
           router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT)
+          router.refresh();
           return
         }
 
