@@ -1,19 +1,17 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import React from 'react'
-import { ContentLayout } from '@/components/admin-panel/content-layout'
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+  BreadcrumbList, BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
 import { Link } from 'next-view-transitions'
-import { Metadata, ResolvingMetadata } from 'next'
+import { Card, CardHeader } from '@/components/ui/card'
+import { Editor } from '@/components/editor'
+import { ContentLayout } from '@/components/admin-panel/content-layout'
 
-const NewSessionPage = async () => {
-
+const NewSessionPage = () => {
   return (
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
       <Breadcrumb className='mb-8'>
@@ -32,7 +30,7 @@ const NewSessionPage = async () => {
       <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
         <Card className="w-full max-w-4xl mx-auto">
           <CardHeader>
-            FORM
+            <Editor />
           </CardHeader>
         </Card>
       </div>

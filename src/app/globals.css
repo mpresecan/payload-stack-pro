@@ -100,3 +100,8 @@
     @apply bg-background text-foreground;
   }
 }
+
+.toolbar button[data-state="active"] {
+  background-color: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+}

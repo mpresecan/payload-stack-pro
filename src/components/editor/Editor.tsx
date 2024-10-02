@@ -1,0 +1,119 @@
+'use client'
+
+import { CodeNode } from "@lexical/code"
+import { AutoLinkNode, LinkNode } from "@lexical/link"
+import { ListItemNode, ListNode } from "@lexical/list"
+import { TRANSFORMERS } from "@lexical/markdown"
+import { HeadingNode, QuoteNode } from "@lexical/rich-text"
+import { LexicalComposer } from "@lexical/react/LexicalComposer"
+import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin"
+import { ListPlugin } from "@lexical/react/LexicalListPlugin"
+import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin"
+import { ContentEditable } from "@lexical/react/LexicalContentEditable"
+import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin"
+import { MarkdownShortcutPlugin } from "@lexical/react/LexicalMarkdownShortcutPlugin"
+import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary"
+import { isValidUrl } from "./utils/url"
+import { ActionsPlugin } from "./plugins/Actions"
+import { AutoLinkPlugin } from "./plugins/AutoLink"
+import { EditLinkPlugin } from "./plugins/EditLink"
+import { FloatingMenuPlugin } from "./plugins/FloatingMenu"
+import { LocalStoragePlugin } from "./plugins/LocalStorage"
+import { OpenLinkPlugin } from "./plugins/OpenLink"
+import {
+  EditorHistoryStateContext,
+  useEditorHistoryState,
+} from "./context/EditorHistoryState"
+import { cn } from "@/utilities/cn"
+
+export const EDITOR_NAMESPACE = "lexical-full-width-editor"
+
+const EDITOR_NODES = [
+  AutoLinkNode,
+  CodeNode,
+  HeadingNode,
+  LinkNode,
+  ListNode,
+  ListItemNode,
+  QuoteNode,
+]
+
+type EditorProps = {
+  className?: string
+}
+
+export function Editor(props: EditorProps) {
+  const content = localStorage.getItem(EDITOR_NAMESPACE)
+
+  return (
+    <div
+      id="editor-wrapper"
+      className={cn(
+        props.className,
+        "w-full max-w-none relative prose prose-slate dark:prose-invert prose-p:my-0 prose-headings:mb-4 prose-headings:mt-2"
+      )}
+    >
+      <EditorHistoryStateContext>
+        <LexicalEditor
+          config={{
+            namespace: EDITOR_NAMESPACE,
+            nodes: EDITOR_NODES,
+            editorState: content,
+            theme: {
+              root: "w-full p-4 border border-input rounded-md min-h-[200px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+              link: "cursor-pointer text-primary underline",
+              text: {
+                bold: "font-semibold",
+                underline: "underline decoration-wavy",
+                italic: "italic",
+                strikethrough: "line-through",
+                underlineStrikethrough: "underline line-through",
+              },
+            },
+            onError: (error) => {
+              console.error(error)
+            },
+          }}
+        />
+      </EditorHistoryStateContext>
+    </div>
+  )
+}
+
+type LexicalEditorProps = {
+  config: Parameters<typeof LexicalComposer>["0"]["initialConfig"]
+}
+
+export function LexicalEditor(props: LexicalEditorProps) {
+  const { historyState } = useEditorHistoryState()
+
+  return (
+    <LexicalComposer initialConfig={props.config}>
+      <div className="flex flex-col w-full gap-2">
+        <RichTextPlugin
+          contentEditable={<ContentEditable className="min-h-[150px] w-full" spellCheck={false} />}
+          placeholder={<Placeholder />}
+          ErrorBoundary={LexicalErrorBoundary}
+        />
+      </div>
+      <HistoryPlugin externalHistoryState={historyState} />
+      <MarkdownShortcutPlugin transformers={TRANSFORMERS} />
+      <ListPlugin />
+      <LinkPlugin validateUrl={isValidUrl} />
+      <ActionsPlugin />
+      <AutoLinkPlugin />
+      <EditLinkPlugin />
+      <FloatingMenuPlugin />
+      <LocalStoragePlugin namespace={EDITOR_NAMESPACE} />
+      <OpenLinkPlugin />
+    </LexicalComposer>
+  )
+}
+
+const Placeholder = () => {
+  return (
+    <div className="absolute top-[1.125rem] left-[1.125rem] text-muted-foreground">
+      Start writing...
+    </div>
+  )
+}
