@@ -159,7 +159,7 @@ const OnboardingForm = () => {
           )}
         />
 
-        <Button disabled={isPending}>
+        <Button disabled={isPending} size='lg'>
           {isPending ? (
             <>
               <Loader2

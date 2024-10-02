@@ -100,7 +100,7 @@ const SignInWithPasswordForm = () => {
               <FormControl>
                 <Input
                   type="text"
-                  placeholder="m@example.com"
+                  placeholder="john.revalator@example.com"
                   {...field}
                 />
               </FormControl>
@@ -129,7 +129,7 @@ const SignInWithPasswordForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <Button type="submit" className="w-full" size='lg' disabled={isPending}>
           {isPending ? (
             <><Loader2 className='mr-2 h-4 w-4 animate-spin' aria-hidden='true' />Logging in...</>
           ) : (

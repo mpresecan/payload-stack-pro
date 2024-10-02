@@ -77,7 +77,7 @@ export function ForgotPasswordForm(): JSX.Element {
           )}
         />
 
-        <Button disabled={isPending}>
+        <Button disabled={isPending} size='lg'>
           {isPending ? (
             <>
               <Loader2

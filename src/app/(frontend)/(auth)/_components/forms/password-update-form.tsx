@@ -107,7 +107,7 @@ export function PasswordUpdateForm({
           )}
         />
 
-        <Button disabled={isPending}>
+        <Button disabled={isPending} size='lg'>
           {isPending ? (
             <>
               <Loader2
