@@ -8,6 +8,7 @@ import { Edit2 } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
 import Link from 'next/link'
+import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 
 
 const UserProfile = async ({ user }: { user: User }) => {
@@ -19,10 +20,7 @@ const UserProfile = async ({ user }: { user: User }) => {
         <CardHeader className="flex flex-col space-y-4">
           <div className="flex flex-col sm:flex-row items-center justify-between">
             <div className="flex items-center space-x-4">
-              <Avatar className="w-20 h-20" style={{ viewTransitionName: `user-avatar-${user.id}` }}>
-                <AvatarImage src={user.avatarUrl!} alt={user.name!} />
-                <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
-              </Avatar>
+              <UserAvatar user={user} className='w-20 h-20' />
               <div style={{ viewTransitionName: `user-info-${user.id}` }}>
                 <CardTitle className="text-2xl">{user.name}</CardTitle>
                 <CardDescription>@{user.handle}</CardDescription>

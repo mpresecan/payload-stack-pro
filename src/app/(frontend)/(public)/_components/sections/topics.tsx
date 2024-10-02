@@ -12,7 +12,6 @@ import { motion, useInView } from 'framer-motion'
 import { cn } from '@/utilities/cn'
 import { MdOutlineFormatQuote } from 'react-icons/md'
 import Section from '@/app/(frontend)/(public)/_components/section'
-import { BorderBeam } from '@/components/magicui/border-beam'
 import FlickeringGrid from '@/components/magicui/flickering-grid'
 
 type TopicDataProps = {

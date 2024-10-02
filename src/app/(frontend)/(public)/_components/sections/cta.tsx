@@ -2,8 +2,9 @@ import { Icons } from "../icons";
 import Section from "../section";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utilities/cn";
-import Link from "next/link";
 import { REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { Link } from "next-view-transitions";
+import { BiSolidChevronsRight } from 'react-icons/bi'
 
 export default function CtaSection() {
   return (
@@ -17,11 +18,11 @@ export default function CtaSection() {
         <Link
           href={REGISTRATION_PAGE}
           className={cn(
-            buttonVariants({ variant: "default" }),
+            buttonVariants({ variant: "default", size: "lg" }),
             "w-full sm:w-auto text-background flex gap-2"
           )}
         >
-          <Icons.logo className="h-6 w-6" />
+          <BiSolidChevronsRight size={27} className="h-6 w-6" />
           Get started
         </Link>
       </div>

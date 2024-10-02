@@ -6,8 +6,9 @@ import { Icons } from "../icons";
 import HeroVideoDialog from "@/components/magicui/hero-video";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utilities/cn";
-import Link from "next/link";
 import { REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { Link } from 'next-view-transitions'
+import { BiSolidChevronsRight } from 'react-icons/bi'
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -105,7 +106,7 @@ function HeroCTA() {
             "w-full sm:w-auto text-background flex gap-2"
           )}
         >
-          <Icons.logo className="h-6 w-6" />
+          <BiSolidChevronsRight size={27} className="h-6 w-6" />
           Get Started
         </Link>
       </motion.div>

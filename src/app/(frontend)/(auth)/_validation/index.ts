@@ -82,5 +82,17 @@ export const onboardingSchema = z.object({
   phone: z.string()
     .regex(/^\+?\d{10,15}$/, {
       message: "Phone number must be a valid 10-digit phone number",
+    }),
+  handle: z.string()
+    .min(2, {
+      message: "Handle must be made of at least 2 characters",
     })
+    .max(50, {
+      message: "Handle must be made of at most 50 characters",
+    }),
+  bio: z.string()
+    .max(200, {
+      message: "Bio must be made of at most 200 characters",
+    })
+    .optional(),
 });

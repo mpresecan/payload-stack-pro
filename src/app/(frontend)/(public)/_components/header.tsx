@@ -3,7 +3,6 @@
 import { buttonVariants } from '@/components/ui/button'
 
 import { cn } from '@/utilities/cn'
-import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import { Icons } from './icons'
@@ -11,6 +10,7 @@ import Drawer from './drawer'
 import { Menu } from 'lucide-react'
 import { LOGIN_PAGE, REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import { BiSolidChevronsRight } from 'react-icons/bi'
+import { Link } from 'next-view-transitions'
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -72,8 +72,8 @@ export default function Header({ className }: { className?: string }) {
                   'w-full sm:w-auto text-background flex gap-2',
                 )}
               >
-                <Icons.logo className="h-6 w-6" />
-                Get Started for Free
+                <BiSolidChevronsRight className="h-5 w-5" />
+                Get Started
               </Link>
             </div>
           </div>

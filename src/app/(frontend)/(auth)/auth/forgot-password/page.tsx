@@ -20,17 +20,16 @@ const ForgotPasswordPage = () => {
     <AuthCardWrapper
       title='Forgot Password?'
       subtitle='Enter your email to receive a reset link'
-      footer={(
-        <Link
-          aria-label="Back to the sign in page"
-          href={LOGIN_PAGE}
-          className={cn(buttonVariants({variant: "outline"}), 'w-full')}
-        >
-          Cancel
-        </Link>
-      )}
+      className='space-y-2'
     >
       <ForgotPasswordForm />
+      <Link
+        aria-label="Back to the sign in page"
+        href={LOGIN_PAGE}
+        className={cn(buttonVariants({variant: "outline"}), 'w-full')}
+      >
+        Cancel
+      </Link>
     </AuthCardWrapper>
   )
 }

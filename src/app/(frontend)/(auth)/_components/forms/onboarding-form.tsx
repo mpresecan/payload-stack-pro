@@ -16,6 +16,7 @@ import { onboardingSchema } from '../../_validation'
 import { siteConfig } from '@/config/app'
 import { ActionResultType } from '@/app/(frontend)/(auth)/auth'
 import PhoneInput from '@/components/ui/phone-input'
+import { Textarea } from '@/components/ui/textarea'
 
 const OnboardingForm = () => {
   const searchParams = useSearchParams()
@@ -100,6 +101,30 @@ const OnboardingForm = () => {
 
         <FormField
           control={form.control}
+          name="handle"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>What is Your Handle?</FormLabel>
+              <div className="flex">
+                <div
+                  className="flex items-center border border-border px-2 text-muted-foreground rounded border-r-0 cursor-default">@
+                </div>
+                <FormControl>
+                  <Input
+                    type="text"
+                    disabled={isPending}
+                    {...field}
+                    prefix="@"
+                  />
+                </FormControl>
+              </div>
+              <FormMessage className="pt-2 sm:text-sm" />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="phone"
           render={({ field }) => (
             <FormItem>
@@ -113,9 +138,25 @@ const OnboardingForm = () => {
               <FormMessage className="pt-2 sm:text-sm" />
             </FormItem>
           )}
-        >
+        />
 
-        </FormField>
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Bio</FormLabel>
+              <FormControl>
+                <Textarea
+                  placeholder="Introduce your self shortly"
+                  disabled={isPending}
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className="pt-2 sm:text-sm" />
+            </FormItem>
+          )}
+        />
 
         <Button disabled={isPending}>
           {isPending ? (

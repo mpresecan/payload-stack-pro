@@ -9,12 +9,14 @@ import TestimonialsCarousel from "./_components/sections/testimonials-carousel";
 import Topics from './_components/sections/topics'
 import FAQ from '@/app/(frontend)/(public)/_components/sections/faq'
 import CTA from '@/app/(frontend)/(public)/_components/sections/cta'
+import ThemePhoto from '@/app/(frontend)/(public)/_components/sections/theme-photo'
 export { generateMetadata }
 
 const Page = async () => {
 
   return (
     <main className="flex-grow">
+      <ThemePhoto />
       <Hero2 />
       <Logos />
       <Problem />

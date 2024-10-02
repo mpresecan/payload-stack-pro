@@ -18,13 +18,13 @@ export default function Layout({children} : React.PropsWithChildren) {
           {children}
         </div>
       </div>
-      <div className="hidden bg-muted lg:block">
+      <div className="hidden bg-background lg:block grayscale object-contain h-screen">
         <Image
-          src="/auth-bg.webp"
-          alt="Image"
+          src="/family-jesus-2nd-coming.png"
+          alt="family gazing at Jesus during His 2nd coming"
           width="1920"
           height="1080"
-          className="h-full w-full object-cover dark:brightness-[0.2]"
+          className="h-full w-full object-cover object-center dark:brightness-[0.2] pe-8"
         />
       </div>
     </div>

@@ -9,10 +9,11 @@ interface AuthCardWrapperProps {
   children: React.ReactNode
   footer?: React.ReactNode
   title: string
-  subtitle?: string
+  subtitle?: string,
+  className?: string
 }
 
-const AuthCardWrapper = ({children, title, subtitle, footer} : AuthCardWrapperProps) => {
+const AuthCardWrapper = ({children, title, subtitle, footer, className} : AuthCardWrapperProps) => {
   return (
     <div className="mx-auto grid w-[380px] gap-6 px-4">
       <motion.div
@@ -59,6 +60,7 @@ const AuthCardWrapper = ({children, title, subtitle, footer} : AuthCardWrapperPr
           ease,
           delay: 0.4,
         }}
+        className={className}
       >
         {children}
       </motion.div>
@@ -69,7 +71,7 @@ const AuthCardWrapper = ({children, title, subtitle, footer} : AuthCardWrapperPr
         transition={{
           duration: 1,
           ease,
-          delay: 0.9,
+          delay: 0.6,
         }}
       >
         {footer}
