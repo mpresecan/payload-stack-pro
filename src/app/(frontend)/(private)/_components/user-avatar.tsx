@@ -18,7 +18,7 @@ const UserAvatar = ({user, numberOfInitials = 2} : {user: User | string | null |
     return (
       <Avatar>
         <AvatarImage src={undefined} />
-        <AvatarFallback>{getInitials('undefined', numberOfInitials)}</AvatarFallback>
+        <AvatarFallback>{getInitials('deleted user', numberOfInitials)}</AvatarFallback>
       </Avatar>
     )
   }

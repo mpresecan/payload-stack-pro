@@ -201,6 +201,9 @@ importers:
       sonner:
         specifier: ^1.5.0
         version: 1.5.0(react-dom@19.0.0-rc-5dcb0097-20240918(react@19.0.0-rc-5dcb0097-20240918))(react@19.0.0-rc-5dcb0097-20240918)
+      starter-kit-payload-auth:
+        specifier: 'link:'
+        version: 'link:'
       tailwind-merge:
         specifier: ^2.3.0
         version: 2.5.2

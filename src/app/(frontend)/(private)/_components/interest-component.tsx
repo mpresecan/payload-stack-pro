@@ -88,8 +88,15 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
                   <div key={voter.id} className="flex items-center space-x-4">
                     <UserAvatar user={voter} numberOfInitials={1} />
                     <div>
-                      <p className="text-sm font-medium leading-none"><Link href={`/p/${voter.handle}`}>{voter.name}</Link></p>
-                      <p className="text-sm text-muted-foreground">@{voter.handle}</p>
+                      {typeof voter === 'string' ? (
+                          <p className="text-sm font-medium leading-none text-muted-foreground">Deleted User</p>
+                      ) : (
+                        <>
+                          <p className="text-sm font-medium leading-none"><Link
+                            href={`/p/${voter.handle}`}>{voter.name}</Link></p>
+                          <p className="text-sm text-muted-foreground">@{voter.handle}</p>
+                        </>
+                        )}
                     </div>
                   </div>
                 ))}
@@ -100,10 +107,7 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
         <div className="flex -space-x-2">
           {voters.slice(0, 3).map(voter => (
             <HoverUserCard user={voter} key={voter.id}>
-              <Avatar key={voter.id} className="inline-block border-2 border-background cursor-default">
-                <AvatarImage src={voter.avatarUrl!} alt={voter.name!} />
-                <AvatarFallback>{getInitials(voter.name)}</AvatarFallback>
-              </Avatar>
+              <UserAvatar user={voter} numberOfInitials={2} />
             </HoverUserCard>
           ))}
           {voters.length > 3 && (

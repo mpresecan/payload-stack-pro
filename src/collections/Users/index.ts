@@ -24,16 +24,16 @@ const Users: CollectionConfig = {
   },
   auth: {
     verify: {
-      generateEmailHTML: ({ token, user}) => {
-        return render(VerificationEmail({emailVerificationToken: token, user}))
-      }
+      generateEmailHTML: ({ token, user }) => {
+        return render(VerificationEmail({ emailVerificationToken: token, user }))
+      },
     },
     forgotPassword: {
       // @ts-ignore
       generateEmailHTML: ({ token, user }) => {
         return render(ForgotPasswordEmail({ resetPasswordToken: token, userName: user?.name }))
-      }
-    }
+      },
+    },
   },
   fields: [
     {
@@ -51,8 +51,8 @@ const Users: CollectionConfig = {
                   required: false,
                   saveToJWT: true,
                   admin: {
-                    width: '50%'
-                  }
+                    width: '50%',
+                  },
                 },
                 {
                   name: 'handle',
@@ -61,13 +61,13 @@ const Users: CollectionConfig = {
                   saveToJWT: true,
                   admin: {
                     width: '50%',
-                    placeholder: '@'
+                    placeholder: '@',
                   },
                   unique: true,
                   minLength: 3,
                   maxLength: 50,
-                }
-              ]
+                },
+              ],
             },
             {
               type: 'row',
@@ -86,9 +86,9 @@ const Users: CollectionConfig = {
                   options: ['active', 'suspended', 'waiting-list', 'deleted'],
                   defaultValue: 'waiting-list',
                   required: true,
-                  saveToJWT: true
+                  saveToJWT: true,
                 },
-              ]
+              ],
             },
             {
               name: 'avatarUrl',
@@ -101,8 +101,8 @@ const Users: CollectionConfig = {
             {
               name: 'bio',
               type: 'textarea',
-            }
-          ]
+            },
+          ],
         },
         {
           label: 'Interested Sessions',
@@ -112,13 +112,27 @@ const Users: CollectionConfig = {
               type: 'join',
               collection: COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES,
               on: 'user',
-            }
-          ]
+            },
+          ],
         },
-      ]
+      ],
     },
   ],
   timestamps: true,
+  hooks: { //cascade delete
+    afterDelete: [
+      async ({ req, id }) => {
+        await req.payload.delete({
+          collection: COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES,
+          where: {
+            user: {
+              equals: id,
+            }
+          },
+        })
+      },
+    ],
+  },
 }
 
 export default Users

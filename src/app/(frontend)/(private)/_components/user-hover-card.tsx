@@ -1,9 +1,4 @@
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from '@/components/ui/avatar'
-import {
   HoverCard,
   HoverCardContent,
   HoverCardTrigger,
@@ -11,25 +6,42 @@ import {
 import { CalendarIcon } from 'lucide-react'
 import { User } from '@/payload-types'
 import React from 'react'
-import { getInitials } from '@/utilities/getInitials'
 import { Link } from 'next-view-transitions'
+import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 
-export function HoverUserCard({ children, user }: { children: React.ReactNode, user: User }) {
+export function HoverUserCard({ children, user }: { children: React.ReactNode, user: User | null | undefined | string }) {
+  if(!user) {
+    return children;
+  }
+
+  if(typeof user === 'string') {
+    return (
+      <TooltipProvider>
+        <Tooltip key={user}>
+          <TooltipTrigger className='cursor-default'>
+            {children}
+          </TooltipTrigger>
+          <TooltipContent>
+            Deleted User
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    )
+  }
+
   return (
     <HoverCard>
-      <HoverCardTrigger asChild>
+      <HoverCardTrigger className='cursor-default'>
         {children}
       </HoverCardTrigger>
       <HoverCardContent className="w-80 z-40" style={{ viewTransitionName: `user-card-${user.id}` }}>
         <div className="flex justify-start space-x-4 z-40">
-          <Avatar style={{ viewTransitionName: `user-avatar-${user.id}` }}>
-            <AvatarImage src={user.avatarUrl!} alt={user.name!} />
-            <AvatarFallback>{getInitials(user.name)}</AvatarFallback>
-          </Avatar>
+          <UserAvatar user={user}/>
           <div className="space-y-1">
             <div className='space-y-1' style={{ viewTransitionName: `user-info-${user.id}` }}>
               <Link href={`/p/${user.handle}`}><h4 className="text-sm font-semibold">{user.name}</h4></Link>
-              <h3 className="text-sm">@{user.handle}</h3>
+              <h5 className="text-sm">@{user.handle}</h5>
             </div>
             {user.bio && (<p className="text-sm italic" style={{ viewTransitionName: `user-bio-${user.id}` }}>
               {user.bio.split(' ').slice(0, 10).join(' ')}...
