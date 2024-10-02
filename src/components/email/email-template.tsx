@@ -23,14 +23,14 @@ export const EmailTemplate = ({
                                 greetingName = 'there',
                                 children,
                               }: EmailTemplateProps) => {
-
+// 58 373
   return (
     <Html>
       <Head />
       <Preview>{previewText}</Preview>
       <Body>
         <Container>
-          <Logo height="58" width="373" />
+          <Logo height="20" width="223" />
           <Heading>
             {headingContent}
           </Heading>

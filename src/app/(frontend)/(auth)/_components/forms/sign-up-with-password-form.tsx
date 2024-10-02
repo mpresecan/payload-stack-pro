@@ -21,7 +21,7 @@ import { PasswordInput } from '../password-input'
 import { Loader2 } from 'lucide-react'
 import { useAuth } from '../../_providers/auth'
 import {toast} from "sonner";
-import { LOGIN_PAGE } from '../../_config/routes'
+import { SUCCESSFUL_REGISTRATION_PAGE } from '../../_config/routes'
 
 type SignUpWithPasswordFormInputs = z.infer<typeof signUpWithPasswordSchema>
 
@@ -47,7 +47,7 @@ const SignUpWithPasswordForm = () => {
           toast.success(response.success,  {
             description: response.description
           })
-          router.push(LOGIN_PAGE)
+          router.push(SUCCESSFUL_REGISTRATION_PAGE)
           return;
         }
 

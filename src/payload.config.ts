@@ -112,7 +112,7 @@ export default buildConfig({
   globals: [Header, Footer],
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'onboarding@resend.dev',
-    defaultFromName: 'Payload Stack',
+    defaultFromName: 'Advent Conference',
     apiKey: process.env.RESEND_API_KEY || '',
   }),
   plugins: [

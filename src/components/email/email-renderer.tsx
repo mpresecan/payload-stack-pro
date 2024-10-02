@@ -5,8 +5,8 @@ interface EmailRendererProps {
     reactEmail: JSX.Element;
 }
 
-const EmailRenderer = ({reactEmail} : EmailRendererProps) => {
-    const html = render(reactEmail, {
+const EmailRenderer = async ({reactEmail} : EmailRendererProps) => {
+    const html = await render(reactEmail, {
         pretty: true,
     });
 

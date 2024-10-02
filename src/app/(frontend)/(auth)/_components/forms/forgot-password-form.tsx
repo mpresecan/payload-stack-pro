@@ -20,7 +20,7 @@ import { Loader2 } from 'lucide-react'
 import { JSX } from 'react'
 import { forgotPasswordSchema } from 'src/app/(frontend)/(auth)/_validation'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
-import { LOGIN_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { SUCCESSFUL_PASSWORD_RESET_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 
 
 type PasswordResetFormInputs = z.infer<typeof forgotPasswordSchema>
@@ -45,7 +45,7 @@ export function ForgotPasswordForm(): JSX.Element {
         toast.success('Success!', {
           description: 'Check your inbox and reset your password',
         })
-        router.push(LOGIN_PAGE)
+        router.push(SUCCESSFUL_PASSWORD_RESET_PAGE)
         return;
 
       } catch (error) {

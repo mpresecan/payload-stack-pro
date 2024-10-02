@@ -2,6 +2,8 @@
 // AUTH PAGES
 export const LOGIN_PAGE = '/login'
 export const REGISTRATION_PAGE = '/register'
+export const SUCCESSFUL_REGISTRATION_PAGE = '/auth/successful-registration'
+export const SUCCESSFUL_PASSWORD_RESET_PAGE = '/auth/password-reset-successful'
 export const RESET_PASSWORD_PAGE = '/auth/reset-password'
 export const FORGOT_PASSWORD_PAGE = '/auth/forgot-password'
 export const VERIFY_EMAIL_PAGE = '/auth/verify-email'
@@ -32,8 +34,10 @@ export const publicRoutes = [
   HELP_CENTER_PAGE,
   TOS_PAGE,
   PRIVACY_PAGE,
-  '/email',
+  '/email-preview',
   '/test',
+  SUCCESSFUL_REGISTRATION_PAGE,
+  SUCCESSFUL_PASSWORD_RESET_PAGE,
 ]
 
 /**
