@@ -5,12 +5,11 @@ import { buttonVariants } from '@/components/ui/button'
 import { cn } from '@/utilities/cn'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { Icons } from './icons'
 import Drawer from './drawer'
-import { Menu } from 'lucide-react'
 import { LOGIN_PAGE, REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import { BiSolidChevronsRight } from 'react-icons/bi'
 import { Link } from 'next-view-transitions'
+import Menu from '../_components/menu'
 
 const ease = [0.16, 1, 0.3, 1];
 

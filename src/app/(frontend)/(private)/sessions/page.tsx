@@ -10,6 +10,15 @@ import FetchLoader from '@/app/(frontend)/(private)/sessions/_components/fetch-l
 import { ContentLayout } from '@/components/admin-panel/content-layout'
 import TopDownAnimation from '@/components/animations/top-down'
 import ProposeSessionButton from '@/app/(frontend)/(private)/sessions/_components/propose-session-button'
+import { Metadata } from 'next'
+
+const domain = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(domain),
+  title: "Sessions",
+  description: "Vote for the session you would like to participate",
+}
 
 const SessionsPage = async () => {
 

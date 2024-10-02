@@ -1,14 +1,12 @@
 import React from 'react'
 import { User } from '@/payload-types'
 import { Card, CardDescription, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { getInitials } from '@/utilities/getInitials'
 import { Button } from '@/components/ui/button'
 import { Edit2 } from 'lucide-react'
 import { Label } from '@/components/ui/label'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
-import Link from 'next/link'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
+import { Link } from 'next-view-transitions'
 
 
 const UserProfile = async ({ user }: { user: User }) => {

@@ -13,8 +13,34 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { Link } from 'next-view-transitions'
+import { Metadata, ResolvingMetadata } from 'next'
 
-const Session = async ({ params }: { params: { id: string } }) => {
+type Props = {
+  params: { id: string }
+}
+
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  // Fetch the session data
+  const session = await getSession(params.id)
+
+  // If session doesn't exist, return default metadata
+  if (!session) {
+    return {
+      title: 'Session Not Found',
+    }
+  }
+
+  // Generate the metadata based on the session data
+  return {
+    title: session.title,
+    description: session.shortDescription || 'Session',
+  }
+}
+
+const Session = async ({ params }: Props) => {
   const session = await getSession(params.id)
 
   if (!session) {

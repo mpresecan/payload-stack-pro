@@ -40,7 +40,7 @@ export function HoverUserCard({ children, user }: { children: React.ReactNode, u
           <UserAvatar user={user}/>
           <div className="space-y-1">
             <div className='space-y-1' style={{ viewTransitionName: `user-info-${user.id}` }}>
-              <Link href={`/p/${user.handle}`}><h4 className="text-sm font-semibold">{user.name}</h4></Link>
+              <Link href={`/user/${user.handle}`}><h4 className="text-sm font-semibold">{user.name}</h4></Link>
               <h5 className="text-sm">@{user.handle}</h5>
             </div>
             {user.bio && (<p className="text-sm italic" style={{ viewTransitionName: `user-bio-${user.id}` }}>

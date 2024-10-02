@@ -20,7 +20,7 @@ const SuggestedBy = ({suggestedBy, styles} : {suggestedBy: string | User | null 
             <AvatarImage src={suggestedByUser.avatarUrl!} alt={suggestedByUser.name!} />
             <AvatarFallback>{getInitials(suggestedByUser.name, 1)}</AvatarFallback>
           </Avatar>
-          <Link href={`/p/${suggestedByUser.handle}`}>{suggestedByUser.name}</Link>
+          <Link href={`/user/${suggestedByUser.handle}`}>{suggestedByUser.name}</Link>
         </span>
       ) : (<span className="italic">Suggested by admin</span>)}
     </div>

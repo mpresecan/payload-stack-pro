@@ -9,6 +9,15 @@ import FetchLoader from '@/app/(frontend)/(private)/sessions/_components/fetch-l
 import { ContentLayout } from '@/components/admin-panel/content-layout'
 import TopDownAnimation from '@/components/animations/top-down'
 import SuggestTopicButton from '@/app/(frontend)/(private)/topic-suggestions/_components/suggest-topic-button'
+import { Metadata } from 'next'
+
+const domain = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(domain),
+  title: "Topic Suggestions",
+  description: "Vote for the topics which interest you",
+}
 
 const SessionsPage = async () => {
 

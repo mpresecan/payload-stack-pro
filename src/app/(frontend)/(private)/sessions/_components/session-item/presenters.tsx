@@ -19,7 +19,7 @@ const Presenters = ({presenters, styles} : {presenters?: (string | User)[] | nul
             <AvatarImage src={presenter.avatarUrl!} alt={presenter.name!} />
             <AvatarFallback>{getInitials(presenter.name, 1)}</AvatarFallback>
           </Avatar>
-          <Link href={`/p/${presenter.handle}`}>{presenter.name}</Link>
+          <Link href={`/user/${presenter.handle}`}>{presenter.name}</Link>
         </span>
       )) : (<span className="italic">No presenters</span>)}
     </div>

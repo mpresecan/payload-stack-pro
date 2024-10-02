@@ -4,8 +4,17 @@ import { getPayload } from '@/lib/payload'
 import { COLLECTION_SLUG_USERS } from '@/collections/slugs'
 import NotFound from '@/app/not-found'
 import { User } from '@/payload-types'
-import UserProfile from '@/app/(frontend)/(private)/p/[handle]/_components/user-profile'
+import UserProfile from '@/app/(frontend)/(private)/user/[handle]/_components/user-profile'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
+import { Metadata } from 'next'
+
+const domain = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(domain),
+  title: "My Profile",
+  description: "Your profile",
+}
 
 const UserProfilePage = async () => {
 

@@ -66,7 +66,7 @@ export default function NavigationMenuDemo() {
             ) : (
               <Link
                 href={item.href || ""}
-                target="_arya"
+                target={item.newTab ? '_blank' : '_arya'}
                 legacyBehavior
                 passHref
               >

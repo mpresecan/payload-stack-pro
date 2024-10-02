@@ -1,12 +1,18 @@
 import React from 'react'
-import { Label } from '@/components/ui/label'
-import { Input } from '@/components/ui/input'
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { PasswordField } from '../_components/password-field'
 import { LOGIN_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import AuthCardWrapper from '../_components/auth-card-wrapper'
 import SignUpWithPasswordForm from '@/app/(frontend)/(auth)/_components/forms/sign-up-with-password-form'
+import { Metadata } from 'next'
+import { siteConfig } from '@/config/app'
+
+const domain = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
+
+export const metadata: Metadata = {
+  metadataBase: new URL(domain),
+  title: "Register",
+  description: `Create an account for ${siteConfig.name}`,
+}
 
 const SingUpPage = () => {
   return (

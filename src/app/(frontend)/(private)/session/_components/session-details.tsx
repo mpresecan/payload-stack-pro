@@ -28,7 +28,7 @@ const SessionDetails = ({ session, topic = false }: { session: SessionEvent, top
                   <AvatarImage src={presenter.avatarUrl!} alt={presenter.name!} />
                   <AvatarFallback>{getInitials(presenter.name)}</AvatarFallback>
                 </Avatar>
-                <span className="font-medium"><Link href={`/p/${presenter.handle}`}>{presenter.name}</Link></span>
+                <span className="font-medium"><Link href={`/user/${presenter.handle}`}>{presenter.name}</Link></span>
               </div>)
             })}
           </div>

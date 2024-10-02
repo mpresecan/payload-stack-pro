@@ -93,7 +93,7 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
                       ) : (
                         <>
                           <p className="text-sm font-medium leading-none"><Link
-                            href={`/p/${voter.handle}`}>{voter.name}</Link></p>
+                            href={`/user/${voter.handle}`}>{voter.name}</Link></p>
                           <p className="text-sm text-muted-foreground">@{voter.handle}</p>
                         </>
                         )}

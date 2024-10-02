@@ -3,10 +3,11 @@ import { User } from '@/payload-types'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { getInitials } from '@/utilities/getInitials'
 
-const UserAvatar = ({ user, numberOfInitials = 2, className }: {
+const UserAvatar = ({ user, numberOfInitials = 2, className, fallbackClassName }: {
   user: User | string | null | undefined,
   numberOfInitials?: number,
-  className?: string
+  className?: string,
+  fallbackClassName?: string
 }) => {
 
   if (!user) {
@@ -22,7 +23,7 @@ const UserAvatar = ({ user, numberOfInitials = 2, className }: {
     return (
       <Avatar className={className}>
         <AvatarImage src={undefined} />
-        <AvatarFallback>{getInitials('deleted user', numberOfInitials)}</AvatarFallback>
+        <AvatarFallback className={fallbackClassName}>{getInitials('deleted user', numberOfInitials)}</AvatarFallback>
       </Avatar>
     )
   }
@@ -30,7 +31,7 @@ const UserAvatar = ({ user, numberOfInitials = 2, className }: {
   return (
     <Avatar className={className} >
       <AvatarImage src={user.avatarUrl!} alt={user.name!} />
-      <AvatarFallback>{getInitials(user.name, numberOfInitials)}</AvatarFallback>
+      <AvatarFallback className={fallbackClassName}>{getInitials(user.name, numberOfInitials)}</AvatarFallback>
     </Avatar>
   )
 }
