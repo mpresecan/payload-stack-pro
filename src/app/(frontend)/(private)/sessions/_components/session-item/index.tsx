@@ -13,28 +13,36 @@ import { Link } from 'next-view-transitions'
 import SuggestedBy from '@/app/(frontend)/(private)/sessions/_components/session-item/sugessted-by'
 
 const SessionComponent = ({ session, currentUser }: { session: SessionEvent, currentUser?: User | null | undefined }) => {
-
   const [showMore, setShowMore] = useState(false)
 
   const voters: User[] = session.interestedUsers?.docs?.map(voter => (voter as SessionInterestedAttendee).user as User) || []
   const tags: SessionTag[] = session.tags.map(tag => tag as SessionTag)
 
   return (
-    <Card className="overflow-visible mb-4" style={{ viewTransitionName: `card-session-${session.id}` }}>
+    <Card className="overflow-visible mb-4 relative" style={{ viewTransitionName: `card-session-${session.id}` }}>
       <CardContent className="p-4">
         <div className="flex flex-wrap justify-between items-start mb-2">
-          <div>
+          <div className="w-full">
             <Link href={session.status === 'wished' ? `/suggested-topic/${session.id}` : `/session/${session.id}`}>
               <h2 className="text-lg font-semibold"
                   style={{ viewTransitionName: `session-title-${session.id}` }}>{session.title}</h2>
             </Link>
-            {session.status !== 'wished' && <Presenters presenters={session.presenters} styles={{ viewTransitionName: `session-presenters-${session.id}` }} />}
-            {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}
+            {session.status !== 'wished' && (
+              <div className="relative z-20">
+                <Presenters presenters={session.presenters} styles={{ viewTransitionName: `session-presenters-${session.id}` }} />
+              </div>
+            )}
+            {session.status === 'wished' && (
+              <div className="relative z-20">
+                <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />
+              </div>)}
           </div>
-          <StatusBadge status={session.status} scheduledAt={session.scheduledAt}
-                       styles={{ viewTransitionName: `session-status-badge-${session.id}` }} />
+          <div className="absolute top-2 right-2 z-10">
+            <StatusBadge status={session.status} scheduledAt={session.scheduledAt}
+                         styles={{ viewTransitionName: `session-status-badge-${session.id}` }} />
+          </div>
         </div>
-        <div className="relative z-10">
+        <div className="relative z-10 mt-2">
           <InterestComponent session={session} refetchSessions={true} user={currentUser} />
         </div>
         <div className="mt-2 relative z-0">

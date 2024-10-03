@@ -14,14 +14,14 @@ import { Edit } from 'lucide-react'
 
 const SessionDetails = async ({ session, topic = false }: { session: SessionEvent, topic?: boolean }) => {
   const user = await sessionUser();
-  const presenters = session.presenters as User[];
+  const presenters = session.presenters as User[] | undefined;
 
   return (
     <>
       <CardHeader className="space-y-6">
         <div className="flex justify-between items-start">
           <CardTitle className="text-3xl font-bold pr-4" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</CardTitle>
-          {user && presenters.some(presenter => presenter.id === user.id) &&
+          {user && presenters && presenters.some(presenter => presenter.id === user.id) &&
             <Button asChild size="sm" variant="ghost" className="text-muted-foreground">
             <Link href={`/session/${session.id}/edit`}><Edit className="w-5 h-5" /></Link>
           </Button>}

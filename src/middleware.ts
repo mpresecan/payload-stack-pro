@@ -67,6 +67,10 @@ export default async function middleware(request: NextRequest) {
     return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
   }
 
+  // give the waiting-list users access to public routes
+  if (user?.status === 'waiting-list' && isPublicRoute) {
+    return null;
+  }
 
   // prevent waiting-list user to use private routes
   if (user?.status === 'waiting-list' && nextUrl.pathname !== WAITING_LIST_PAGE && nextUrl.pathname !== ONBOARDING_PAGE) {

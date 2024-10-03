@@ -13,7 +13,7 @@ const UserProfile = async ({ user }: { user: User }) => {
   const currentUser = await sessionUser()
 
   return (
-    <div className="container mx-auto p-6 max-w-3xl">
+    <div className="container mx-auto p-0 max-w-3xl">
       <Card style={{ viewTransitionName: `user-card-${user.id}` }}>
         <CardHeader className="flex flex-col space-y-4">
           <div className="flex flex-col sm:flex-row items-center justify-between">

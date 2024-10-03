@@ -62,7 +62,7 @@ const SuggestedTopicPage = async ({ params }: Props) => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
+      <div className="container mx-auto p-0 sm:px-8 max-w-4xl xl:px-4">
         <Card className="w-full max-w-4xl mx-auto" style={{viewTransitionName: `card-session-${session.id}`}}>
           {/*<Suspense>*/}
           <SessionDetails session={session} topic={true} />
