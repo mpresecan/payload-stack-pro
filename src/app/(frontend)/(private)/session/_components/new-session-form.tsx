@@ -20,8 +20,13 @@ import { newSessionSchema } from '../_validation'
 import { Editor } from '@/components/editor'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
-import { useState } from 'react'
+import { useState, useTransition } from 'react'
 import { MultiSelect } from '@/components/ui/multi-select'
+import { SessionTag } from '@/payload-types'
+import { toast } from 'sonner'
+import { addNewSession } from '@/app/(frontend)/(private)/session/_actions/add-new-session'
+import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 // Extract max lengths from Zod schema
 const MAX_TITLE_LENGTH = newSessionSchema.shape.title.maxLength
@@ -29,20 +34,7 @@ const MAX_SUMMARY_LENGTH = newSessionSchema.shape.shortDescription.maxLength
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
-type SelectItem = Record<'value' | 'label', string>;
-
-const FRAMEWORKS = [{ value: 'next.js', label: 'Next.js' }, {
-  value: 'sveltekit',
-  label: 'SvelteKit',
-}, { value: 'nuxt.js', label: 'Nuxt.js' }, { value: 'remix', label: 'Remix' }, {
-  value: 'astro',
-  label: 'Astro',
-}, { value: 'wordpress', label: 'WordPress' }, { value: 'express.js', label: 'Express.js' }, {
-  value: 'nest.js',
-  label: 'Nest.js',
-}] satisfies SelectItem[]
-
-const NewSessionForm = () => {
+const NewSessionForm = ({tags} : {tags: SessionTag[]}) => {
   const form = useForm<NewSessionFormValues>({
     resolver: zodResolver(newSessionSchema),
     defaultValues: {
@@ -50,11 +42,24 @@ const NewSessionForm = () => {
       shortDescription: '',
     },
   })
+  const [isPending, startTransition] = useTransition()
   const { user } = useAuth()
   const [isTitleFocused, setIsTitleFocused] = useState(false)
+  const router = useRouter();
 
-  function onSubmit(values: NewSessionFormValues) {
-    console.log(values)
+  async function onSubmit(values: NewSessionFormValues) {
+    startTransition(async () => {
+      try {
+        const results = await addNewSession(values)
+        toast.success('Session created!')
+        router.push(`/session/${results.id}`)
+      } catch (error) {
+        console.error(error)
+        toast.error('Failed to create session', {
+          description: error.message,
+        })
+      }
+    })
   }
 
   return (
@@ -145,15 +150,16 @@ const NewSessionForm = () => {
             />
             <FormField
               control={form.control}
-              name="frameworks"
+              name="tags"
               render={({ field }) => (
                 <FormItem className='mt-6'>
                   <FormLabel className="text-lg font-semibold">Tags</FormLabel>
                   <FormControl>
-                    <MultiSelect options={FRAMEWORKS} placeholder="Select frameworks..." {...field} />
+                    {/*@ts-ignore*/}
+                    <MultiSelect options={tags.map((tag) => { return {value: tag.id, label: tag.name}})} placeholder="Select tags..." {...field} />
                   </FormControl>
                   <FormDescription className="text-sm text-muted-foreground mt-2">
-                    It is important to select correct frameworks to attract the right audience.
+                    It is important to select correct tags to attract the right audience.
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -161,7 +167,20 @@ const NewSessionForm = () => {
             />
           </CardContent>
           <CardFooter>
-            <Button type="submit" className="w-full">Submit</Button>
+            <Button className='w-full' size='lg'>
+              {isPending ? (
+                <>
+                  <Loader2
+                    className="mr-2 h-4 w-4 animate-spin"
+                    aria-hidden="true"
+                  />
+                  <span>Pending...</span>
+                </>
+              ) : (
+                <span>Submit</span>
+              )}
+              <span className="sr-only">Add new session</span>
+            </Button>
           </CardFooter>
         </form>
       </Form>

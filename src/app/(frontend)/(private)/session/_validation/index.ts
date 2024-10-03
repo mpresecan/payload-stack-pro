@@ -12,5 +12,5 @@ export const newSessionSchema = z.object({
   fullDescription: z.string()
     .max(5000, "Full description should not be longer than 5000 characters")
     .optional(),
-  frameworks: z.array(z.string()).min(1, "Framework is required"),
+  tags: z.array(z.string()).min(1, "Tag is required"),
 })
