@@ -1,5 +1,3 @@
-"use client";
-
 import * as React from "react";
 import { X } from "lucide-react";
 
@@ -31,13 +29,13 @@ export function MultiSelect({
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState("");
 
-  const selected = React.useMemo(() =>
-      value.map(v => options.find(opt => opt.value === v)).filter(Boolean) as Framework[],
+  const selected = React.useMemo(
+    () => value.map(v => options.find(opt => opt.value === v)).filter(Boolean) as Framework[],
     [value, options]
   );
 
-  const selectables = React.useMemo(() =>
-      options.filter((framework) => !value.includes(framework.value)),
+  const selectables = React.useMemo(
+    () => options.filter((framework) => !value.includes(framework.value)),
     [options, value]
   );
 
@@ -45,9 +43,12 @@ export function MultiSelect({
     onChange?.(value.filter(v => v !== framework.value));
   }, [onChange, value]);
 
-  const handleSelect = React.useCallback((framework: Framework) => {
+  const handleSelect = React.useCallback((framework: Framework, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     onChange?.(value.concat(framework.value));
     setInputValue("");
+    setOpen(true); // Keep the dropdown open
     inputRef.current?.focus();
   }, [onChange, value]);
 
@@ -86,10 +87,6 @@ export function MultiSelect({
                       handleUnselect(framework);
                     }
                   }}
-                  onMouseDown={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                  }}
                   onClick={() => handleUnselect(framework)}
                 >
                   <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
@@ -117,11 +114,7 @@ export function MultiSelect({
                   return (
                     <CommandItem
                       key={framework.value}
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                      }}
-                      onSelect={() => handleSelect(framework)}
+                      onMouseDown={(e) => handleSelect(framework, e)}
                       className={"cursor-pointer"}
                     >
                       {framework.label}

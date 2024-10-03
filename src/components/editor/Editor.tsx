@@ -1,5 +1,6 @@
 'use client'
 
+import * as React from 'react'
 import { CodeNode } from "@lexical/code"
 import { AutoLinkNode, LinkNode } from "@lexical/link"
 import { ListItemNode, ListNode } from "@lexical/list"
@@ -27,7 +28,6 @@ import {
 } from "./context/EditorHistoryState"
 import { cn } from "@/utilities/cn"
 import { EditorState } from 'lexical'
-import { useState } from 'react'
 
 export const EDITOR_NAMESPACE = "lexical-full-width-editor"
 
@@ -60,6 +60,21 @@ export function Editor({
                          maxCharacters = 5000,
                          placeholder = 'Start writing...'
                        }: EditorProps) {
+  const editorRef = React.useRef<HTMLDivElement>(null)
+
+  React.useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (editorRef.current && !editorRef.current.contains(event.target as Node)) {
+        onBlur()
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [onBlur])
+
   return (
     <div
       id="editor-wrapper"
@@ -112,11 +127,12 @@ type LexicalEditorProps = {
 function LexicalEditor({
                          config,
                          onChange,
+                         onBlur,
                          maxCharacters,
                          placeholder
                        }: LexicalEditorProps) {
   const { historyState } = useEditorHistoryState()
-  const [characterCount, setCharacterCount] = useState(0)
+  const [characterCount, setCharacterCount] = React.useState(0)
 
   return (
     <LexicalComposer initialConfig={config}>

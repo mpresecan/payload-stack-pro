@@ -141,7 +141,11 @@ const NewSessionForm = () => {
                 <FormItem className="mt-6">
                   <FormLabel className="text-lg font-semibold">Full Description</FormLabel>
                   <FormControl>
-                    <Editor {...field} placeholder="Enter a full description (optional)" />
+                    <Editor
+                      {...field}
+                      placeholder="Enter a full description (optional)"
+                      onBlur={field.onBlur}
+                    />
                   </FormControl>
                   <FormDescription className="text-sm text-muted-foreground mt-2">
                     A detailed description of your session (optional, max 5000 characters).
@@ -156,7 +160,13 @@ const NewSessionForm = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Frameworks</FormLabel>
-                  <MultiSelect options={FRAMEWORKS} placeholder="Select frameworks..." {...field} />
+                  <FormControl>
+                    <MultiSelect options={FRAMEWORKS} placeholder="Select frameworks..." {...field} />
+                  </FormControl>
+                  <FormDescription className="text-sm text-muted-foreground mt-2">
+                    It is important to select correct frameworks to attract the right audience.
+                  </FormDescription>
+                  <FormMessage />
                 </FormItem>
               )}
             />
