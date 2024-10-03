@@ -26,9 +26,9 @@ const NewSessionPage = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
+      {/*<div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">*/}
         <NewSessionForm />
-      </div>
+      {/*</div>*/}
     </ContentLayout>
   )
 }

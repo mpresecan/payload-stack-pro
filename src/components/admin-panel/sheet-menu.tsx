@@ -10,6 +10,7 @@ import {
   SheetTrigger,
   SheetTitle
 } from "@/components/ui/sheet";
+import { BiSolidChevronsRight } from 'react-icons/bi'
 
 export function SheetMenu() {
   return (
@@ -26,9 +27,9 @@ export function SheetMenu() {
             variant="link"
             asChild
           >
-            <Link href="/dashboard" className="flex items-center gap-2">
-              <PanelsTopLeft className="w-6 h-6 mr-1" />
-              <SheetTitle className="font-bold text-lg">Brand</SheetTitle>
+            <Link href="/sessions" className="flex items-center gap-2">
+              <BiSolidChevronsRight size={27} className="text-primary" />
+              <SheetTitle className="font-bold text-lg">adventconference</SheetTitle>
             </Link>
           </Button>
         </SheetHeader>

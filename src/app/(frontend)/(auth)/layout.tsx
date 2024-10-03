@@ -24,7 +24,7 @@ export default function Layout({children} : React.PropsWithChildren) {
           alt="family gazing at Jesus during His 2nd coming"
           width="1920"
           height="1080"
-          className="h-full w-full object-cover object-center dark:brightness-[0.2] pe-8"
+          className="h-full w-full object-cover object-center dark:brightness-[0.2]"
         />
       </div>
     </div>
