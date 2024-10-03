@@ -44,7 +44,7 @@ const EDITOR_NODES = [
 type EditorProps = {
   className?: string
   name: string
-  value: string
+  value?: string
   onChange: (value: string) => void
   onBlur: () => void
   maxCharacters?: number
@@ -111,9 +111,7 @@ type LexicalEditorProps = {
 
 function LexicalEditor({
                          config,
-                         name,
                          onChange,
-                         onBlur,
                          maxCharacters,
                          placeholder
                        }: LexicalEditorProps) {

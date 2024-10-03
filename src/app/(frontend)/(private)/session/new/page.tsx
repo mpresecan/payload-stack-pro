@@ -7,10 +7,8 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb'
 import { Link } from 'next-view-transitions'
-import { Card, CardHeader } from '@/components/ui/card'
-import { Editor } from '@/components/editor'
 import { ContentLayout } from '@/components/admin-panel/content-layout'
-import { EditorField } from '@/components/editor/editor-field'
+import NewSessionForm from '../_components/new-session-form'
 
 const NewSessionPage = () => {
   return (
@@ -29,11 +27,7 @@ const NewSessionPage = () => {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
-        <Card className="w-full max-w-4xl mx-auto">
-          <CardHeader>
-            <EditorField />
-          </CardHeader>
-        </Card>
+        <NewSessionForm />
       </div>
     </ContentLayout>
   )
