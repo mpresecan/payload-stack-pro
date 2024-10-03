@@ -74,7 +74,7 @@ const NewSessionForm = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <CardHeader className="pb-0">
             <div className="flex items-center space-x-4">
-              <UserAvatar user={user} numberOfInitials={1} />
+              <UserAvatar user={user} className='w-16 h-16' />
               <FormField
                 control={form.control}
                 name="title"
@@ -106,7 +106,7 @@ const NewSessionForm = () => {
               />
             </div>
           </CardHeader>
-          <CardContent>
+          <CardContent className='space-y-2'>
             <FormField
               control={form.control}
               name="shortDescription"
@@ -158,8 +158,8 @@ const NewSessionForm = () => {
               control={form.control}
               name="frameworks"
               render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Frameworks</FormLabel>
+                <FormItem className='mt-6'>
+                  <FormLabel className="text-lg font-semibold">Tags</FormLabel>
                   <FormControl>
                     <MultiSelect options={FRAMEWORKS} placeholder="Select frameworks..." {...field} />
                   </FormControl>
