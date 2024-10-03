@@ -21,12 +21,37 @@ import { Editor } from '@/components/editor'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import { useState } from 'react'
+import { MultiSelect } from '@/components/ui/multi-select'
 
 // Extract max lengths from Zod schema
 const MAX_TITLE_LENGTH = newSessionSchema.shape.title.maxLength
 const MAX_SUMMARY_LENGTH = newSessionSchema.shape.shortDescription.maxLength
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
+
+type Framework = Record<'value' | 'label', string>;
+
+// const FRAMEWORKS = [
+//   { key: 'next.js', value: 'Next.js' },
+//   { key: 'sveltekit', value: 'SvelteKit' },
+//   { key: 'nuxt.js', value: 'Nuxt.js' },
+//   { key: 'remix', value: 'Remix' },
+//   { key: 'astro', value: 'Astro' },
+//   { key: 'wordpress', value: 'WordPress' },
+//   { key: 'express.js', value: 'Express.js' },
+//   { key: 'nest.js', value: 'Nest.js' },
+// ]
+
+const FRAMEWORKS = [{ value: 'next.js', label: 'Next.js' }, {
+  value: 'sveltekit',
+  label: 'SvelteKit',
+}, { value: 'nuxt.js', label: 'Nuxt.js' }, { value: 'remix', label: 'Remix' }, {
+  value: 'astro',
+  label: 'Astro',
+}, { value: 'wordpress', label: 'WordPress' }, { value: 'express.js', label: 'Express.js' }, {
+  value: 'nest.js',
+  label: 'Nest.js',
+}] satisfies Framework[]
 
 const NewSessionForm = () => {
   const form = useForm<NewSessionFormValues>({
@@ -122,6 +147,16 @@ const NewSessionForm = () => {
                     A detailed description of your session (optional, max 5000 characters).
                   </FormDescription>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="frameworks"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Frameworks</FormLabel>
+                  <MultiSelect options={FRAMEWORKS} placeholder="Select frameworks..." {...field} />
                 </FormItem>
               )}
             />
