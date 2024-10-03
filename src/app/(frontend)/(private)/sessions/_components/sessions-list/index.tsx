@@ -43,7 +43,7 @@ const SessionsList = ({topicList = false, currentUser} : {topicList?: boolean, c
                   exit={{ opacity: 0, transition: { duration: 0.1 }}}
                   transition={{ duration: 0.3 }}
                   className={'relative'}
-                  style={{ zIndex: sessionDocs.docs.length - index }}
+                  style={{ zIndex: sessionDocs.totalDocs - index + 1 }}
                 >
                   <Session session={session} currentUser={currentUser} />
                 </motion.div>
