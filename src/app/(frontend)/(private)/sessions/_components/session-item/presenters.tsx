@@ -1,8 +1,7 @@
 import React from 'react'
 import { User } from '@/payload-types'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { getInitials } from '@/utilities/getInitials'
 import { Link } from 'next-view-transitions'
+import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 
 const Presenters = ({presenters, styles} : {presenters?: (string | User)[] | null, styles: React.CSSProperties}) => {
   const presentersUser: User[] = presenters as User[]
@@ -15,10 +14,7 @@ const Presenters = ({presenters, styles} : {presenters?: (string | User)[] | nul
     <div className="text-sm text-muted-foreground mt-1" style={styles}>
       {presentersUser.length > 0 && (typeof presenters.at(0) !== 'string') ? presentersUser.map((presenter: User, index) => (
         <span key={index} className="inline-flex items-center mr-2">
-          <Avatar className="w-5 h-5 mr-1">
-            <AvatarImage src={presenter.avatarUrl!} alt={presenter.name!} />
-            <AvatarFallback>{getInitials(presenter.name, 1)}</AvatarFallback>
-          </Avatar>
+          <UserAvatar user={presenter} className="w-5 h-5 mr-1" numberOfInitials={1} />
           <Link href={`/user/${presenter.handle}`}>{presenter.name}</Link>
         </span>
       )) : (<span className="italic">No presenters</span>)}

@@ -11,6 +11,7 @@ import { ContentLayout } from '@/components/admin-panel/content-layout'
 import TopDownAnimation from '@/components/animations/top-down'
 import ProposeSessionButton from '@/app/(frontend)/(private)/sessions/_components/propose-session-button'
 import { Metadata } from 'next'
+import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
 
 const domain = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
 
@@ -23,6 +24,7 @@ export const metadata: Metadata = {
 const SessionsPage = async () => {
 
   const sessions = await getSessionsBySearchParams()
+  const currentUser = await sessionUser();
 
   return (
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
@@ -43,7 +45,7 @@ const SessionsPage = async () => {
             </TopDownAnimation>
             <SessionTags />
             <FetchLoader />
-            <SessionsList />
+            <SessionsList currentUser={currentUser} />
           </SessionFilterProvider>
         </Suspense>
       </div>

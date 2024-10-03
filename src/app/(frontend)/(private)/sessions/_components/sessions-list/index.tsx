@@ -5,8 +5,9 @@ import { useSessionFilter } from '@/app/(frontend)/(private)/sessions/_providers
 import { AnimatePresence, motion } from 'framer-motion'
 import SessionSkeleton from '@/app/(frontend)/(private)/sessions/_components/session-item/session-skeleton'
 import Session from '../session-item'
+import { User } from '@/payload-types'
 
-const SessionsList = ({topicList = false} : {topicList?: boolean}) => {
+const SessionsList = ({topicList = false, currentUser} : {topicList?: boolean, currentUser?: User | null | undefined}) => {
   const { sessionDocs, isLoading } = useSessionFilter()
 
   return (
@@ -44,7 +45,7 @@ const SessionsList = ({topicList = false} : {topicList?: boolean}) => {
                   className={'relative'}
                   style={{ zIndex: sessionDocs.docs.length - index }}
                 >
-                  <Session session={session} />
+                  <Session session={session} currentUser={currentUser} />
                 </motion.div>
               ))}
             </AnimatePresence>

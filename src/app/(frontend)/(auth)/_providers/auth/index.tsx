@@ -140,7 +140,7 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
             {
               method: 'GET',
               cache: 'force-cache',
-              next: { revalidate: 600 },
+              next: { revalidate: 60 },
             },
           )
           setUser(user)

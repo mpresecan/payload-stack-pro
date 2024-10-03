@@ -15,20 +15,18 @@ import {
 } from '@/components/ui/dialog'
 import { ScrollArea } from '@/components/ui/scroll-area'
 
-import { SessionEvent } from '@/payload-types'
+import { SessionEvent, User } from '@/payload-types'
 import { useInterestedUsers } from '../sessions/hooks/useInterestedUsers'
-import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
-import { getInitials } from '@/utilities/getInitials'
 import { HoverUserCard } from '@/app/(frontend)/(private)/_components/user-hover-card'
 import { Link } from 'next-view-transitions'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 
-const InterestComponent = ({ session, refetchSessions = false, bigButton = false }: {
+const InterestComponent = ({ session, refetchSessions = false, bigButton = false, user }: {
   session: SessionEvent,
   refetchSessions?: boolean,
-  bigButton?: boolean
+  bigButton?: boolean,
+  user?: User | null | undefined
 }) => {
-  const { user } = useAuth()
   const shouldVote = !['live', 'finished', 'cancelled'].includes(session.status)
 
   const {

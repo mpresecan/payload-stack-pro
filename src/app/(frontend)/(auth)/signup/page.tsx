@@ -17,8 +17,8 @@ export const metadata: Metadata = {
 const SingUpPage = () => {
   return (
     <AuthCardWrapper
-      title="Register"
-      subtitle="Enter your information to create an account account"
+      title="Sign Up"
+      subtitle="Enter your information to create an account"
       footer={(
         <div className="mt-4 text-center text-sm">
           Already have an account?{' '}

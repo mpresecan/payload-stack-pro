@@ -6,7 +6,7 @@ import { cn } from '@/utilities/cn'
 import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import Drawer from './drawer'
-import { LOGIN_PAGE, REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { LOGIN_PAGE, SIGNUP_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import { BiSolidChevronsRight } from 'react-icons/bi'
 import { Link } from 'next-view-transitions'
 import Menu from '../_components/menu'
@@ -65,7 +65,7 @@ export default function Header({ className }: { className?: string }) {
                 Login
               </Link>
               <Link
-                href={REGISTRATION_PAGE}
+                href={SIGNUP_PAGE}
                 className={cn(
                   buttonVariants({ variant: 'default' }),
                   'w-full sm:w-auto text-background flex gap-2',

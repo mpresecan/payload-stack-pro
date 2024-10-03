@@ -6,15 +6,14 @@ import { Button } from '@/components/ui/button'
 import { AnimatePresence, motion } from 'framer-motion'
 import { ChevronDownIcon, ChevronUpIcon, TagIcon } from 'lucide-react'
 import { SessionEvent, SessionInterestedAttendee, SessionTag, User } from '@/payload-types'
-import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import Presenters from './presenters'
 import StatusBadge from '@/app/(frontend)/(private)/_components/status-badge'
 import InterestComponent from '@/app/(frontend)/(private)/_components/interest-component'
 import { Link } from 'next-view-transitions'
 import SuggestedBy from '@/app/(frontend)/(private)/sessions/_components/session-item/sugessted-by'
 
-const SessionComponent = ({ session }: { session: SessionEvent }) => {
-  const { user: currentUser } = useAuth()
+const SessionComponent = ({ session, currentUser }: { session: SessionEvent, currentUser?: User | null | undefined }) => {
+
   const [showMore, setShowMore] = useState(false)
 
   const voters: User[] = session.interestedUsers?.docs?.map(voter => (voter as SessionInterestedAttendee).user as User) || []
@@ -36,7 +35,7 @@ const SessionComponent = ({ session }: { session: SessionEvent }) => {
                        styles={{ viewTransitionName: `session-status-badge-${session.id}` }} />
         </div>
         <div className="relative z-10">
-          <InterestComponent session={session} refetchSessions={true} />
+          <InterestComponent session={session} refetchSessions={true} user={currentUser} />
         </div>
         <div className="mt-2 relative z-0">
           <AnimatePresence initial={false}>

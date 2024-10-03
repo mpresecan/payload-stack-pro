@@ -6,7 +6,7 @@ import { Icons } from "../icons";
 import HeroVideoDialog from "@/components/magicui/hero-video";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utilities/cn";
-import { REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { SIGNUP_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import { Link } from 'next-view-transitions'
 import { BiSolidChevronsRight } from 'react-icons/bi'
 
@@ -100,7 +100,7 @@ function HeroCTA() {
         transition={{ delay: 0.8, duration: 0.8, ease }}
       >
         <Link
-          href={REGISTRATION_PAGE}
+          href={SIGNUP_PAGE}
           className={cn(
             buttonVariants({ variant: "default", size: "lg" }),
             "w-full sm:w-auto text-background flex gap-2"

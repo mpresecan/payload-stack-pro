@@ -2,7 +2,7 @@ import { Icons } from "../icons";
 import Section from "../section";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/utilities/cn";
-import { REGISTRATION_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
+import { SIGNUP_PAGE } from '@/app/(frontend)/(auth)/_config/routes'
 import { Link } from "next-view-transitions";
 import { BiSolidChevronsRight } from 'react-icons/bi'
 
@@ -16,7 +16,7 @@ export default function CtaSection() {
     >
       <div className="flex flex-col w-full sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4 pt-4">
         <Link
-          href={REGISTRATION_PAGE}
+          href={SIGNUP_PAGE}
           className={cn(
             buttonVariants({ variant: "default", size: "lg" }),
             "w-full sm:w-auto text-background flex gap-2"
