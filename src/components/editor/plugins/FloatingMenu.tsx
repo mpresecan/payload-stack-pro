@@ -158,22 +158,22 @@ function FloatingMenu({ show, ...props }: FloatingMenuProps) {
             </TooltipContent>
           </Tooltip>
 
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                variant={props.isLink ? 'default' : 'outline'}
-                size="icon"
-                className={iconButtonClass}
-                onClick={() => props.editor.dispatchCommand(TOGGLE_EDIT_LINK_MENU, undefined)}
-              >
-                <Link className="h-4 w-4" />
-                <span className="sr-only">Add or edit link</span>
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent>
-              <p>Add or edit link</p>
-            </TooltipContent>
-          </Tooltip>
+          {/*<Tooltip>*/}
+          {/*  <TooltipTrigger asChild>*/}
+          {/*    <Button*/}
+          {/*      variant={props.isLink ? 'default' : 'outline'}*/}
+          {/*      size="icon"*/}
+          {/*      className={iconButtonClass}*/}
+          {/*      onClick={() => props.editor.dispatchCommand(TOGGLE_EDIT_LINK_MENU, undefined)}*/}
+          {/*    >*/}
+          {/*      <Link className="h-4 w-4" />*/}
+          {/*      <span className="sr-only">Add or edit link</span>*/}
+          {/*    </Button>*/}
+          {/*  </TooltipTrigger>*/}
+          {/*  <TooltipContent>*/}
+          {/*    <p>Add or edit link</p>*/}
+          {/*  </TooltipContent>*/}
+          {/*</Tooltip>*/}
         </TooltipProvider>
       </motion.div>
     </AnimatePresence>

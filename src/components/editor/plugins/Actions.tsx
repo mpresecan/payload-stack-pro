@@ -69,6 +69,7 @@ export function ActionsPlugin() {
           disabled={isEditorEmpty}
           variant='outline'
           size='icon'
+          type='button'
           onClick={() => {
             editor.dispatchCommand(CLEAR_EDITOR_COMMAND, undefined)
           }}
@@ -83,6 +84,7 @@ export function ActionsPlugin() {
             onClick={() => {
               editor.dispatchCommand(UNDO_COMMAND, undefined)
             }}
+            type='button'
           >
             <Undo className="h-4 w-4" />
           </Button>
@@ -93,6 +95,7 @@ export function ActionsPlugin() {
             }}
             variant='outline'
             size='icon'
+            type='button'
           >
             <Redo className="h-4 w-4" />
           </Button>

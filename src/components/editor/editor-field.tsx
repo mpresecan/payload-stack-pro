@@ -50,9 +50,7 @@ export function EditorField() {
               <FormLabel>Content</FormLabel>
               <FormControl>
                 <Editor
-                  field={field}
-                  content={field.value}
-                  onChange={field.onChange}
+                  {...field}
                   placeholder='Write long document here...'
                 />
               </FormControl>

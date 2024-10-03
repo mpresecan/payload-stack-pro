@@ -26,7 +26,7 @@ import {
   useEditorHistoryState,
 } from "./context/EditorHistoryState"
 import { cn } from "@/utilities/cn"
-import { ControllerRenderProps, FieldValues, Path } from 'react-hook-form'
+import { EditorState } from 'lexical'
 import { useState } from 'react'
 
 export const EDITOR_NAMESPACE = "lexical-full-width-editor"
@@ -41,21 +41,30 @@ const EDITOR_NODES = [
   QuoteNode,
 ]
 
-type EditorProps<TFieldValues extends FieldValues> = {
-  className?: string,
+type EditorProps = {
+  className?: string
+  name: string
+  value: string
   onChange: (value: string) => void
-  content: string
-  field: ControllerRenderProps<TFieldValues, Path<TFieldValues>>
+  onBlur: () => void
   maxCharacters?: number
   placeholder?: string
 }
 
-export function Editor<TFieldValues extends FieldValues = FieldValues>(props: EditorProps<TFieldValues>) {
+export function Editor({
+                         className,
+                         name,
+                         value,
+                         onChange,
+                         onBlur,
+                         maxCharacters = 5000,
+                         placeholder = 'Start writing...'
+                       }: EditorProps) {
   return (
     <div
       id="editor-wrapper"
       className={cn(
-        props.className,
+        className,
         "w-full max-w-none relative prose prose-slate dark:prose-invert prose-p:my-0 prose-headings:mb-4 prose-headings:mt-2"
       )}
     >
@@ -64,7 +73,7 @@ export function Editor<TFieldValues extends FieldValues = FieldValues>(props: Ed
           config={{
             namespace: EDITOR_NAMESPACE,
             nodes: EDITOR_NODES,
-            editorState: props.content,
+            editorState: value,
             theme: {
               root: "w-full p-4 border border-input rounded-md min-h-[200px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
               link: "cursor-pointer text-primary underline",
@@ -80,45 +89,50 @@ export function Editor<TFieldValues extends FieldValues = FieldValues>(props: Ed
               console.error(error)
             },
           }}
-          onChange={props.onChange}
-          field={props.field}
-          maxCharacters={props.maxCharacters}
-          placeholder={props.placeholder}
+          name={name}
+          onChange={onChange}
+          onBlur={onBlur}
+          maxCharacters={maxCharacters}
+          placeholder={placeholder}
         />
       </EditorHistoryStateContext>
     </div>
   )
 }
 
-type LexicalEditorProps<TFieldValues extends FieldValues> = {
-  config: Parameters<typeof LexicalComposer>["0"]["initialConfig"],
-  onChange?: (value: string) => void,
-  field?: ControllerRenderProps<TFieldValues, Path<TFieldValues>>,
-  maxCharacters?: number
-  placeholder?: string
+type LexicalEditorProps = {
+  config: Parameters<typeof LexicalComposer>["0"]["initialConfig"]
+  name: string
+  onChange: (value: string) => void
+  onBlur: () => void
+  maxCharacters: number
+  placeholder: string
 }
 
-function LexicalEditor<TFieldValues extends FieldValues>(props: LexicalEditorProps<TFieldValues>) {
+function LexicalEditor({
+                         config,
+                         name,
+                         onChange,
+                         onBlur,
+                         maxCharacters,
+                         placeholder
+                       }: LexicalEditorProps) {
   const { historyState } = useEditorHistoryState()
   const [characterCount, setCharacterCount] = useState(0)
 
-  const maxCharacters = props.maxCharacters || 5000
-
   return (
-    <LexicalComposer initialConfig={props.config}>
+    <LexicalComposer initialConfig={config}>
       <div className="flex flex-col w-full gap-2">
         <RichTextPlugin
           contentEditable={<ContentEditable className="min-h-[150px] w-full" spellCheck={false} />}
-          placeholder={<Placeholder placeholder={props.placeholder}/>}
+          placeholder={<Placeholder placeholder={placeholder}/>}
           ErrorBoundary={LexicalErrorBoundary}
         />
       </div>
       <div className='flex items-center justify-between'>
         <OnChangePlugin onChange={(editorState) => {
           const json = editorState.toJSON()
-          if(props.field) {
-            props.field.onChange(JSON.stringify(json))
-          }
+          onChange(JSON.stringify(json))
           setCharacterCount(json.root.children.reduce((acc: number, child: any) =>
             acc + (child.children?.[0]?.text?.length || 0), 0
           ))
@@ -139,7 +153,7 @@ function LexicalEditor<TFieldValues extends FieldValues>(props: LexicalEditorPro
   )
 }
 
-const Placeholder = ({placeholder = 'Start writing...'} : {placeholder?: string}) => {
+const Placeholder = ({placeholder}: {placeholder: string}) => {
   return (
     <div className="absolute top-[1.125rem] left-[1.125rem] text-muted-foreground">
       {placeholder}
