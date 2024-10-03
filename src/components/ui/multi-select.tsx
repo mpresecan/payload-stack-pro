@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/command";
 import { Command as CommandPrimitive } from "cmdk";
 
-type Framework = Record<"value" | "label", string>;
+type SelectItem = Record<"value" | "label", string>;
 
 interface MultiSelectProps {
-  options: Framework[];
+  options: SelectItem[];
   placeholder?: string;
   value?: string[];
   onChange?: (value: string[]) => void;
@@ -30,26 +30,26 @@ export function MultiSelect({
   const [inputValue, setInputValue] = React.useState("");
 
   const selected = React.useMemo(
-    () => value.map(v => options.find(opt => opt.value === v)).filter(Boolean) as Framework[],
+    () => value.map(v => options.find(opt => opt.value === v)).filter(Boolean) as SelectItem[],
     [value, options]
   );
 
   const selectables = React.useMemo(
-    () => options.filter((framework) => !value.includes(framework.value)),
+    () => options.filter((item) => !value.includes(item.value)),
     [options, value]
   );
 
-  const handleUnselect = React.useCallback((framework: Framework) => {
-    onChange?.(value.filter(v => v !== framework.value));
+  const handleUnselect = React.useCallback((item: SelectItem) => {
+    onChange?.(value.filter(v => v !== item.value));
   }, [onChange, value]);
 
-  const handleSelect = React.useCallback((framework: Framework, e: React.MouseEvent) => {
+  const handleSelect = React.useCallback((item: SelectItem, e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    onChange?.(value.concat(framework.value));
+    onChange?.(value.concat(item.value));
     setInputValue("");
     setOpen(true); // Keep the dropdown open
-    inputRef.current?.focus();
+    setTimeout(() => inputRef.current?.focus(), 0); // Ensure focus remains on the input stupid bug with Editor focus
   }, [onChange, value]);
 
   const handleKeyDown = React.useCallback(
@@ -76,18 +76,18 @@ export function MultiSelect({
     >
       <div className="group rounded-md border border-input px-3 py-2 text-sm ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
         <div className="flex flex-wrap gap-1">
-          {selected.map((framework) => {
+          {selected.map((items) => {
             return (
-              <Badge key={framework.value} variant="secondary">
-                {framework.label}
+              <Badge key={items.value} variant="secondary">
+                {items.label}
                 <button
                   className="ml-1 rounded-full outline-none ring-offset-background focus:ring-2 focus:ring-ring focus:ring-offset-2"
                   onKeyDown={(e) => {
                     if (e.key === "Enter") {
-                      handleUnselect(framework);
+                      handleUnselect(items);
                     }
                   }}
-                  onClick={() => handleUnselect(framework)}
+                  onClick={() => handleUnselect(items)}
                 >
                   <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
                 </button>
@@ -110,14 +110,14 @@ export function MultiSelect({
           {open && selectables.length > 0 ? (
             <div className="absolute top-0 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in">
               <CommandGroup className="h-full overflow-auto">
-                {selectables.map((framework) => {
+                {selectables.map((item) => {
                   return (
                     <CommandItem
-                      key={framework.value}
-                      onMouseDown={(e) => handleSelect(framework, e)}
+                      key={item.value}
+                      onMouseDown={(e) => handleSelect(item, e)}
                       className={"cursor-pointer"}
                     >
-                      {framework.label}
+                      {item.label}
                     </CommandItem>
                   );
                 })}
