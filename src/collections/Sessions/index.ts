@@ -9,6 +9,7 @@ import {
 import { authenticated } from '@/access/authenticated'
 import { anyone } from '@/access/anyone'
 import { revalidatePath, revalidateTag } from 'next/cache'
+import { BoldFeature, ItalicFeature, lexicalEditor, UnderlineFeature, OrderedListFeature, UnorderedListFeature, LinkFeature, BlockquoteFeature, HeadingFeature } from '@payloadcms/richtext-lexical'
 
 export const Sessions: CollectionConfig = {
   slug: COLLECTION_SLUG_SESSIONS,
@@ -43,6 +44,21 @@ export const Sessions: CollectionConfig = {
             {
               name: 'fullDescription',
               type: 'richText',
+              editor: lexicalEditor({
+                features: [
+                  UnderlineFeature(),
+                  BoldFeature(),
+                  ItalicFeature(),
+                  OrderedListFeature(),
+                  UnorderedListFeature(),
+                  LinkFeature(),
+                  BlockquoteFeature(),
+                  HeadingFeature(),
+                ]
+              }),
+              validate: (_) => {
+                return true;
+              }
             },
           ]
         },

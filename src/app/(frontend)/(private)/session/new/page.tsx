@@ -10,6 +10,7 @@ import { Link } from 'next-view-transitions'
 import { Card, CardHeader } from '@/components/ui/card'
 import { Editor } from '@/components/editor'
 import { ContentLayout } from '@/components/admin-panel/content-layout'
+import { EditorField } from '@/components/editor/editor-field'
 
 const NewSessionPage = () => {
   return (
@@ -30,7 +31,7 @@ const NewSessionPage = () => {
       <div className="container mx-auto p-4 sm:px-8 max-w-4xl xl:px-4">
         <Card className="w-full max-w-4xl mx-auto">
           <CardHeader>
-            <Editor />
+            <EditorField />
           </CardHeader>
         </Card>
       </div>

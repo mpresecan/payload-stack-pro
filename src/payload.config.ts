@@ -1,6 +1,5 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-
 import { nestedDocsPlugin } from '@payloadcms/plugin-nested-docs'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import {
@@ -23,7 +22,6 @@ import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { Page, Post } from 'src/payload-types'
-
 import {resendAdapter} from '@payloadcms/email-resend'
 import { Sessions } from '@/collections/Sessions'
 import { SessionTags } from '@/collections/Sessions/tags'

@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { PlusIcon} from 'lucide-react'
 import { Button } from "@/components/ui/button";
 import {
@@ -10,6 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import React from 'react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Link } from 'next-view-transitions'
 
 export function AddButton() {
   return (
@@ -28,13 +28,13 @@ export function AddButton() {
             <DropdownMenuContent className="w-56" align="end" forceMount>
               <DropdownMenuGroup>
                 <DropdownMenuItem className="hover:cursor-pointer" asChild>
-                  <Link href="/sessions/add" className="flex items-center">
+                  <Link href="/session/new" className="flex items-center">
                     <PlusIcon className="w-4 h-4 mr-3 text-muted-foreground" />
                     I want to present about...
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="hover:cursor-pointer" asChild>
-                  <Link href="/topic-suggestions/add" className="flex items-center">
+                  <Link href="/topic-suggestion/new" className="flex items-center">
                     <PlusIcon className="w-4 h-4 mr-3 text-muted-foreground" />
                     I want to learn about...
                   </Link>

@@ -17,16 +17,17 @@ import {
   IS_UNDERLINE,
 } from './nodeFormat'
 import type { Page } from '@/payload-types'
+import Link from 'next/link'
 
 export type NodeTypes =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      // @ts-ignore // TODO: Fix this
-      | Extract<Page['layout'][0], { blockType: 'cta' }>
-      | Extract<Page['layout'][0], { blockType: 'mediaBlock' }>
-      | BannerBlockProps
-      | CodeBlockProps
-    >
+  // @ts-ignore // TODO: Fix this
+  | Extract<Page['layout'][0], { blockType: 'cta' }>
+  | Extract<Page['layout'][0], { blockType: 'mediaBlock' }>
+  | BannerBlockProps
+  | CodeBlockProps
+>
 
 type Props = {
   nodes: NodeTypes[]
@@ -189,17 +190,24 @@ export function serializeLexical({ nodes }: Props): JSX.Element {
             case 'link': {
               const fields = node.fields
 
-              return (
-                <CMSLink
-                  key={index}
-                  newTab={Boolean(fields?.newTab)}
-                  reference={fields.doc as any}
-                  type={fields.linkType === 'internal' ? 'reference' : 'custom'}
-                  url={fields.url}
-                >
-                  {serializedChildren}
-                </CMSLink>
-              )
+              if (fields) {
+                return (
+                  <CMSLink
+                    key={index}
+                    newTab={Boolean(fields?.newTab)}
+                    reference={fields.doc as any}
+                    type={fields.linkType === 'internal' ? 'reference' : 'custom'}
+                    url={fields.url}
+                  >
+                    {serializedChildren}
+                  </CMSLink>
+                )
+              }
+              // @ts-ignore
+              if (node.url) {
+                // @ts-ignore
+                return (<Link href={node.url} key={index} target={node?.target || '_blank'}>{serializedChildren}</Link>)
+              }
             }
 
             default:
