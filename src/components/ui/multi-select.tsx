@@ -29,36 +29,35 @@ export function MultiSelect({
                             }: MultiSelectProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [open, setOpen] = React.useState(false);
-  const [selected, setSelected] = React.useState<Framework[]>(
-    value.map(v => options.find(opt => opt.value === v)!).filter(Boolean)
-  );
   const [inputValue, setInputValue] = React.useState("");
 
-  React.useEffect(() => {
-    const newSelected = value.map(v => options.find(opt => opt.value === v)!).filter(Boolean);
-    setSelected(newSelected);
-  }, [value, options]);
+  const selected = React.useMemo(() =>
+      value.map(v => options.find(opt => opt.value === v)).filter(Boolean) as Framework[],
+    [value, options]
+  );
+
+  const selectables = React.useMemo(() =>
+      options.filter((framework) => !value.includes(framework.value)),
+    [options, value]
+  );
 
   const handleUnselect = React.useCallback((framework: Framework) => {
-    setSelected((prev) => {
-      const newSelected = prev.filter((s) => s.value !== framework.value);
-      onChange?.(newSelected.map(s => s.value));
-      return newSelected;
-    });
-  }, [onChange]);
+    onChange?.(value.filter(v => v !== framework.value));
+  }, [onChange, value]);
+
+  const handleSelect = React.useCallback((framework: Framework) => {
+    onChange?.(value.concat(framework.value));
+    setInputValue("");
+    inputRef.current?.focus();
+  }, [onChange, value]);
 
   const handleKeyDown = React.useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       const input = inputRef.current;
       if (input) {
         if (e.key === "Delete" || e.key === "Backspace") {
-          if (input.value === "") {
-            setSelected((prev) => {
-              const newSelected = [...prev];
-              newSelected.pop();
-              onChange?.(newSelected.map(s => s.value));
-              return newSelected;
-            });
+          if (input.value === "" && selected.length > 0) {
+            onChange?.(value.slice(0, -1));
           }
         }
         if (e.key === "Escape") {
@@ -66,11 +65,7 @@ export function MultiSelect({
         }
       }
     },
-    [onChange]
-  );
-
-  const selectables = options.filter(
-    (framework) => !selected.includes(framework)
+    [onChange, selected.length, value]
   );
 
   return (
@@ -126,14 +121,7 @@ export function MultiSelect({
                         e.preventDefault();
                         e.stopPropagation();
                       }}
-                      onSelect={() => {
-                        setInputValue("");
-                        setSelected((prev) => {
-                          const newSelected = [...prev, framework];
-                          onChange?.(newSelected.map(s => s.value));
-                          return newSelected;
-                        });
-                      }}
+                      onSelect={() => handleSelect(framework)}
                       className={"cursor-pointer"}
                     >
                       {framework.label}
