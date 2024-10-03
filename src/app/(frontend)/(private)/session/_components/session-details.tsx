@@ -9,15 +9,22 @@ import SuggestedBy from '@/app/(frontend)/(private)/sessions/_components/session
 import { Link } from 'next-view-transitions'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
+import { Button } from '@/components/ui/button'
+import { Edit } from 'lucide-react'
 
 const SessionDetails = async ({ session, topic = false }: { session: SessionEvent, topic?: boolean }) => {
   const user = await sessionUser();
+  const presenters = session.presenters as User[];
 
   return (
     <>
       <CardHeader className="space-y-6">
         <div className="flex justify-between items-start">
           <CardTitle className="text-3xl font-bold pr-4" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</CardTitle>
+          {user && presenters.some(presenter => presenter.id === user.id) &&
+            <Button asChild size="sm" variant="ghost" className="text-muted-foreground">
+            <Link href={`/session/${session.id}/edit`}><Edit className="w-5 h-5" /></Link>
+          </Button>}
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}
