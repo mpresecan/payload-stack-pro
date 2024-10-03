@@ -29,18 +29,7 @@ const MAX_SUMMARY_LENGTH = newSessionSchema.shape.shortDescription.maxLength
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
-type Framework = Record<'value' | 'label', string>;
-
-// const FRAMEWORKS = [
-//   { key: 'next.js', value: 'Next.js' },
-//   { key: 'sveltekit', value: 'SvelteKit' },
-//   { key: 'nuxt.js', value: 'Nuxt.js' },
-//   { key: 'remix', value: 'Remix' },
-//   { key: 'astro', value: 'Astro' },
-//   { key: 'wordpress', value: 'WordPress' },
-//   { key: 'express.js', value: 'Express.js' },
-//   { key: 'nest.js', value: 'Nest.js' },
-// ]
+type SelectItem = Record<'value' | 'label', string>;
 
 const FRAMEWORKS = [{ value: 'next.js', label: 'Next.js' }, {
   value: 'sveltekit',
@@ -51,7 +40,7 @@ const FRAMEWORKS = [{ value: 'next.js', label: 'Next.js' }, {
 }, { value: 'wordpress', label: 'WordPress' }, { value: 'express.js', label: 'Express.js' }, {
   value: 'nest.js',
   label: 'Nest.js',
-}] satisfies Framework[]
+}] satisfies SelectItem[]
 
 const NewSessionForm = () => {
   const form = useForm<NewSessionFormValues>({
