@@ -1,19 +1,21 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import React, { Suspense } from 'react'
+import React from 'react'
 import { getSession } from '@/app/(frontend)/(private)/sessions/_lib/get-session'
 import NotFound from '@/app/not-found'
 import { ContentLayout } from '@/components/admin-panel/content-layout'
-import SessionDetails from '@/app/(frontend)/(private)/session/_components/session-details'
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb'
+  BreadcrumbSeparator
+} from "@/components/ui/breadcrumb";
 import { Link } from 'next-view-transitions'
 import { Metadata, ResolvingMetadata } from 'next'
+import NewOrUpdateSessionForm from '@/app/(frontend)/(private)/session/_components/new-or-update-session-form'
+import { getTags } from '@/app/(frontend)/(private)/sessions/_lib/get-tags'
+import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
+import { User } from '@/payload-types'
 
 type Props = {
   params: { id: string }
@@ -21,7 +23,7 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata,
+  parent: ResolvingMetadata
 ): Promise<Metadata> {
   // Fetch the session data
   const session = await getSession(params.id)
@@ -35,21 +37,29 @@ export async function generateMetadata(
 
   // Generate the metadata based on the session data
   return {
-    title: session.title,
-    description: session.shortDescription || 'Topic suggestion',
+    title: 'Edit ' + session.title,
+    description: session.shortDescription || 'Topic',
   }
 }
 
-const SuggestedTopicPage = async ({ params }: Props) => {
+const EditTopicSuggestionPage = async ({ params }: Props) => {
   const session = await getSession(params.id)
 
   if (!session) {
     return NotFound()
   }
 
+  const user = await sessionUser();
+  const suggestedBy = session.suggestedBy as User
+  if(!user || suggestedBy.id !== user.id) {
+    return NotFound()
+  }
+
+  const tags = await getTags()
+
   return (
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
-      <Breadcrumb className="mb-8">
+      <Breadcrumb className='mb-8'>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
@@ -59,15 +69,19 @@ const SuggestedTopicPage = async ({ params }: Props) => {
           </BreadcrumbItem>
           <BreadcrumbSeparator />
           <BreadcrumbItem>
-            <BreadcrumbPage>{session.title}</BreadcrumbPage>
+            <Link href={`/topic-suggestions/${session.id}`}>{session.title}</Link>
+          </BreadcrumbItem>
+          <BreadcrumbSeparator />
+          <BreadcrumbItem>
+            <BreadcrumbPage>Edit</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
       <div className="container mx-auto p-0 sm:px-8 max-w-4xl xl:px-4">
-        <SessionDetails session={session} topic={true} />
+        <NewOrUpdateSessionForm tags={tags} session={session} isTopicSuggestion={true} />
       </div>
     </ContentLayout>
   )
 }
 
-export default SuggestedTopicPage
+export default EditTopicSuggestionPage

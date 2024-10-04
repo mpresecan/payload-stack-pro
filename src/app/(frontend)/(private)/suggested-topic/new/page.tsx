@@ -8,16 +8,16 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Link } from 'next-view-transitions'
 import { ContentLayout } from '@/components/admin-panel/content-layout'
-import NewOrUpdateSessionForm from '../_components/new-or-update-session-form'
 import { getTags } from '@/app/(frontend)/(private)/sessions/_lib/get-tags'
+import NewOrUpdateSessionForm from '../../session/_components/new-or-update-session-form'
 import { Metadata } from 'next'
 
 const domain = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000';
 
 export const metadata: Metadata = {
   metadataBase: new URL(domain),
-  title: "New Session",
-  description: "What would you like to present?",
+  title: "New Topic",
+  description: "What would you like to learn about?",
 }
 
 const NewSessionPage = async () => {
@@ -29,7 +29,7 @@ const NewSessionPage = async () => {
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/sessions" style={{ viewTransitionName: `page-session-title` }}>Sessions</Link>
+              <Link href="/topic-suggestions" style={{viewTransitionName: `page-topic-suggestion-title`}}>Topic Suggestion</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -38,7 +38,7 @@ const NewSessionPage = async () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <NewOrUpdateSessionForm tags={tags} />
+      <NewOrUpdateSessionForm tags={tags} isTopicSuggestion={true} />
     </ContentLayout>
   )
 }

@@ -15,14 +15,20 @@ import SessionOptions from '@/app/(frontend)/(private)/session/_components/sessi
 const SessionDetails = async ({ session, topic = false }: { session: SessionEvent, topic?: boolean }) => {
   const user = await sessionUser();
   const presenters = session.presenters as User[] | undefined;
+  const suggestedBy = session.suggestedBy as User | undefined;
+  const isProposedTopic = session.status === 'wished';
 
   return (
     <Card className="w-full max-w-4xl mx-auto" style={{viewTransitionName: `card-session-${session.id}`}}>
       <CardHeader className="space-y-6">
         <div className="flex justify-between items-start">
           <CardTitle className="text-3xl font-bold pr-4" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</CardTitle>
-          {user && presenters && presenters.some(presenter => presenter.id === user.id) &&
-            <SessionOptions session={session}  />}
+          {user &&
+            (
+              (!isProposedTopic && presenters && presenters.some(presenter => presenter.id === user.id) ) ||
+              (isProposedTopic && suggestedBy && suggestedBy.id === user.id)
+            ) &&
+            <SessionOptions session={session} allowCancel={!isProposedTopic} />}
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}
@@ -53,10 +59,14 @@ const SessionDetails = async ({ session, topic = false }: { session: SessionEven
         <div className="space-y-4 relative z-0 mt-16">
           <h3 className="text-xl font-semibold">Description</h3>
           <p className="" style={{viewTransitionName: `session-short-description-${session.id}`}}>{session.shortDescription}</p>
-          <h3 className="text-xl font-semibold">Detailed Content</h3>
-          <div className="whitespace-pre-line">
-            <RichText content={session.fullDescription ?? {}} enableGutter={false} />
-          </div>
+          {session.fullDescription && (
+            <>
+              <h3 className="text-xl font-semibold">Detailed Content</h3>
+              <div className="whitespace-pre-line">
+                <RichText content={session.fullDescription ?? {}} enableGutter={false} />
+              </div>
+            </>
+          )}
         </div>
       </CardContent>
     </Card>

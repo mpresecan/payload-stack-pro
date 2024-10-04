@@ -8,7 +8,7 @@ import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
-export const addNewSession = async (formData: NewSessionFormValues) => {
+export const addNewSession = async (formData: NewSessionFormValues, isTopicSuggestion = false) => {
 
   const values = newSessionSchema.parse(formData)
   const currentUser = await sessionUser();
@@ -18,17 +18,16 @@ export const addNewSession = async (formData: NewSessionFormValues) => {
   }
 
   const payload = await getPayload()
-  const response = await payload.create({
+  return await payload.create({
     collection: COLLECTION_SLUG_SESSIONS,
     data: {
       ...values,
-      fullDescription: JSON.parse(values.fullDescription!),
+      fullDescription: values.fullDescription ? JSON.parse(values.fullDescription!) : undefined,
       type: 'online',
-      status: 'proposed',
-      presenters: [currentUser.id],
+      status: isTopicSuggestion ? 'wished' : 'proposed',
+      presenters: isTopicSuggestion ? undefined : [currentUser.id],
+      suggestedBy: isTopicSuggestion ? currentUser.id : undefined,
       interestedAttendeesCount: 0,
     }
-  })
-
-  return response;
+  });
 }

@@ -29,20 +29,21 @@ import { deleteSession } from '../_actions/delete-session'
 
 interface SessionOptionsProps {
   session: SessionEvent
+  allowCancel?: boolean
 }
 
-export default function SessionOptions({ session }: SessionOptionsProps) {
+export default function SessionOptions({ session, allowCancel = true }: SessionOptionsProps) {
   const [isDeleteAlertOpen, setIsDeleteAlertOpen] = useState(false)
   const [isCancelAlertOpen, setIsCancelAlertOpen] = useState(false)
   const router = useRouter()
 
   const handleDelete = async () => {
     try {
-      const result = await deleteSession(session.id);
-      toast.success('Session deleted!');
-      router.push('/sessions');
+      const result = await deleteSession(session.id, !allowCancel);
+      toast.success(allowCancel ? 'Session deleted!' : 'Topic deleted');
+      router.push(allowCancel ? '/sessions' : '/topic-suggestions');
     } catch (error) {
-      toast.error('Failed to delete session');
+      toast.error('Failed to delete ' + (!allowCancel ? 'topic' : 'session'));
       console.error(error);
     }
   }
@@ -81,21 +82,23 @@ export default function SessionOptions({ session }: SessionOptionsProps) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem asChild>
-            <Link href={`/session/${session.id}/edit`} className="flex items-center">
+            <Link href={`/${!allowCancel ? 'suggested-topic' : 'session'}/${session.id}/edit`} className="flex items-center">
               <Edit className="mr-2 h-4 w-4" />
               <span>Edit</span>
             </Link>
           </DropdownMenuItem>
-          {isCanceled ? (
-            <DropdownMenuItem onSelect={handleProposeAgain} className="flex items-center">
-              <RefreshCw className="mr-2 h-4 w-4" />
-              <span>Propose Again</span>
-            </DropdownMenuItem>
-          ) : (
-            <DropdownMenuItem onSelect={() => setIsCancelAlertOpen(true)} className="flex items-center">
-              <X className="mr-2 h-4 w-4" />
-              <span>Cancel Session</span>
-            </DropdownMenuItem>
+          {allowCancel && (
+            isCanceled ? (
+              <DropdownMenuItem onSelect={handleProposeAgain} className="flex items-center">
+                <RefreshCw className="mr-2 h-4 w-4" />
+                <span>Propose Again</span>
+              </DropdownMenuItem>
+            ) : (
+              <DropdownMenuItem onSelect={() => setIsCancelAlertOpen(true)} className="flex items-center">
+                <X className="mr-2 h-4 w-4" />
+                <span>Cancel Session</span>
+              </DropdownMenuItem>
+            )
           )}
           <DropdownMenuItem onSelect={() => setIsDeleteAlertOpen(true)} className="text-destructive">
             <Trash className="mr-2 h-4 w-4" />
@@ -107,18 +110,22 @@ export default function SessionOptions({ session }: SessionOptionsProps) {
       <AlertDialog open={isDeleteAlertOpen} onOpenChange={setIsDeleteAlertOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to delete this session?</AlertDialogTitle>
+            <AlertDialogTitle>Are you sure you want to delete this {!allowCancel ? 'topic' : 'session'}?</AlertDialogTitle>
             <AlertDialogDescription>
-              {isCanceled ? (
-                "This action cannot be undone. This will permanently delete the session and remove its data from our servers."
+              {allowCancel ? (
+                isCanceled ? (
+                  "This action cannot be undone. This will permanently delete the session and remove its data from our servers."
+                ) : (
+                  "This action cannot be undone. This will permanently delete the session and remove its data from our servers. If you're not 100% sure, you can cancel the session instead, which will still allow users to vote and comment on it."
+                )
               ) : (
-                "This action cannot be undone. This will permanently delete the session and remove its data from our servers. If you're not 100% sure, you can cancel the session instead, which will still allow users to vote and comment on it."
+                "This action cannot be undone. This will permanently delete the topic and remove its data from our servers. Please ensure you want to proceed with deletion."
               )}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            {!isCanceled && (
+            {allowCancel && !isCanceled && (
               <AlertDialogAction onClick={handleCancel} className="bg-orange-500 text-white hover:bg-orange-600">
                 Cancel Session
               </AlertDialogAction>
@@ -130,22 +137,24 @@ export default function SessionOptions({ session }: SessionOptionsProps) {
         </AlertDialogContent>
       </AlertDialog>
 
-      <AlertDialog open={isCancelAlertOpen} onOpenChange={setIsCancelAlertOpen}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure you want to cancel this session?</AlertDialogTitle>
-            <AlertDialogDescription>
-              When a session is canceled, people can still vote and show their interest. You can uncanel the session later if needed.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Keep Active</AlertDialogCancel>
-            <AlertDialogAction onClick={handleCancel} className="bg-orange-500 text-white hover:bg-orange-600">
-              Cancel Session
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      {allowCancel && (
+        <AlertDialog open={isCancelAlertOpen} onOpenChange={setIsCancelAlertOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you sure you want to cancel this session?</AlertDialogTitle>
+              <AlertDialogDescription>
+                When a session is canceled, people can still vote and show their interest. You can uncanel the session later if needed.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Keep Active</AlertDialogCancel>
+              <AlertDialogAction onClick={handleCancel} className="bg-orange-500 text-white hover:bg-orange-600">
+                Cancel Session
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
     </>
   )
 }

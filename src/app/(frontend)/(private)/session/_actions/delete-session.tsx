@@ -5,7 +5,7 @@ import { getPayload } from '@/lib/payload'
 import { COLLECTION_SLUG_SESSIONS } from '@/collections/slugs'
 import { User } from '@/payload-types'
 
-export const deleteSession = async (sessionId: string | number) => {
+export const deleteSession = async (sessionId: string | number, isTopicSuggestion = false) => {
   const user = await sessionUser();
 
   if (!user) {
@@ -23,8 +23,12 @@ export const deleteSession = async (sessionId: string | number) => {
   }
 
   const presenters = session.presenters as User[]
-  if(presenters.some(presenter => presenter.id !== user.id)) {
+  const suggestedBy = session.suggestedBy as User
+  if(!isTopicSuggestion && presenters.some(presenter => presenter.id !== user.id)) {
     throw new Error('User is not a presenter')
+  }
+  if(isTopicSuggestion && suggestedBy.id !== user.id) {
+    throw new Error('User is not the topic suggestion')
   }
 
   return await payload.delete({

@@ -12,7 +12,7 @@ const SuggestTopicButton = () => {
         <Tooltip>
           <TooltipTrigger>
             <Button asChild className="grow-0 ms-8">
-              <Link href="#"><PlusIcon className="mr-2 h-4 w-4" />Suggest Topic</Link>
+              <Link href="/suggested-topic/new"><PlusIcon className="mr-2 h-4 w-4" />Suggest Topic</Link>
             </Button>
           </TooltipTrigger>
           <TooltipContent>

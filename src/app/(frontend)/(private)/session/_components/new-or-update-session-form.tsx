@@ -36,7 +36,11 @@ const MAX_SUMMARY_LENGTH = newSessionSchema.shape.shortDescription.maxLength
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
-const NewOrUpdateSessionForm = ({ tags, session = undefined }: { tags: SessionTag[], session?: SessionEvent }) => {
+const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion = false }: {
+  tags: SessionTag[],
+  session?: SessionEvent,
+  isTopicSuggestion?: boolean
+}) => {
   const sessionTags = session?.tags as SessionTag[]
 
   const shouldUpdate = session !== undefined
@@ -58,9 +62,9 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined }: { tags: SessionTa
   async function onSubmit(values: NewSessionFormValues) {
     startTransition(async () => {
       try {
-        const results = shouldUpdate ? await updateSession(values, session) : await addNewSession(values)
-        toast.success(shouldUpdate ? 'Session updated!' : 'Session created!')
-        router.push(`/session/${results.id}`)
+        const result = shouldUpdate ? await updateSession(values, session, isTopicSuggestion) : await addNewSession(values, isTopicSuggestion)
+        toast.success(shouldUpdate ? (isTopicSuggestion ? 'Topic' : 'Session') + ' updated!' : (isTopicSuggestion ? 'Topic' : 'Session') + ' created!')
+        router.push(isTopicSuggestion ? `/suggested-topic/${result.id}` : `/session/${result.id}`)
       } catch (error) {
         console.error(error)
         toast.error('Failed to create session', {
@@ -86,7 +90,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined }: { tags: SessionTa
                     <FormControl>
                       <div className="relative w-full">
                         <Input
-                          placeholder="I want to present about..."
+                          placeholder={isTopicSuggestion ? 'I want to learn about...' : 'I want to present about...'}
                           {...field}
                           onBlur={() => {
                             field.onBlur()
@@ -119,7 +123,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined }: { tags: SessionTa
                   <FormControl>
                     <div className="relative">
                       <Textarea
-                        placeholder="Write a compelling summary to attract participants. This will appear in the session list."
+                        placeholder={isTopicSuggestion ? 'Write the questions in which you would like to learn about. More specific you are, easier it would be to find a presenter.' : 'Write a compelling summary to attract participants. This will appear in the session list.'}
                         className="resize-none min-h-[100px] pr-16"
                         {...field}
                         maxLength={MAX_SUMMARY_LENGTH!}
@@ -130,33 +134,34 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined }: { tags: SessionTa
                     </div>
                   </FormControl>
                   <FormDescription className="text-sm text-muted-foreground mt-2">
-                    Make it catchy! This summary will be visible in the session list and should encourage people to
-                    click and read more.
+                    {isTopicSuggestion ? 'Make your questions interesting. This summary will be visible on the topic suggestion list, and should encourage people to click and read more.' : 'Make it catchy! This summary will be visible in the session list and should encourage people to click and read more.'}
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="fullDescription"
-              render={({ field }) => (
-                <FormItem className="mt-6">
-                  <FormLabel className="text-lg font-semibold">Full Description</FormLabel>
-                  <FormControl>
-                    <Editor
-                      {...field}
-                      placeholder="Enter a full description (optional)"
-                      onBlur={field.onBlur}
-                    />
-                  </FormControl>
-                  <FormDescription className="text-sm text-muted-foreground mt-2">
-                    A detailed description of your session (optional, max 5000 characters).
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {!isTopicSuggestion && (
+              <FormField
+                control={form.control}
+                name="fullDescription"
+                render={({ field }) => (
+                  <FormItem className="mt-6">
+                    <FormLabel className="text-lg font-semibold">Full Description</FormLabel>
+                    <FormControl>
+                      <Editor
+                        {...field}
+                        placeholder="Enter a full description (optional)"
+                        onBlur={field.onBlur}
+                      />
+                    </FormControl>
+                    <FormDescription className="text-sm text-muted-foreground mt-2">
+                      A detailed description of your session (optional, max 5000 characters).
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name="tags"
@@ -177,7 +182,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined }: { tags: SessionTa
               )}
             />
           </CardContent>
-          <CardFooter className='flex flex-col gap-2'>
+          <CardFooter className="flex flex-col gap-2">
             <Button className="w-full" size="lg">
               {isPending ? (
                 <>
@@ -190,11 +195,11 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined }: { tags: SessionTa
               ) : (
                 <span>Submit</span>
               )}
-              <span className="sr-only">Add new session</span>
+              <span className="sr-only">Add new {isTopicSuggestion ? 'topic' : 'suggestion'}</span>
             </Button>
             {session && (
-              <Button variant='outline' className='w-full' asChild >
-                <Link href={`/session/${session.id}`}>
+              <Button variant="outline" className="w-full" asChild>
+                <Link href={`/${isTopicSuggestion ? 'suggested-topic' : 'session'}/${session.id}`}>
                   Cancel
                 </Link>
               </Button>

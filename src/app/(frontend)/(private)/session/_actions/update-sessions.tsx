@@ -9,7 +9,7 @@ import { SessionEvent, User } from '@/payload-types'
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
-export const updateSession = async (formData: NewSessionFormValues, session: SessionEvent) => {
+export const updateSession = async (formData: NewSessionFormValues, session: SessionEvent, isTopicSuggestion = false) => {
 
   const values = newSessionSchema.parse(formData)
   const currentUser = await sessionUser();
@@ -19,7 +19,8 @@ export const updateSession = async (formData: NewSessionFormValues, session: Ses
   }
 
   const presenters = session.presenters as User[]
-  if(presenters.some(presenter => presenter.id !== currentUser.id)) {
+  const suggestedBy = session.suggestedBy as User
+  if(session.presenters && presenters.some(presenter => presenter.id !== currentUser.id)) {
     throw new Error('User not authorized to update this session')
   }
 console.log('presenters', session.presenters)
@@ -30,8 +31,9 @@ console.log('presenters', session.presenters)
     data: {
       ...session,
       ...values,
-      fullDescription: JSON.parse(values.fullDescription!),
-      presenters: presenters.map(presenter => presenter.id),
+      fullDescription: values.fullDescription ? JSON.parse(values.fullDescription!) : undefined,
+      presenters: session.presenters ? presenters.map(presenter => presenter.id) : undefined,
+      suggestedBy: session.suggestedBy ? suggestedBy.id : undefined,
     }
   });
 }

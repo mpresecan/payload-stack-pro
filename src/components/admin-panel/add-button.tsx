@@ -34,7 +34,7 @@ export function AddButton() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem className="hover:cursor-pointer" asChild>
-                  <Link href="/topic-suggestion/new" className="flex items-center">
+                  <Link href="/suggested-topic/new" className="flex items-center">
                     <PlusIcon className="w-4 h-4 mr-3 text-muted-foreground" />
                     I want to learn about...
                   </Link>
