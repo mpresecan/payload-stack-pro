@@ -27,7 +27,7 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
   bigButton?: boolean,
   user?: User | null | undefined
 }) => {
-  const shouldVote = !['live', 'finished', 'cancelled'].includes(session.status)
+  const shouldVote = !['live', 'finished'].includes(session.status)
 
   const {
     users: voters,

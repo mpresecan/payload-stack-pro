@@ -10,8 +10,8 @@ import {
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb'
 import { Link } from 'next-view-transitions'
 import { Metadata, ResolvingMetadata } from 'next'
 
@@ -21,7 +21,7 @@ type Props = {
 
 export async function generateMetadata(
   { params }: Props,
-  parent: ResolvingMetadata
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
   // Fetch the session data
   const session = await getSession(params.id)
@@ -49,11 +49,11 @@ const Session = async ({ params }: Props) => {
 
   return (
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
-      <Breadcrumb className='mb-8'>
+      <Breadcrumb className="mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
-              <Link href="/sessions" style={{viewTransitionName: `page-session-title`}}>Sessions</Link>
+              <Link href="/sessions" style={{ viewTransitionName: `page-session-title` }}>Sessions</Link>
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
@@ -63,11 +63,7 @@ const Session = async ({ params }: Props) => {
         </BreadcrumbList>
       </Breadcrumb>
       <div className="container mx-auto p-0 sm:px-8 max-w-4xl xl:px-4">
-        <Card className="w-full max-w-4xl mx-auto" style={{viewTransitionName: `card-session-${session.id}`}}>
-          {/*<Suspense>*/}
-            <SessionDetails session={session} />
-          {/*</Suspense>*/}
-        </Card>
+        <SessionDetails session={session} />
       </div>
     </ContentLayout>
   )

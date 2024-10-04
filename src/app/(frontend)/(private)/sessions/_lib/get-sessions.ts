@@ -191,6 +191,20 @@ export const getSessionsBySearchParams = async (params?: GetSessionsParams, user
             },
           ],
         },
+        {
+          and: [
+            {
+              status: {
+                equals: 'cancelled',
+              }
+            },
+            {
+              scheduledAt: {
+                exists: false,
+              }
+            }
+          ]
+        }
       ],
     })
   }

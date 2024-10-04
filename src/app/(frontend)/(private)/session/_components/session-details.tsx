@@ -1,6 +1,6 @@
 import React from 'react'
 import { SessionEvent, SessionTag, User } from '@/payload-types'
-import { CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import StatusBadge from '@/app/(frontend)/(private)/_components/status-badge'
 import { Badge } from '@/components/ui/badge'
 import InterestComponent from '@/app/(frontend)/(private)/_components/interest-component'
@@ -9,22 +9,20 @@ import SuggestedBy from '@/app/(frontend)/(private)/sessions/_components/session
 import { Link } from 'next-view-transitions'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
-import { Button } from '@/components/ui/button'
-import { Edit } from 'lucide-react'
+import SessionOptions from '@/app/(frontend)/(private)/session/_components/session-options'
+
 
 const SessionDetails = async ({ session, topic = false }: { session: SessionEvent, topic?: boolean }) => {
   const user = await sessionUser();
   const presenters = session.presenters as User[] | undefined;
 
   return (
-    <>
+    <Card className="w-full max-w-4xl mx-auto" style={{viewTransitionName: `card-session-${session.id}`}}>
       <CardHeader className="space-y-6">
         <div className="flex justify-between items-start">
           <CardTitle className="text-3xl font-bold pr-4" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</CardTitle>
           {user && presenters && presenters.some(presenter => presenter.id === user.id) &&
-            <Button asChild size="sm" variant="ghost" className="text-muted-foreground">
-            <Link href={`/session/${session.id}/edit`}><Edit className="w-5 h-5" /></Link>
-          </Button>}
+            <SessionOptions session={session}  />}
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}
@@ -61,7 +59,7 @@ const SessionDetails = async ({ session, topic = false }: { session: SessionEven
           </div>
         </div>
       </CardContent>
-    </>
+    </Card>
   )
 }
 
