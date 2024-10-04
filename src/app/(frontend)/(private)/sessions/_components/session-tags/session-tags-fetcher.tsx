@@ -6,9 +6,6 @@ import { getTags } from '@/app/(frontend)/(private)/sessions/_lib/get-tags'
 const SessionTagFetcher = async () => {
   const tags = await getTags()
 
-  // wait for 2 seconds
-  await new Promise(resolve => setTimeout(resolve, 2000))
-
   return (
     <SessionTagsClient tags={tags} />
   )

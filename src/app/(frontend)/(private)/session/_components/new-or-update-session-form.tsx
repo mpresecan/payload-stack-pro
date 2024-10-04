@@ -22,11 +22,12 @@ import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import { useState, useTransition } from 'react'
 import { MultiSelect } from '@/components/ui/multi-select'
-import { SessionTag } from '@/payload-types'
+import { SessionEvent, SessionTag } from '@/payload-types'
 import { toast } from 'sonner'
-import { addNewSession } from '@/app/(frontend)/(private)/session/_actions/add-new-session'
+import { addNewSession } from '../_actions/add-new-session'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { updateSession } from '../_actions/update-sessions'
 
 // Extract max lengths from Zod schema
 const MAX_TITLE_LENGTH = newSessionSchema.shape.title.maxLength
@@ -34,12 +35,18 @@ const MAX_SUMMARY_LENGTH = newSessionSchema.shape.shortDescription.maxLength
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
-const NewSessionForm = ({tags} : {tags: SessionTag[]}) => {
+const NewOrUpdateSessionForm = ({tags, session = undefined} : {tags: SessionTag[], session?: SessionEvent}) => {
+  const sessionTags = session?.tags as SessionTag[];
+
+  const shouldUpdate = session !== undefined;
+
   const form = useForm<NewSessionFormValues>({
     resolver: zodResolver(newSessionSchema),
     defaultValues: {
-      title: '',
-      shortDescription: '',
+      title: session?.title || '',
+      shortDescription: session?.shortDescription || '',
+      fullDescription: JSON.stringify(session?.fullDescription) || undefined,
+      tags: sessionTags?.map(t => t.id) || [],
     },
   })
   const [isPending, startTransition] = useTransition()
@@ -50,8 +57,8 @@ const NewSessionForm = ({tags} : {tags: SessionTag[]}) => {
   async function onSubmit(values: NewSessionFormValues) {
     startTransition(async () => {
       try {
-        const results = await addNewSession(values)
-        toast.success('Session created!')
+        const results = shouldUpdate ? await updateSession(values, session) : await addNewSession(values);
+        toast.success(shouldUpdate ? 'Session updated!' : 'Session created!')
         router.push(`/session/${results.id}`)
       } catch (error) {
         console.error(error)
@@ -63,7 +70,7 @@ const NewSessionForm = ({tags} : {tags: SessionTag[]}) => {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto" style={{viewTransitionName: `card-session-${session ? session.id : 'new'}`}}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <CardHeader className="pb-0">
@@ -188,4 +195,4 @@ const NewSessionForm = ({tags} : {tags: SessionTag[]}) => {
   )
 }
 
-export default NewSessionForm
+export default NewOrUpdateSessionForm

@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/breadcrumb'
 import { Link } from 'next-view-transitions'
 import { ContentLayout } from '@/components/admin-panel/content-layout'
-import NewSessionForm from '../_components/new-session-form'
+import NewOrUpdateSessionForm from '../_components/new-or-update-session-form'
 import { getTags } from '@/app/(frontend)/(private)/sessions/_lib/get-tags'
 
 const NewSessionPage = async () => {
@@ -29,7 +29,7 @@ const NewSessionPage = async () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <NewSessionForm tags={tags} />
+      <NewOrUpdateSessionForm tags={tags} />
     </ContentLayout>
   )
 }
