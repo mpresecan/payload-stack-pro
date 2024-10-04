@@ -133,7 +133,7 @@ function HeroImage() {
       <HeroVideoDialog
         animationStyle="from-center"
         videoSrc="https://www.youtube.com/watch?v=qh3NGpYRG3I"
-        thumbnailSrc="/dashboard.png"
+        thumbnailSrc="/what-is-unconference.jpg"
         thumbnailAlt="Hero Video"
         className="border rounded-lg shadow-lg max-w-screen-lg mt-16"
       />

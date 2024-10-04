@@ -27,7 +27,7 @@ const AuthCardWrapper = ({children, title, subtitle, footer, className} : AuthCa
         }}
       >
         <motion.h1
-          className="text-3xl font-bold"
+          className="text-4xl font-black"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{

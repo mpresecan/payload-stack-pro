@@ -6,6 +6,7 @@ import Safari from "../safari";
 import Section from "../section";
 import { cn } from "@/utilities/cn";
 import { motion } from "framer-motion";
+import Image from 'next/image'
 
 const features = [
   {
@@ -16,7 +17,7 @@ const features = [
     content: (
       <>
         <Safari
-          src={`/dashboard.png`}
+          src={`/vote.png`}
           url="https://acme.ai"
           className="-mb-32 mt-4 max-h-64 w-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-y-[-10px] transition-all duration-300"
         />
@@ -31,7 +32,7 @@ const features = [
       "order-3 xl:order-none hover:bg-blue-500/10 transition-all duration-500 ease-out",
     content: (
       <Safari
-        src={`/dashboard.png`}
+        src={`/faith-focused.png`}
         url="https://acme.ai"
         className="-mb-32 mt-4 max-h-64 w-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-y-[-10px] transition-all duration-300"
       />

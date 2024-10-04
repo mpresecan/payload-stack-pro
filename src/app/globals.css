@@ -105,3 +105,7 @@
   background-color: hsl(var(--primary) / 0.1);
   color: hsl(var(--primary));
 }
+
+html {
+  scrollbar-gutter: stable;
+}

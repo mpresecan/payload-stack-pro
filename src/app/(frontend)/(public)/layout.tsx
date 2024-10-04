@@ -1,6 +1,6 @@
 import React from 'react'
 import Header from '@/app/(frontend)/(public)/_components/header'
-import Footer from './_components/footer'
+import { Footer } from './_components/sections/footer-2'
 
 const Layout = ({ children }: React.PropsWithChildren) => {
   return (
