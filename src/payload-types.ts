@@ -82,6 +82,7 @@ export interface SessionEvent {
   scheduledAt?: string | null;
   suggestedBy?: (string | null) | User;
   presenters?: (string | User)[] | null;
+  allowMultiplePresenters?: boolean | null;
   tags: (string | SessionTag)[];
   interestedAttendeesCount: number;
   interestedUsers?: {

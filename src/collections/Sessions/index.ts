@@ -167,12 +167,28 @@ export const Sessions: CollectionConfig = {
               ]
             },
             {
-              name: 'presenters',
-              type: 'relationship',
-              relationTo: COLLECTION_SLUG_USERS,
-              hasMany: true,
-              required: false,
-              // validate: TODO: Check if the user is a presenter
+              type: 'row',
+              fields: [
+                {
+                  name: 'presenters',
+                  type: 'relationship',
+                  relationTo: COLLECTION_SLUG_USERS,
+                  hasMany: true,
+                  required: false,
+                  // validate: TODO: Check if the user is a presenter
+                  admin: {
+                    width: '50%',
+                  }
+                },
+                {
+                  name: 'allowMultiplePresenters',
+                  type: 'checkbox',
+                  required: false,
+                  admin: {
+                    width: '50%'
+                  }
+                }
+              ]
             },
             {
               name: 'tags',

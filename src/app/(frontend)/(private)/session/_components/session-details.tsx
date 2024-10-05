@@ -9,6 +9,7 @@ import SuggestedBy from '@/app/(frontend)/(private)/sessions/_components/session
 import { Link } from 'next-view-transitions'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
+import SessionEditOptions from '@/app/(frontend)/(private)/session/_components/session-edit-options'
 import SessionOptions from '@/app/(frontend)/(private)/session/_components/session-options'
 
 
@@ -28,7 +29,9 @@ const SessionDetails = async ({ session, topic = false }: { session: SessionEven
               (!isProposedTopic && presenters && presenters.some(presenter => presenter.id === user.id) ) ||
               (isProposedTopic && suggestedBy && suggestedBy.id === user.id)
             ) &&
-            <SessionOptions session={session} allowCancel={!isProposedTopic} />}
+            <SessionEditOptions session={session} allowCancel={!isProposedTopic} setRemovePresenter={presenters && presenters.at(0)?.id !== user.id} />}
+          {user && session.allowMultiplePresenters === true && !isProposedTopic && presenters && !presenters.some(presenter => presenter.id === user.id) &&
+            <SessionOptions session={session} />}
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}

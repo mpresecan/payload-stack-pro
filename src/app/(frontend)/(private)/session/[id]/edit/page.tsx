@@ -51,7 +51,7 @@ const EditSessionPage = async ({ params }: Props) => {
 
   const user = await sessionUser();
   const presenters = session.presenters as User[]
-  if(!user || presenters.some(presenter => presenter.id !== user.id)) {
+  if(!user || !presenters.some(presenter => presenter.id == user.id)) {
     return NotFound()
   }
 

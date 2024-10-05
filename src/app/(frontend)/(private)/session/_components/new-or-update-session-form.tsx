@@ -22,13 +22,14 @@ import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
 import { useState, useTransition } from 'react'
 import { MultiSelect } from '@/components/ui/multi-select'
-import { SessionEvent, SessionTag } from '@/payload-types'
+import { SessionEvent, SessionTag, User } from '@/payload-types'
 import { toast } from 'sonner'
 import { addNewSession } from '../_actions/add-new-session'
 import { Loader2 } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { updateSession } from '../_actions/update-sessions'
 import { Link } from 'next-view-transitions'
+import { Switch } from '@/components/ui/switch'
 
 // Extract max lengths from Zod schema
 const MAX_TITLE_LENGTH = newSessionSchema.shape.title.maxLength
@@ -44,6 +45,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
   const sessionTags = session?.tags as SessionTag[]
 
   const shouldUpdate = session !== undefined
+  const firstPresenter = shouldUpdate ? session?.presenters?.at(0) as User : undefined
 
   const form = useForm<NewSessionFormValues>({
     resolver: zodResolver(newSessionSchema),
@@ -52,6 +54,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
       shortDescription: session?.shortDescription || '',
       fullDescription: JSON.stringify(session?.fullDescription) || undefined,
       tags: sessionTags?.map(t => t.id) || [],
+      allowMultiplePresenters: session?.allowMultiplePresenters || false,
     },
   })
   const [isPending, startTransition] = useTransition()
@@ -113,7 +116,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
               />
             </div>
           </CardHeader>
-          <CardContent className="space-y-2">
+          <CardContent className="space-y-8">
             <FormField
               control={form.control}
               name="shortDescription"
@@ -181,6 +184,30 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
                 </FormItem>
               )}
             />
+            {!isTopicSuggestion &&
+              (!shouldUpdate || (user && firstPresenter && firstPresenter.id === user.id)) &&
+              <FormField
+                control={form.control}
+                name="allowMultiplePresenters"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+                    <div className="space-y-0.5">
+                      <FormLabel>Allow co-presenters</FormLabel>
+                      <FormDescription>
+                        Allow others to join your session as co-presenters. They will be able to help present and edit
+                        the
+                        session details.
+                      </FormDescription>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />}
           </CardContent>
           <CardFooter className="flex flex-col gap-2">
             <Button className="w-full" size="lg">
