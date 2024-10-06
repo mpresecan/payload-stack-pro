@@ -10,7 +10,7 @@ export const POST = async (request: Request) => {
       config: configPromise,
       request,
     })
-throw new Error('Not implemented')
+
     const collection = req.payload.collections?.[COLLECTION_SLUG_USERS]
 
     if (!collection) {
@@ -72,11 +72,6 @@ throw new Error('Not implemented')
 
   } catch (error) {
     console.error('ERROR CAUGHT in /api/login route:', error)
-    // for debugging purposes
-    return Response.json({
-      error: error.message,
-      description: error.stack || 'Please try again.',
-    })
 
     if (error instanceof AuthenticationError) {
       return Response.json({
