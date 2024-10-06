@@ -17,7 +17,14 @@ const nextConfig = {
     ],
   },
   reactStrictMode: true,
-  // output: 'export',
+  redirects: async () => [
+    {
+      source: '/:path*',
+      has: [{ type: 'host', value: 'www.adventconference.com' }],
+      destination: 'https://adventconference.com/:path*',
+      permanent: true
+    }
+  ]
 }
 
 export default withPayload(nextConfig)

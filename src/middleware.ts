@@ -12,18 +12,6 @@ import {
 
 export default async function middleware(request: NextRequest) {
 
-  const url = request.nextUrl.clone();
-
-  // Check if the host starts with 'www.'
-  if (url.hostname.startsWith('www.')) {
-    // Remove 'www.' from the hostname
-    const newHostname = url.hostname.replace(/^www\./, '')
-
-    // Set the new hostname and return a redirect response
-    url.hostname = newHostname
-    return NextResponse.redirect(url)
-  }
-
   const user = await sessionUser(request);
   const {nextUrl} = request;
 
