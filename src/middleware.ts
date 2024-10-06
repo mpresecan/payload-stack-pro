@@ -82,10 +82,10 @@ export default async function middleware(request: NextRequest) {
   }
 
   // prevent non-admin user from accessing admin routes
-  const isAdminRoute = nextUrl.pathname.startsWith('/admin');
-  if(isLoggedIn && isAdminRoute && user.role !== 'admin') {
-    return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
-  }
+  // const isAdminRoute = nextUrl.pathname.startsWith('/admin');
+  // if(isLoggedIn && isAdminRoute && user.role !== 'admin') {
+  //   return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
+  // }
 
   // is public route, so ignore, and mind your own business
   return null;

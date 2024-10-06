@@ -31,12 +31,12 @@ const Users: CollectionConfig = {
     useAsTitle: 'name',
   },
   auth: {
-    verify: false,
-    // verify: {
-    //   generateEmailHTML: ({ token, user }) => {
-    //     return render(VerificationEmail({ emailVerificationToken: token, user }))
-    //   },
-    // },
+    // verify: false,
+    verify: {
+      generateEmailHTML: ({ token, user }) => {
+        return render(VerificationEmail({ emailVerificationToken: token, user }))
+      },
+    },
     forgotPassword: {
       // @ts-ignore
       generateEmailHTML: ({ token, user }) => {
