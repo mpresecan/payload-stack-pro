@@ -8,6 +8,7 @@ type Submenu = {
   href: string;
   label: string;
   active: boolean;
+  newTab?: boolean;
 };
 
 type Menu = {
@@ -72,11 +73,24 @@ export function getMenuList(pathname: string): Group[] {
           newTab: true,
         },
         {
-          href: "https://adventleaders.com/unconference/location",
+          href: "",
           label: "Travel Guide",
           active: pathname.includes("/location"),
           icon: Navigation,
-          submenus: [],
+          submenus: [
+            {
+              href: "https://adventleaders.com/unconference/location",
+              label: 'How to get to Berivoi',
+              active: false,
+              newTab: true,
+            },
+            {
+              href: "https://docs.google.com/document/d/18YtcmNVoIvpNb012-tuogije2bE1prWzbTHb-bm2Xz0/edit?usp=sharing",
+              label: 'Tourism Options',
+              active: false,
+              newTab: true,
+            }
+          ],
           newTab: true,
         }
       ]

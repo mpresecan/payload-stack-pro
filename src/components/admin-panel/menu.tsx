@@ -100,6 +100,7 @@ export function Menu({ isOpen }: MenuProps) {
                         active={active}
                         submenus={submenus}
                         isOpen={isOpen}
+                        newTab={newTab}
                       />
                     </div>
                   ),
