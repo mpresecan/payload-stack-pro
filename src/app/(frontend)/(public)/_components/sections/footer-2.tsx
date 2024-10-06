@@ -44,10 +44,10 @@ export function Footer() {
 
         <div className="mt-2.5 flex items-center justify-between">
           <div className="flex flex-col gap-y-1">
-            <p className="text-lg font-bold">Contact us</p>
-            <p className="font-normal text-neutral-500 dark:font-medium">
-              Reach us through email
-            </p>
+            <p className="text-lg font-bold">Get in touch</p>
+            {/*<p className="font-normal text-neutral-500 dark:font-medium">*/}
+            {/*  Get in touch with us by email*/}
+            {/*</p>*/}
             <div className="flex items-center gap-x-2 pt-2">
               <Link href='mailto:info@adventconference.com' className='italic'>info@adventconference.com</Link>
             </div>

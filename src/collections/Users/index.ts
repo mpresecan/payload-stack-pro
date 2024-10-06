@@ -8,6 +8,14 @@ import {
 import { VerificationEmail } from '@/app/(frontend)/(auth)/_components/emails/verification-email'
 import { render } from '@react-email/render'
 import { ForgotPasswordEmail } from '@/app/(frontend)/(auth)/_components/emails/forgot-password-email'
+import {
+  AdminNewUserRegisteredEmail,
+  adminNewUserRegistrationText,
+} from '@/app/(frontend)/(auth)/_components/emails/admin-new-user-registered'
+import {
+  UserActivatedEmail,
+  userActivatedEmailText,
+} from '@/app/(frontend)/(auth)/_components/emails/user-activated-email'
 
 const Users: CollectionConfig = {
   slug: COLLECTION_SLUG_USERS,
@@ -23,11 +31,12 @@ const Users: CollectionConfig = {
     useAsTitle: 'name',
   },
   auth: {
-    verify: {
-      generateEmailHTML: ({ token, user }) => {
-        return render(VerificationEmail({ emailVerificationToken: token, user }))
-      },
-    },
+    verify: false,
+    // verify: {
+    //   generateEmailHTML: ({ token, user }) => {
+    //     return render(VerificationEmail({ emailVerificationToken: token, user }))
+    //   },
+    // },
     forgotPassword: {
       // @ts-ignore
       generateEmailHTML: ({ token, user }) => {
@@ -132,6 +141,42 @@ const Users: CollectionConfig = {
         })
       },
     ],
+    afterChange: [
+      async ({ req, doc, operation, previousDoc}) => {
+        if(operation === 'update' && doc.name && !previousDoc?.name) {
+          // get all admins
+          const admins = await req.payload.find({
+            collection: COLLECTION_SLUG_USERS,
+            where: {
+              role: {
+                equals: 'admin',
+              }
+            },
+            limit: 99999999
+          })
+
+          for (const admin of admins.docs) {
+            // send email to each admin
+            await req.payload.sendEmail({
+              to: admin.email,
+              subject: `New User Registered - ${doc.name} - Pending Approval`,
+              html: await render(AdminNewUserRegisteredEmail({ user: doc })),
+              text: adminNewUserRegistrationText({ user: doc }),
+            })
+          }
+        }
+      },
+      async ({ req, doc, operation, previousDoc }) => {
+        if(operation === 'update' && doc.status === 'active' && previousDoc?.status === 'waiting-list') {
+          await req.payload.sendEmail({
+            to: doc.email,
+            subject: 'Welcome Aboard! Your Account is Now Active 🎉',
+            html: await render(UserActivatedEmail({ user: doc })),
+            text: userActivatedEmailText({ user: doc }),
+          })
+        }
+      }
+    ]
   },
 }
 
