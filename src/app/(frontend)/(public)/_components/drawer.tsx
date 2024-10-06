@@ -12,6 +12,7 @@ import { cn } from "@/utilities/cn";
 import Link from "next/link";
 import { IoMenuSharp } from "react-icons/io5";
 import { Icons } from "./icons";
+import { BiSolidChevronsRight } from 'react-icons/bi'
 
 export default function drawerDemo() {
   return (
@@ -25,10 +26,10 @@ export default function drawerDemo() {
             <Link
               href="/"
               title="brand-logo"
-              className="relative mr-6 flex items-center space-x-2"
+              className="relative mr-6 flex items-center"
             >
-              <Icons.logo className="w-auto h-[40px]" />
-              <span className="font-bold text-xl">{siteConfig.name}</span>
+              <BiSolidChevronsRight size={27} className="text-primary" />
+              <span className="text-xl">advent</span><span className="text-xl text-primary">conference</span>
             </Link>
           </div>
           <nav>
@@ -61,8 +62,8 @@ export default function drawerDemo() {
               "w-full sm:w-auto text-background flex gap-2"
             )}
           >
-            <Icons.logo className="h-6 w-6" />
-            Get Started for Free
+            <BiSolidChevronsRight className="h-5 w-5" />
+            Get Started
           </Link>
         </DrawerFooter>
       </DrawerContent>
