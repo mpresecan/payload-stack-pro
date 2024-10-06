@@ -12,10 +12,9 @@ import InterestComponent from '@/app/(frontend)/(private)/_components/interest-c
 import { Link } from 'next-view-transitions'
 import SuggestedBy from '@/app/(frontend)/(private)/sessions/_components/session-item/sugessted-by'
 
-const SessionComponent = ({ session, currentUser }: { session: SessionEvent, currentUser?: User | null | undefined }) => {
+const SessionComponent = ({ session, currentUser, topicList }: { session: SessionEvent, currentUser?: User | null | undefined, topicList?: boolean }) => {
   const [showMore, setShowMore] = useState(false)
 
-  const voters: User[] = session.interestedUsers?.docs?.map(voter => (voter as SessionInterestedAttendee).user as User) || []
   const tags: SessionTag[] = session.tags.map(tag => tag as SessionTag)
 
   return (
@@ -43,7 +42,7 @@ const SessionComponent = ({ session, currentUser }: { session: SessionEvent, cur
           </div>
         </div>
         <div className="relative z-10 mt-2">
-          <InterestComponent session={session} refetchSessions={true} user={currentUser} />
+          <InterestComponent session={session} showPresentButton={topicList} refetchSessions={true} user={currentUser} />
         </div>
         <div className="mt-2 relative z-0">
           <AnimatePresence initial={false}>

@@ -48,7 +48,7 @@ const SessionsList = ({topicList = false, currentUser} : {topicList?: boolean, c
                     isolation: 'isolate'
                   }}
                 >
-                  <Session session={session} currentUser={currentUser} />
+                  <Session session={session} topicList={topicList} currentUser={currentUser} />
                 </motion.div>
               ))}
             </AnimatePresence>

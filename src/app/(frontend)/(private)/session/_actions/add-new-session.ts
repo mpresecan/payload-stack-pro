@@ -6,7 +6,7 @@ import { getPayload } from '@/lib/payload'
 import { COLLECTION_SLUG_SESSIONS } from '@/collections/slugs'
 import { sessionUser } from '@/app/(frontend)/(auth)/_lib/auth'
 
-type NewSessionFormValues = z.infer<typeof newSessionSchema>
+  type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
 export const addNewSession = async (formData: NewSessionFormValues, isTopicSuggestion = false) => {
 

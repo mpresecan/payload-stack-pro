@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { Button } from '@/components/ui/button'
-import { ThumbsUpIcon, Users } from 'lucide-react'
+import { Notebook, ThumbsUpIcon, Users } from 'lucide-react'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
@@ -21,11 +21,12 @@ import { HoverUserCard } from '@/app/(frontend)/(private)/_components/user-hover
 import { Link } from 'next-view-transitions'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
 
-const InterestComponent = ({ session, refetchSessions = false, bigButton = false, user }: {
+const InterestComponent = ({ session, refetchSessions = false, bigButton = false, user, showPresentButton = false }: {
   session: SessionEvent,
   refetchSessions?: boolean,
   bigButton?: boolean,
   user?: User | null | undefined
+  showPresentButton?: boolean
 }) => {
   const shouldVote = !['live', 'finished'].includes(session.status)
 
@@ -49,7 +50,7 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
   return (
     <div ref={ref} className="flex flex-wrap items-center justify-between mb-2"
          style={{ viewTransitionName: `session-interest-component-${session.id}` }}>
-      <div className="flex-initial items-center mb-2 sm:mb-0">
+      <div className="flex items-center justify-center mb-2 sm:mb-0">
         <Button
           variant={isUserInterested ? 'default' : 'outline'}
           size={bigButton ? 'lg' : 'sm'}
@@ -60,6 +61,17 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
           <ThumbsUpIcon className="mr-2 h-4 w-4" />
           {isToggling ? 'Updating...' : (isUserInterested ? 'Interested' : 'Show Interest')}
         </Button>
+        {showPresentButton && <Button
+          asChild
+          className="ml-2 text-muted-foreground"
+          variant="outline"
+          size={bigButton ? 'lg' : 'sm'}
+        >
+          <Link href={`/suggested-topic/${session.id}/present`}>
+            <Notebook className="h-4 w-4 mr-2" />
+            Present on this
+          </Link>
+        </Button>}
       </div>
       <div className="flex items-center space-x-2">
         <Dialog>
@@ -87,14 +99,14 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
                     <UserAvatar user={voter} numberOfInitials={1} />
                     <div>
                       {typeof voter === 'string' ? (
-                          <p className="text-sm font-medium leading-none text-muted-foreground">Deleted User</p>
+                        <p className="text-sm font-medium leading-none text-muted-foreground">Deleted User</p>
                       ) : (
                         <>
                           <p className="text-sm font-medium leading-none"><Link
                             href={`/user/${voter.handle}`}>{voter.name}</Link></p>
                           <p className="text-sm text-muted-foreground">@{voter.handle}</p>
                         </>
-                        )}
+                      )}
                     </div>
                   </div>
                 ))}

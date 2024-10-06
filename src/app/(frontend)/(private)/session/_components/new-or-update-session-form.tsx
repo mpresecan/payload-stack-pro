@@ -30,6 +30,7 @@ import { useRouter } from 'next/navigation'
 import { updateSession } from '../_actions/update-sessions'
 import { Link } from 'next-view-transitions'
 import { Switch } from '@/components/ui/switch'
+import { convertTopicToSession } from '../_actions/convert-topic-to-session'
 
 // Extract max lengths from Zod schema
 const MAX_TITLE_LENGTH = newSessionSchema.shape.title.maxLength
@@ -37,10 +38,11 @@ const MAX_SUMMARY_LENGTH = newSessionSchema.shape.shortDescription.maxLength
 
 type NewSessionFormValues = z.infer<typeof newSessionSchema>
 
-const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion = false }: {
+const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion = false, fromTopicSuggestion = false }: {
   tags: SessionTag[],
   session?: SessionEvent,
-  isTopicSuggestion?: boolean
+  isTopicSuggestion?: boolean,
+  fromTopicSuggestion?: boolean
 }) => {
   const sessionTags = session?.tags as SessionTag[]
 
@@ -65,9 +67,15 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
   async function onSubmit(values: NewSessionFormValues) {
     startTransition(async () => {
       try {
-        const result = shouldUpdate ? await updateSession(values, session, isTopicSuggestion) : await addNewSession(values, isTopicSuggestion)
-        toast.success(shouldUpdate ? (isTopicSuggestion ? 'Topic' : 'Session') + ' updated!' : (isTopicSuggestion ? 'Topic' : 'Session') + ' created!')
-        router.push(isTopicSuggestion ? `/suggested-topic/${result.id}` : `/session/${result.id}`)
+        if(fromTopicSuggestion) {
+          const result = await convertTopicToSession(values, session?.id)
+          toast.success('Topic converted to session!')
+          router.push(`/session/${result.id}`)
+        } else {
+          const result = shouldUpdate ? await updateSession(values, session, isTopicSuggestion) : await addNewSession(values, isTopicSuggestion)
+          toast.success(shouldUpdate ? (isTopicSuggestion ? 'Topic' : 'Session') + ' updated!' : (isTopicSuggestion ? 'Topic' : 'Session') + ' created!')
+          router.push(isTopicSuggestion ? `/suggested-topic/${result.id}` : `/session/${result.id}`)
+        }
       } catch (error) {
         console.error(error)
         toast.error('Failed to create session', {
@@ -226,7 +234,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
             </Button>
             {session && (
               <Button variant="outline" className="w-full" asChild>
-                <Link href={`/${isTopicSuggestion ? 'suggested-topic' : 'session'}/${session.id}`}>
+                <Link href={`/${isTopicSuggestion || fromTopicSuggestion ? 'suggested-topic' : 'session'}/${session.id}`}>
                   Cancel
                 </Link>
               </Button>

@@ -56,7 +56,7 @@ const SessionDetails = async ({ session, topic = false }: { session: SessionEven
       </CardHeader>
       <CardContent className="space-y-6">
         <div className="relative z-10">
-          <InterestComponent session={session} bigButton={true} user={user}/>
+          <InterestComponent session={session} showPresentButton={topic} bigButton={true} user={user}/>
         </div>
 
         <div className="space-y-4 relative z-0 mt-16">
