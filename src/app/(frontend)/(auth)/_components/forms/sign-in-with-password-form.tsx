@@ -64,6 +64,7 @@ const SignInWithPasswordForm = () => {
         }
 
         if ('error' in result) {
+          console.log('result', result)
           toast.error(result?.error || "Something went wrong", {
             description: result?.description || "Please try again.",
             action: result?.action && result.action?.redirect && result.action?.label ? {
