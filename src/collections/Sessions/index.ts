@@ -10,6 +10,12 @@ import { authenticated } from '@/access/authenticated'
 import { anyone } from '@/access/anyone'
 import { revalidatePath, revalidateTag } from 'next/cache'
 import { BoldFeature, ItalicFeature, lexicalEditor, UnderlineFeature, OrderedListFeature, UnorderedListFeature, LinkFeature, BlockquoteFeature, HeadingFeature } from '@payloadcms/richtext-lexical'
+import { render } from '@react-email/render'
+import { UserActivatedEmail } from '@/app/(frontend)/(auth)/_components/emails/user-activated-email'
+import {
+  newSuggestionTopicCreatedEmailText,
+  NewSuggestionTopicCreatedEmail,
+} from '@/app/(frontend)/(private)/_components/emails/new-topic-suggestion-created-email'
 
 export const Sessions: CollectionConfig = {
   slug: COLLECTION_SLUG_SESSIONS,
@@ -230,6 +236,32 @@ export const Sessions: CollectionConfig = {
     afterChange: [
       async () => {
         revalidateTag('sessions')
+      },
+      async ({req, doc, operation}) => {
+        if(operation === 'create' && doc.status === 'wished') {
+          // get all users except the current user
+          const suggestedBy = doc.suggestedBy;
+          // send a notification to all users except the suggestedBy user
+
+          const potentialInterestedUsers = await req.payload.find({
+            collection: COLLECTION_SLUG_USERS,
+            where: {
+              id: {
+                not_equals: suggestedBy.id
+              }
+            },
+            limit: 9999999
+          });
+
+          for (const user of potentialInterestedUsers.docs) {
+            await req.payload.sendEmail({
+              to: user.email,
+              subject: `New Topic Suggestion: ${suggestedBy.name} – Vote or Lead the Session!`,
+              html: await render(NewSuggestionTopicCreatedEmail({ session: doc, user: user })),
+              text: newSuggestionTopicCreatedEmailText({ session: doc, user: user }),
+            })
+          }
+        }
       }
     ]
   }

@@ -107,5 +107,12 @@ export default async function middleware(request: NextRequest) {
 // Clerk's matcher is better than NextAuth's
 // https://clerk.com/docs/references/nextjs/auth-middleware
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: [
+    // Match all paths except those ending with a file extension or starting with _next
+    "/((?!.+\\.[\\w]+$|_next).*)",
+    // Match the root path and www subdomain
+    "/(www\\.)?((?!api|trpc|_next|static|.*\\.[\\w]+$).*)",
+    // Match api and trpc routes
+    "/(api|trpc)(.*)",
+  ],
 };
