@@ -105,8 +105,8 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   collections: [Sessions, SessionTags, interestedAttendees, Pages, Posts, Media, Categories, Users],
-  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
-  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || ''].filter(Boolean),
+  cors: [process.env.PAYLOAD_PUBLIC_SERVER_URL || '', 'https://www.adventconference.com', 'https://adventconference.com'].filter(Boolean),
+  csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL || '', 'https://www.adventconference.com', 'https://adventconference.com'].filter(Boolean),
   globals: [Header, Footer],
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_DEFAULT_EMAIL || 'onboarding@resend.dev',
