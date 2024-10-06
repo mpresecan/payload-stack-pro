@@ -74,8 +74,6 @@ const SignInWithPasswordForm = () => {
           })
           return;
         }
-
-
       } catch (error) {
         toast.error('Something went wrong', {
           description: 'Please try again.',

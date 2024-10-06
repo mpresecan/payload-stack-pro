@@ -132,7 +132,7 @@ function HeroImage() {
     >
       <HeroVideoDialog
         animationStyle="from-center"
-        videoSrc="https://www.youtube.com/watch?v=qh3NGpYRG3I"
+        videoSrc="https://www.youtube.com/embed/vC7Z0GGFQFU?si=I8rA1vEZ83eVbTZ5"
         thumbnailSrc="/what-is-unconference.jpg"
         thumbnailAlt="Hero Video"
         className="border rounded-lg shadow-lg max-w-screen-lg mt-16"
