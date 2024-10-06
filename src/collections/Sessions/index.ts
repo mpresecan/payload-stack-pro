@@ -16,6 +16,10 @@ import {
   newSuggestionTopicCreatedEmailText,
   NewSuggestionTopicCreatedEmail,
 } from '@/app/(frontend)/(private)/_components/emails/new-topic-suggestion-created-email'
+import { User } from '@/payload-types'
+import {
+  NewSessionProposalCreatedEmail, newSessionProposalCreatedEmailText,
+} from '@/app/(frontend)/(private)/_components/emails/new-session-proposal-create-email'
 
 export const Sessions: CollectionConfig = {
   slug: COLLECTION_SLUG_SESSIONS,
@@ -259,6 +263,31 @@ export const Sessions: CollectionConfig = {
               subject: `New Topic Suggestion: ${suggestedBy.name} – Vote or Lead the Session!`,
               html: await render(NewSuggestionTopicCreatedEmail({ session: doc, user: user })),
               text: newSuggestionTopicCreatedEmailText({ session: doc, user: user }),
+            })
+          }
+        }
+      },
+      async ({ req, operation, doc, previousDoc }) => {
+        if(operation === 'create' && doc.status === 'proposed') {
+          const presenters = doc.presenters as User[]
+          if(presenters.length === 0) {
+            return
+          }
+          const potentialPresenters = await req.payload.find({
+            collection: COLLECTION_SLUG_USERS,
+            where: {
+              id: {
+                not_in: presenters.map(p => p.id)
+              }
+            }
+          })
+
+          for (const presenter of potentialPresenters.docs) {
+            await req.payload.sendEmail({
+              to: presenter.email,
+              subject: `New Session Proposed: ${doc.title} – Vote now${doc.allowMultiplePresenters ? ' or Co-present' : ''}!`,
+              html: await render(NewSessionProposalCreatedEmail({ session: doc, user: presenter })),
+              text: newSessionProposalCreatedEmailText({ session: doc, user: presenter }),
             })
           }
         }

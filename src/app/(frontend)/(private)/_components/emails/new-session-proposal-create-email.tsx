@@ -5,32 +5,32 @@ import { EmailTemplate, emailTemplateText } from '@/components/email/email-templ
 import React, { JSX } from 'react'
 import { SessionEvent, SessionTag, User } from '@/payload-types'
 import { arrayJoin } from '@/utilities/array-join'
+import RichText from '@/components/RichText'
 
 interface NewSuggestionTopicCreatedEmailProps {
   session: SessionEvent
   user: User,
 }
 
-export function NewSuggestionTopicCreatedEmail({
+export function NewSessionProposalCreatedEmail({
                                                  session,
                                                  user,
                                                }: Readonly<NewSuggestionTopicCreatedEmailProps>): JSX.Element {
-  const previewText = `${siteConfig.name} New Topic Suggestion.`
-  const topicSuggestionLink = absoluteUrl(`/suggested-topic/${session.id}`)
-  const suggestedBy = session.suggestedBy as User
+  const previewText = `${siteConfig.name} New Session.`
+  const sessionLink = absoluteUrl(`/session/${session.id}`)
+  const presenter = session.presenters?.at(0) as User
   const sessionTags = session.tags as SessionTag[]
 
   return (
     <EmailTemplate
-      headingContent={<>New Topic Suggestion: <strong>{session.title}</strong> - Vote or Lead the Session!</>}
+      headingContent={<>New Session: <strong>{session.title}</strong> - Vote {session.allowMultiplePresenters ? 'or Co-present' : 'if interested'}!</>}
       previewText={previewText}
       greetingName={user.name}
     >
       <>
         <Text>
           <>
-            <strong>{suggestedBy.name}</strong> suggested a new topic: <strong>”{session.title}”</strong>, and we think you might be
-            interested!
+            <strong>{presenter.name}</strong> proposed new seesion: <strong>”{session.title}”</strong>, and we think it could be right up your alley!
           </>
         </Text>
         <table style={{
@@ -52,28 +52,31 @@ export function NewSuggestionTopicCreatedEmail({
                 paddingLeft: '18px',
               }}
             >
-              <strong>Summary:</strong> {session.shortDescription}<br />
+              <strong>Summary:</strong> {session.shortDescription}<br /><br />
+              {session.fullDescription && (<><strong>Description:</strong> <RichText content={session.fullDescription} /><br /><br /></>)}
               <strong>Tag{sessionTags.length === 0 ? '' : 's'}:</strong> {arrayJoin(sessionTags.map(t => t.name))}<br />
             </td>
           </tr>
           </tbody>
         </table>
         <Text>
-          Would you like to see this topic presented?<br />
-          <strong>Vote</strong> to show your interest or <strong>step up to lead the session</strong> if you’re
-          passionate about presenting on this subject!
+          Want to attend {session.allowMultiplePresenters ? 'or support ' : ''}this session?<br />
+          <strong>Vote now</strong> to show your interest{session.allowMultiplePresenters ? ', or if you’d like to share the stage, you can co-present with the speaker' : ''}!
         </Text>
         <Section>
-          <Button href={topicSuggestionLink} label="Vote Now or Lead the Session" />
+          <Button href={sessionLink} label={`Vote Now${session.allowMultiplePresenters ? ' or Co-present' : ''}`} />
         </Section>
         <SmallText>
           <>
             or copy and paste this URL into your browser:{' '}
-            <Link href={topicSuggestionLink}>
-              {topicSuggestionLink}
+            <Link href={sessionLink}>
+              {sessionLink}
             </Link>
           </>
         </SmallText>
+        <Text>
+          Let’s make this session happen!
+        </Text>
         <Text>
           Cheers,<br />
           The {siteConfig.name} Team
@@ -83,25 +86,25 @@ export function NewSuggestionTopicCreatedEmail({
   )
 }
 
-export const newSuggestionTopicCreatedEmailText = ({
-                                                 user,
-                                                 session,
-                                               }: Readonly<NewSuggestionTopicCreatedEmailProps>,
+export const newSessionProposalCreatedEmailText = ({
+                                                     user,
+                                                     session,
+                                                   }: Readonly<NewSuggestionTopicCreatedEmailProps>,
 ) => {
-  const topicSuggestionLink = absoluteUrl(`/suggested-topic/${session.id}`)
-  const suggestedBy = session.suggestedBy as User
+  const sessionLink = absoluteUrl(`/session/${session.id}`)
+  const presenter = session.presenters?.at(0) as User
   const sessionTags = session.tags as SessionTag[]
   const generalText = emailTemplateText()
 
   return `
         Hi ${user.name},\r\n\r\n
-        ${suggestedBy.name} suggested a new topic, ”${session.title}”, and we think you might be interested!\r\n\r\n
+        ${presenter.name} proposed new session: ”${session.title}”, and we think it could be right up your alley!\r\n\r\n
         Summary: ${session.shortDescription}\r\n\r\n
         Tags: ${arrayJoin(sessionTags.map(t => t.name))}\r\n\r\n
-        Would you like to see this topic presented?\r\n
-        Vote to show your interest or step up to lead the session if you’re passionate about presenting on this subject!\r\n\r\n
-        Vote Now or Lead the Session:\r\n
-        ${topicSuggestionLink}\r\n\r\n
+        Want to attend ${session.allowMultiplePresenters ? 'or support ' : ''}this session?\r\n
+        Vote now to show your interest${session.allowMultiplePresenters ? ', or if you’d like to share the stage, you can co-present with the speaker' : ''}!\r\n\r\n
+        Vote Now${session.allowMultiplePresenters ? ' or Co-present' : ''}:\r\n
+        ${sessionLink}\r\n\r\n
         Cheers,\r\n
         The ${siteConfig.name} Team\r\n\r\n
         ${generalText}

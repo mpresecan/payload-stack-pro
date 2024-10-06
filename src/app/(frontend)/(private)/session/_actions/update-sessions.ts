@@ -23,7 +23,7 @@ export const updateSession = async (formData: NewSessionFormValues, session: Ses
   if(session.presenters && presenters.some(presenter => presenter.id !== currentUser.id)) {
     throw new Error('User not authorized to update this session')
   }
-console.log('presenters', session.presenters)
+
   const payload = await getPayload()
   return await payload.update({
     collection: COLLECTION_SLUG_SESSIONS,

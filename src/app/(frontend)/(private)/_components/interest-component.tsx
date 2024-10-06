@@ -48,9 +48,9 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
   }
 
   return (
-    <div ref={ref} className="flex flex-wrap items-center justify-between mb-2"
+    <div ref={ref} className="flex flex-wrap items-start justify-between mb-2"
          style={{ viewTransitionName: `session-interest-component-${session.id}` }}>
-      <div className="flex items-center justify-center mb-2 sm:mb-0">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-center mb-2 gap-2 sm:mb-0">
         <Button
           variant={isUserInterested ? 'default' : 'outline'}
           size={bigButton ? 'lg' : 'sm'}
@@ -63,7 +63,7 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
         </Button>
         {showPresentButton && <Button
           asChild
-          className="ml-2 text-muted-foreground"
+          className="text-muted-foreground"
           variant="outline"
           size={bigButton ? 'lg' : 'sm'}
         >
