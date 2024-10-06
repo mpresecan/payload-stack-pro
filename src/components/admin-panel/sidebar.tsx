@@ -41,7 +41,7 @@ export function Sidebar() {
                   : "translate-x-0 opacity-100"
               )}
             >
-              UNconfernece
+              UNconference
             </h1>
           </Link>
         </Button>
