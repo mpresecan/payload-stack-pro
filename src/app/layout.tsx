@@ -10,6 +10,7 @@ import './globals.css'
 import { draftMode } from 'next/headers'
 import { Inter } from "next/font/google";
 import { TailwindIndicator } from '@/components/tailwind-indicator'
+import PostHogPageView from '@/components/posthog-pageview'
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       >
       <Providers>
         <LivePreviewListener />
+        <PostHogPageView />
         {children}
         <TailwindIndicator />
       </Providers>

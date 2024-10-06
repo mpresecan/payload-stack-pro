@@ -24,6 +24,7 @@ import { PasswordInput } from '../password-input'
 import Link from 'next/link'
 import { Loader2 } from 'lucide-react'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
+import posthog from 'posthog-js'
 
 const SignInWithPasswordForm = () => {
   const [isPending, startTransition] = useTransition()
@@ -57,22 +58,31 @@ const SignInWithPasswordForm = () => {
             duration: 5000,
           })
 
-          if(!('specialAction' in result)) {
+          if (!('specialAction' in result)) {
             router.push(callbackUrl || DEFAULT_LOGIN_REDIRECT)
           }
-          return;
+
+          if (result.user) {
+            posthog.identify(result.user.id, {
+              email: result.user?.email,
+              name: result.user?.name,
+              handle: result.user?.handle,
+            })
+          }
+
+          return
         }
 
         if ('error' in result) {
-          toast.error(result?.error || "Something went wrong", {
-            description: result?.description || "Please try again.",
+          toast.error(result?.error || 'Something went wrong', {
+            description: result?.description || 'Please try again.',
             action: result?.action && result.action?.redirect && result.action?.label ? {
               label: result.action?.label,
-              onClick: () => router.push(result.action?.redirect || "/")
+              onClick: () => router.push(result.action?.redirect || '/'),
             } : undefined,
             duration: 7000,
           })
-          return;
+          return
         }
       } catch (error) {
         toast.error('Something went wrong', {
@@ -102,16 +112,16 @@ const SignInWithPasswordForm = () => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className='pt-2 sm:text-sm' />
+              <FormMessage className="pt-2 sm:text-sm" />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="password"
-          render={({field}) => (
+          render={({ field }) => (
             <FormItem>
-              <div className='flex items-center'>
+              <div className="flex items-center">
                 <FormLabel>Password</FormLabel>
                 <Link
                   href={FORGOT_PASSWORD_PAGE}
@@ -127,9 +137,9 @@ const SignInWithPasswordForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="w-full" size='lg' disabled={isPending}>
+        <Button type="submit" className="w-full" size="lg" disabled={isPending}>
           {isPending ? (
-            <><Loader2 className='mr-2 h-4 w-4 animate-spin' aria-hidden='true' />Logging in...</>
+            <><Loader2 className="mr-2 h-4 w-4 animate-spin" aria-hidden="true" />Logging in...</>
           ) : (
             <>
               Login

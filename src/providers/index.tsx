@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { ThemeProvider } from './theme-provider'
+import { CSPostHogProvider } from '@/providers/cs-posthog-provider'
 
 export const Providers: React.FC<{
   children: React.ReactNode
@@ -11,7 +12,9 @@ export const Providers: React.FC<{
       defaultTheme="light"
       enableSystem={false}
     >
-      {children}
+      <CSPostHogProvider>
+        {children}
+      </CSPostHogProvider>
     </ThemeProvider>
   )
 }

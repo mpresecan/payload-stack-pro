@@ -81,6 +81,7 @@
     "next-view-transitions": "^0.3.2",
     "oslo": "^1.2.1",
     "payload": "3.0.0-beta.110",
+    "posthog-js": "^1.166.1",
     "prism-react-renderer": "^2.4.0",
     "react": "19.0.0-rc-5dcb0097-20240918",
     "react-dom": "19.0.0-rc-5dcb0097-20240918",
