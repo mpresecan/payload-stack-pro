@@ -5,9 +5,7 @@ const defaultOpenGraph: Metadata['openGraph'] = {
   description: 'An open-source website built with Payload and Next.js.',
   images: [
     {
-      url: process.env.NEXT_PUBLIC_SERVER_URL
-        ? `${process.env.NEXT_PUBLIC_SERVER_URL}/website-template-OG.webp`
-        : '/website-template-OG.webp',
+      url: 'https://forgotten-pillar.s3.us-east-2.amazonaws.com/Hastening+Christ%E2%80%99+Return.jpg'
     },
   ],
   siteName: 'Payload Website Template',
