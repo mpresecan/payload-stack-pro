@@ -247,7 +247,7 @@ export const getSessionsBySearchParams = async (params?: GetSessionsParams, user
       where,
       sort,
       depth: 1,
-      limit: 10,
+      limit: 100,
       // page: page // TODO: implement pagination
     })
 

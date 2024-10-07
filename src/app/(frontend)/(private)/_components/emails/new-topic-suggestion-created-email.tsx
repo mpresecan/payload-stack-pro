@@ -53,7 +53,7 @@ export function NewSuggestionTopicCreatedEmail({
               }}
             >
               <strong>Summary:</strong> {session.shortDescription}<br />
-              <strong>Tag{sessionTags.length === 0 ? '' : 's'}:</strong> {arrayJoin(sessionTags.map(t => t.name))}<br />
+              <strong>Tag{sessionTags.length > 1 ? 's' : ''}:</strong> {arrayJoin(sessionTags.map(t => t.name))}<br />
             </td>
           </tr>
           </tbody>

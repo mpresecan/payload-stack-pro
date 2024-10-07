@@ -54,7 +54,7 @@ export function NewSessionProposalCreatedEmail({
             >
               <strong>Summary:</strong> {session.shortDescription}<br /><br />
               {session.fullDescription && (<><strong>Description:</strong> <RichText content={session.fullDescription} /><br /><br /></>)}
-              <strong>Tag{sessionTags.length === 0 ? '' : 's'}:</strong> {arrayJoin(sessionTags.map(t => t.name))}<br />
+              <strong>Tag{sessionTags.length > 1 ? 's' : ''}:</strong> {arrayJoin(sessionTags.map(t => t.name))}<br />
             </td>
           </tr>
           </tbody>
