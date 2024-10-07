@@ -8,18 +8,22 @@ import {
 } from '@/collections/slugs'
 import { authenticated } from '@/access/authenticated'
 import { anyone } from '@/access/anyone'
-import { revalidatePath, revalidateTag } from 'next/cache'
-import { BoldFeature, ItalicFeature, lexicalEditor, UnderlineFeature, OrderedListFeature, UnorderedListFeature, LinkFeature, BlockquoteFeature, HeadingFeature } from '@payloadcms/richtext-lexical'
-import { render } from '@react-email/render'
-import { UserActivatedEmail } from '@/app/(frontend)/(auth)/_components/emails/user-activated-email'
+import { revalidateTag } from 'next/cache'
 import {
-  newSuggestionTopicCreatedEmailText,
-  NewSuggestionTopicCreatedEmail,
-} from '@/app/(frontend)/(private)/_components/emails/new-topic-suggestion-created-email'
-import { User } from '@/payload-types'
+  BoldFeature,
+  ItalicFeature,
+  lexicalEditor,
+  UnderlineFeature,
+  OrderedListFeature,
+  UnorderedListFeature,
+  LinkFeature,
+  BlockquoteFeature,
+  HeadingFeature,
+} from '@payloadcms/richtext-lexical'
 import {
-  NewSessionProposalCreatedEmail, newSessionProposalCreatedEmailText,
-} from '@/app/(frontend)/(private)/_components/emails/new-session-proposal-create-email'
+  notifyPotentialParticipantsOnSessionCreate,
+  notifyPotentialPresentersOnTopicSuggestionCreate,
+} from './hooks/emails'
 
 export const Sessions: CollectionConfig = {
   slug: COLLECTION_SLUG_SESSIONS,
@@ -64,13 +68,13 @@ export const Sessions: CollectionConfig = {
                   LinkFeature(),
                   BlockquoteFeature(),
                   HeadingFeature(),
-                ]
+                ],
               }),
               validate: (_) => {
-                return true;
-              }
+                return true
+              },
             },
-          ]
+          ],
         },
         {
           label: 'Settings',
@@ -89,7 +93,7 @@ export const Sessions: CollectionConfig = {
                     {
                       label: 'On-site',
                       value: 'onsite',
-                    }
+                    },
                   ],
                   required: true,
                   defaultValue: 'online',
@@ -101,9 +105,9 @@ export const Sessions: CollectionConfig = {
                   required: true,
                   admin: {
                     condition: (_, siblingData) => siblingData.type === 'onsite',
-                  }
+                  },
                 },
-              ]
+              ],
             },
             {
               type: 'row',
@@ -150,7 +154,7 @@ export const Sessions: CollectionConfig = {
                   admin: {
                     condition: (_, siblingData) => ['scheduled', 'live', 'finished', 'cancelled'].includes(siblingData.status),
                     date: {
-                      pickerAppearance: 'dayAndTime'
+                      pickerAppearance: 'dayAndTime',
                     },
                     width: '50%',
                   },
@@ -160,9 +164,9 @@ export const Sessions: CollectionConfig = {
                         // TODO: Send a notification to all interested users
                         // TODO: Schedule Actions
                         return value
-                      }
-                    ]
-                  }
+                      },
+                    ],
+                  },
                 },
                 {
                   name: 'suggestedBy',
@@ -172,9 +176,9 @@ export const Sessions: CollectionConfig = {
                   admin: {
                     condition: (_, siblingData) => siblingData.status === 'wished',
                     width: '50%',
-                  }
-                }
-              ]
+                  },
+                },
+              ],
             },
             {
               type: 'row',
@@ -188,17 +192,17 @@ export const Sessions: CollectionConfig = {
                   // validate: TODO: Check if the user is a presenter
                   admin: {
                     width: '50%',
-                  }
+                  },
                 },
                 {
                   name: 'allowMultiplePresenters',
                   type: 'checkbox',
                   required: false,
                   admin: {
-                    width: '50%'
-                  }
-                }
-              ]
+                    width: '50%',
+                  },
+                },
+              ],
             },
             {
               name: 'tags',
@@ -208,7 +212,7 @@ export const Sessions: CollectionConfig = {
               required: true,
               admin: {
                 position: 'sidebar',
-              }
+              },
             },
             {
               name: 'interestedAttendeesCount',
@@ -218,9 +222,9 @@ export const Sessions: CollectionConfig = {
               admin: {
                 readOnly: true,
                 hidden: false,
-              }
-            }
-          ]
+              },
+            },
+          ],
         },
         {
           label: 'Interested Users',
@@ -230,10 +234,10 @@ export const Sessions: CollectionConfig = {
               type: 'join',
               collection: COLLECTION_SLUG_SESSION_INTERESTED_ATTENDEES,
               on: 'session',
-            }
-          ]
-        }
-      ]
+            },
+          ],
+        },
+      ],
     },
   ],
   hooks: {
@@ -241,57 +245,8 @@ export const Sessions: CollectionConfig = {
       async () => {
         revalidateTag('sessions')
       },
-      async ({req, doc, operation}) => {
-        if(operation === 'create' && doc.status === 'wished') {
-          // get all users except the current user
-          const suggestedBy = doc.suggestedBy;
-          // send a notification to all users except the suggestedBy user
-
-          const potentialInterestedUsers = await req.payload.find({
-            collection: COLLECTION_SLUG_USERS,
-            where: {
-              id: {
-                not_equals: suggestedBy.id
-              }
-            },
-            limit: 9999999
-          });
-
-          for (const user of potentialInterestedUsers.docs) {
-            await req.payload.sendEmail({
-              to: user.email,
-              subject: `New Topic Suggestion: ${suggestedBy.name} – Vote or Lead the Session!`,
-              html: await render(NewSuggestionTopicCreatedEmail({ session: doc, user: user })),
-              text: newSuggestionTopicCreatedEmailText({ session: doc, user: user }),
-            })
-          }
-        }
-      },
-      async ({ req, operation, doc, previousDoc }) => {
-        if(operation === 'create' && doc.status === 'proposed') {
-          const presenters = doc.presenters as User[]
-          if(presenters.length === 0) {
-            return
-          }
-          const potentialPresenters = await req.payload.find({
-            collection: COLLECTION_SLUG_USERS,
-            where: {
-              id: {
-                not_in: presenters.map(p => p.id)
-              }
-            }
-          })
-
-          for (const presenter of potentialPresenters.docs) {
-            await req.payload.sendEmail({
-              to: presenter.email,
-              subject: `New Session Proposed: ${doc.title} – Vote now${doc.allowMultiplePresenters ? ' or Co-present' : ''}!`,
-              html: await render(NewSessionProposalCreatedEmail({ session: doc, user: presenter })),
-              text: newSessionProposalCreatedEmailText({ session: doc, user: presenter }),
-            })
-          }
-        }
-      }
-    ]
-  }
+      notifyPotentialPresentersOnTopicSuggestionCreate,
+      notifyPotentialParticipantsOnSessionCreate,
+    ],
+  },
 }
