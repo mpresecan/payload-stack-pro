@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { cn } from "@/utilities/cn";
 import { useStore } from "@/hooks/use-store";
 import { Button } from "@/components/ui/button";
@@ -7,6 +5,7 @@ import { Menu } from "@/components/admin-panel/menu";
 import { useSidebarToggle } from "@/hooks/use-sidebar-toggle";
 import { SidebarToggle } from "@/components/admin-panel/sidebar-toggle";
 import { BiSolidChevronsRight } from 'react-icons/bi'
+import { Link } from 'next-view-transitions'
 
 export function Sidebar() {
   const sidebar = useStore(useSidebarToggle, (state) => state);
