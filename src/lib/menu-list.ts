@@ -1,7 +1,7 @@
 import {
   Users,
   Settings,
-  LucideIcon, NotebookText, Info, Flame, ChevronsDown, Navigation, User,
+  LucideIcon, NotebookText, Info, Flame, ChevronsDown, Navigation, User, CalendarIcon,
 } from 'lucide-react'
 
 type Submenu = {
@@ -49,6 +49,13 @@ export function getMenuList(pathname: string): Group[] {
           label: "Attendees",
           active: pathname.includes("/attendees"),
           icon: Users,
+          submenus: []
+        },
+        {
+          href: "/schedule",
+          label: "Schedule",
+          active: pathname.includes("/schedule"),
+          icon: CalendarIcon,
           submenus: []
         },
       ]
