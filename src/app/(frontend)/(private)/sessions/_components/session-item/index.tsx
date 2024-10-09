@@ -59,7 +59,8 @@ const SessionComponent = ({ session, currentUser, topicList }: { session: Sessio
               className="relative overflow-hidden"
             >
               <p className="text-sm text-muted-foreground"
-                 style={{ viewTransitionName: `session-short-description-${session.id}` }}>
+                 // style={{ viewTransitionName: `session-short-description-${session.id}` }}
+              >
                 {session.shortDescription}
               </p>
               {!showMore && (
