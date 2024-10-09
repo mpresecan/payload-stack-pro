@@ -25,7 +25,7 @@ const NewSessionPage = async () => {
 
   return (
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
-      <Breadcrumb className="mb-8">
+      <Breadcrumb className="sm:mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>

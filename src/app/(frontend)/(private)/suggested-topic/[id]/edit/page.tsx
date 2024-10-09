@@ -68,10 +68,10 @@ const EditTopicSuggestionPage = async ({ params }: Props) => {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem>
+          <BreadcrumbItem className='hidden sm:block'>
             <Link href={`/topic-suggestions/${session.id}`}>{session.title}</Link>
           </BreadcrumbItem>
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className='hidden sm:block'/>
           <BreadcrumbItem>
             <BreadcrumbPage>Edit</BreadcrumbPage>
           </BreadcrumbItem>

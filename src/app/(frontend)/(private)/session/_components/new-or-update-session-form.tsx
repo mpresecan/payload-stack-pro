@@ -87,10 +87,12 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
 
   return (
     <Card className="w-full max-w-2xl mx-auto"
-          style={{ viewTransitionName: `card-session-${session ? session.id : 'new'}` }}>
+          style={{ viewTransitionName: `card-session-${session ? session.id : 'new'}` }}
+          standAlone
+    >
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <CardHeader className="pb-0">
+          <CardHeader className="pb-0" standAlone>
             <div className="flex items-center space-x-4">
               <UserAvatar user={user} className="w-16 h-16" />
               <FormField
@@ -124,7 +126,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
               />
             </div>
           </CardHeader>
-          <CardContent className="space-y-8">
+          <CardContent className="space-y-8" standAlone>
             <FormField
               control={form.control}
               name="shortDescription"
@@ -217,7 +219,7 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
                 )}
               />}
           </CardContent>
-          <CardFooter className="flex flex-col gap-2">
+          <CardFooter className="flex flex-col gap-2" standAlone>
             <Button className="w-full" size="lg">
               {isPending ? (
                 <>

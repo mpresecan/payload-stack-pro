@@ -49,7 +49,7 @@ const Session = async ({ params }: Props) => {
 
   return (
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
-      <Breadcrumb className="mb-8">
+      <Breadcrumb className="sm:mb-8">
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
@@ -57,7 +57,7 @@ const Session = async ({ params }: Props) => {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem>
+          <BreadcrumbItem className='hidden sm:block'>
             <BreadcrumbPage>{session.title}</BreadcrumbPage>
           </BreadcrumbItem>
         </BreadcrumbList>

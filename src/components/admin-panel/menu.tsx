@@ -1,9 +1,7 @@
 'use client'
 
-import Link from 'next/link'
 import { Ellipsis, LogOut, PlusIcon } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-
 import { cn } from '@/utilities/cn'
 import { getMenuList } from '@/lib/menu-list'
 import { Button } from '@/components/ui/button'
@@ -16,6 +14,7 @@ import {
   TooltipProvider,
 } from '@/components/ui/tooltip'
 import { useAuth } from '@/app/(frontend)/(auth)/_providers/auth'
+import { Link } from 'next-view-transitions'
 
 interface MenuProps {
   isOpen: boolean | undefined;

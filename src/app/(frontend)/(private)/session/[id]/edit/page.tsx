@@ -59,7 +59,7 @@ const EditSessionPage = async ({ params }: Props) => {
 
   return (
     <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
-      <Breadcrumb className='mb-8'>
+      <Breadcrumb className='sm:mb-8'>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink asChild>
@@ -67,10 +67,10 @@ const EditSessionPage = async ({ params }: Props) => {
             </BreadcrumbLink>
           </BreadcrumbItem>
           <BreadcrumbSeparator />
-          <BreadcrumbItem>
+          <BreadcrumbItem className='hidden sm:block'>
             <Link href={`/session/${session.id}`}>{session.title}</Link>
           </BreadcrumbItem>
-          <BreadcrumbSeparator />
+          <BreadcrumbSeparator className='hidden sm:block' />
           <BreadcrumbItem>
             <BreadcrumbPage>Edit</BreadcrumbPage>
           </BreadcrumbItem>

@@ -80,7 +80,7 @@ export function Editor({
       id="editor-wrapper"
       className={cn(
         className,
-        "w-full max-w-none relative prose prose-slate dark:prose-invert prose-p:my-0 prose-headings:mb-4 prose-headings:mt-2"
+        "w-full max-w-none bg-background relative prose prose-slate dark:prose-invert prose-p:my-0 prose-headings:mb-4 prose-headings:mt-2"
       )}
     >
       <EditorHistoryStateContext>
