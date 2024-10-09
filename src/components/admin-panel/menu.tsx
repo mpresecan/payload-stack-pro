@@ -120,7 +120,7 @@ export function Menu({ isOpen }: MenuProps) {
                           </Link>
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent side='right'>
                         Suggest Topic
                       </TooltipContent>
                     </Tooltip>
@@ -139,7 +139,7 @@ export function Menu({ isOpen }: MenuProps) {
                           </Link>
                         </Button>
                       </TooltipTrigger>
-                      <TooltipContent>
+                      <TooltipContent side='right'>
                         Propose a session
                       </TooltipContent>
                     </Tooltip>
