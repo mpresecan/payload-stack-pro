@@ -14,44 +14,38 @@ import SessionOptions from '@/app/(frontend)/(private)/session/_components/sessi
 
 
 const SessionDetails = async ({ session, topic = false }: { session: SessionEvent, topic?: boolean }) => {
-  const user = await sessionUser()
-  const presenters = session.presenters as User[] | undefined
-  const suggestedBy = session.suggestedBy as User | undefined
-  const isProposedTopic = session.status === 'wished'
+  const user = await sessionUser();
+  const presenters = session.presenters as User[] | undefined;
+  const suggestedBy = session.suggestedBy as User | undefined;
+  const isProposedTopic = session.status === 'wished';
 
   return (
-    <Card className="w-full max-w-4xl mx-auto" style={{ viewTransitionName: `card-session-${session.id}` }} standAlone>
-      <CardHeader className="space-y-6" standAlone>
+    <Card className="w-full max-w-4xl mx-auto" style={{viewTransitionName: `card-session-${session.id}`}} standAlone >
+      <CardHeader className="space-y-6" standAlone >
         <div className="flex justify-between items-start">
-          <CardTitle className="text-3xl font-bold pr-4"
-                     style={{ viewTransitionName: `session-title-${session.id}` }}>{session.title}</CardTitle>
+          <CardTitle className="text-3xl font-bold pr-4" style={{viewTransitionName: `session-title-${session.id}`}}>{session.title}</CardTitle>
           {user &&
             (
-              (!isProposedTopic && presenters && presenters.some(presenter => presenter.id === user.id)) ||
+              (!isProposedTopic && presenters && presenters.some(presenter => presenter.id === user.id) ) ||
               (isProposedTopic && suggestedBy && suggestedBy.id === user.id)
             ) &&
-            <SessionEditOptions session={session} allowCancel={!isProposedTopic}
-                                setRemovePresenter={presenters && presenters.at(0)?.id !== user.id} />}
+            <SessionEditOptions session={session} allowCancel={!isProposedTopic} setRemovePresenter={presenters && presenters.at(0)?.id !== user.id} />}
           {user && session.allowMultiplePresenters === true && !isProposedTopic && presenters && !presenters.some(presenter => presenter.id === user.id) &&
             <SessionOptions session={session} />}
         </div>
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy}
-                                                       styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}
-          <div className="flex flex-wrap items-center gap-4"
-               style={{ viewTransitionName: `session-presenters-${session.id}` }}>
+          {session.status === 'wished' && <SuggestedBy suggestedBy={session.suggestedBy} styles={{ viewTransitionName: `session-suggested-by-${session.id}` }} />}
+          <div className="flex flex-wrap items-center gap-4" style={{viewTransitionName: `session-presenters-${session.id}`}}>
             {session.status !== 'wished' && session.presenters && session.presenters.map((sessionPresenter, index) => {
-              return (<div key={`presenter-${index}`} className="flex items-center gap-2">
+              return (<div key={`presenter-${ index }`} className="flex items-center gap-2">
                 <UserAvatar user={sessionPresenter} />
                 <span className="font-medium">
-                  {typeof sessionPresenter === 'string' ? 'Deleted User' : (
-                    <Link href={`/user/${sessionPresenter.handle}`}>{sessionPresenter.name}</Link>)}
+                  {typeof sessionPresenter === 'string' ? 'Deleted User' : (<Link href={`/user/${sessionPresenter.handle}`}>{sessionPresenter.name}</Link>)}
                 </span>
               </div>)
             })}
           </div>
-          <StatusBadge status={session.status} scheduledAt={session.scheduledAt}
-                       styles={{ viewTransitionName: `session-status-badge-${session.id}` }} />
+          <StatusBadge status={session.status} scheduledAt={session.scheduledAt} styles={{viewTransitionName: `session-status-badge-${session.id}`}} />
         </div>
         <div className="flex flex-wrap gap-2">
           {session.tags.map(sessionTag => {
@@ -62,21 +56,21 @@ const SessionDetails = async ({ session, topic = false }: { session: SessionEven
       </CardHeader>
       <CardContent className="space-y-6" standAlone>
         <div className="relative z-10">
-          <InterestComponent session={session} showPresentButton={topic} bigButton={true} user={user} />
+          <InterestComponent session={session} showPresentButton={topic} bigButton={true} user={user}/>
         </div>
-        {session.fullDescription && (
-          <div className="space-y-4 relative z-0 mt-16">
-            <h3 className="text-xl font-semibold">Description</h3>
-            <p className=""
-               style={{ viewTransitionName: `session-short-description-${session.id}` }}>{session.shortDescription}</p>
+
+        <div className="space-y-4 relative z-0 mt-16">
+          <h3 className="text-xl font-semibold">Description</h3>
+          <p className="" style={{viewTransitionName: `session-short-description-${session.id}`}}>{session.shortDescription}</p>
+          {session.fullDescription && (
             <>
               <h3 className="text-xl font-semibold">Detailed Content</h3>
               <div className="whitespace-pre-line">
                 <RichText content={session.fullDescription ?? {}} enableGutter={false} />
               </div>
             </>
-          </div>
-        )}
+          )}
+        </div>
       </CardContent>
     </Card>
   )
