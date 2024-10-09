@@ -40,7 +40,7 @@ const SchedulePage = () => {
               </Button>
               <Button variant="outline" asChild>
                 <Link
-                  href='https://calendar.google.com/calendar/embed?src=696b4a50dcac0173d5311578ccf28eb4ca9c3cce3dcf78ba10dc54fe2fb2ef89%40group.calendar.google.com&ctz=Europe%2FBelgrade'
+                  href='https://calendar.google.com/calendar/embed?src=696b4a50dcac0173d5311578ccf28eb4ca9c3cce3dcf78ba10dc54fe2fb2ef89%40group.calendar.google.com&ctz=Europe%2FBucharest&bgcolor=%23ffffff&mode=WEEK'
                   target="_blank" rel="noopener noreferrer"
                 >
                   <Calendar size={20} className="mr-2" />
@@ -60,7 +60,7 @@ const SchedulePage = () => {
           </CardHeader>
           <CardContent standAlone className="pt-2">
             <iframe
-              src="https://calendar.google.com/calendar/embed??height=600&wkst=1&ctz=Europe%2FBucharest&bgcolor=%23ffffff&mode=WEEK&src=696b4a50dcac0173d5311578ccf28eb4ca9c3cce3dcf78ba10dc54fe2fb2ef89%40group.calendar.google.com"
+              src="https://calendar.google.com/calendar/embed?height=600&wkst=1&ctz=Europe%2FBucharest&bgcolor=%23ffffff&mode=WEEK&src=696b4a50dcac0173d5311578ccf28eb4ca9c3cce3dcf78ba10dc54fe2fb2ef89%40group.calendar.google.com"
               style={{ border: 0 }} width="720" height="600" frameBorder="0" scrolling="no"></iframe>
           </CardContent>
         </Card>
