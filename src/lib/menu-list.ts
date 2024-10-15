@@ -1,7 +1,7 @@
 import {
   Users,
   Settings,
-  LucideIcon, NotebookText, Info, Flame, ChevronsDown, Navigation, User, CalendarIcon,
+  LucideIcon, NotebookText, Info, Flame, ChevronsDown, Navigation, User, CalendarIcon, ShoppingBasket,
 } from 'lucide-react'
 
 type Submenu = {
@@ -99,6 +99,14 @@ export function getMenuList(pathname: string): Group[] {
             }
           ],
           newTab: true,
+        },
+        {
+          href: "https://docs.google.com/document/d/16K6tivEV3_rIOctsLXJrss78zFvxrzrrcjFEVPRX2Co/edit?usp=sharing",
+          label: 'Shopping List',
+          active: pathname.includes("/shopping-list"),
+          newTab: true,
+          icon: ShoppingBasket,
+          submenus: []
         }
       ]
     },
