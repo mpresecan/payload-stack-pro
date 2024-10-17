@@ -18,7 +18,12 @@ const SessionDetails = async ({ session, topic = false }: { session: SessionEven
   const presenters = session.presenters as User[] | undefined;
   const suggestedBy = session.suggestedBy as User | undefined;
   const isProposedTopic = session.status === 'wished';
-
+  const allowMultiplePresenters = session.allowMultiplePresenters || false;
+console.log("allowMultiplePresenters", allowMultiplePresenters)
+  console.log("isProposedTopic", isProposedTopic)
+  console.log('user id', user && user.id)
+  console.log('presenters', presenters && presenters.map(presenter => presenter.id))
+  console.log("Presenter user", presenters && user && presenters.some(presenter => presenter.id === user.id))
   return (
     <Card className="w-full max-w-4xl mx-auto" style={{viewTransitionName: `card-session-${session.id}`}} standAlone >
       <CardHeader className="space-y-6" standAlone >
@@ -56,7 +61,12 @@ const SessionDetails = async ({ session, topic = false }: { session: SessionEven
       </CardHeader>
       <CardContent className="space-y-6" standAlone>
         <div className="relative z-10">
-          <InterestComponent session={session} showPresentButton={topic} bigButton={true} user={user}/>
+          <InterestComponent
+            session={session}
+            showPresentButton={topic}
+            bigButton={true} user={user}
+            showCoPresentButton={allowMultiplePresenters && !isProposedTopic && presenters && user && !presenters.some(presenter => presenter.id === user.id)}
+          />
         </div>
 
         <div className="space-y-4 relative z-0 mt-16">

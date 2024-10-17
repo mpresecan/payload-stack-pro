@@ -3,8 +3,8 @@
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { Notebook, ThumbsUpIcon, Users } from 'lucide-react'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useRouter } from 'next/navigation'
+import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import {
   Dialog,
   DialogContent,
@@ -20,15 +20,19 @@ import { useInterestedUsers } from '../sessions/hooks/useInterestedUsers'
 import { HoverUserCard } from '@/app/(frontend)/(private)/_components/user-hover-card'
 import { Link } from 'next-view-transitions'
 import UserAvatar from '@/app/(frontend)/(private)/_components/user-avatar'
+import { joinAsCoPresenter } from '@/app/(frontend)/(private)/session/_actions/join-as-co-presenter'
+import { toast } from 'sonner'
 
-const InterestComponent = ({ session, refetchSessions = false, bigButton = false, user, showPresentButton = false }: {
+const InterestComponent = ({ session, refetchSessions = false, bigButton = false, user, showPresentButton = false, showCoPresentButton = false }: {
   session: SessionEvent,
   refetchSessions?: boolean,
   bigButton?: boolean,
   user?: User | null | undefined
-  showPresentButton?: boolean
+  showPresentButton?: boolean,
+  showCoPresentButton?: boolean,
 }) => {
   const shouldVote = !['live', 'finished'].includes(session.status)
+  const router = useRouter()
 
   const {
     users: voters,
@@ -47,6 +51,17 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
     }
   }
 
+  const handleJoinConfirm = async () => {
+    try {
+      await joinAsCoPresenter(session.id);
+      toast.success('Joined as co-presenter');
+      router.push(`/session/${session.id}/edit`);
+    } catch (error) {
+      toast.error('Failed to join as co-presenter');
+      console.error(error);
+    }
+  }
+
   return (
     <div ref={ref} className="flex flex-wrap items-start justify-between mb-2"
          style={{ viewTransitionName: `session-interest-component-${session.id}` }}>
@@ -61,6 +76,16 @@ const InterestComponent = ({ session, refetchSessions = false, bigButton = false
           <ThumbsUpIcon className="mr-2 h-4 w-4" />
           {isToggling ? 'Updating...' : (isUserInterested ? 'Interested' : 'Show Interest')}
         </Button>
+        {showCoPresentButton && <Button
+          onClick={handleJoinConfirm}
+          className="text-muted-foreground"
+          variant="outline"
+          size={bigButton ? 'lg' : 'sm'}
+          >
+            <Notebook className="h-4 w-4 mr-2" />
+            Co-Present
+        </Button>
+        }
         {showPresentButton && <Button
           asChild
           className="text-muted-foreground"

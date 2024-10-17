@@ -20,7 +20,7 @@ export const updateSession = async (formData: NewSessionFormValues, session: Ses
 
   const presenters = session.presenters as User[]
   const suggestedBy = session.suggestedBy as User
-  if(session.presenters && presenters.some(presenter => presenter.id !== currentUser.id)) {
+  if(session.presenters && !presenters.some(presenter => presenter.id === currentUser.id)) {
     throw new Error('User not authorized to update this session')
   }
 
