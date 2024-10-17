@@ -245,7 +245,7 @@ export const Sessions: CollectionConfig = {
       async () => {
         revalidateTag('sessions')
       },
-      // notifyPotentialPresentersOnTopicSuggestionCreate,
+      notifyPotentialPresentersOnTopicSuggestionCreate,
       notifyPotentialParticipantsOnSessionCreate,
     ],
   },
