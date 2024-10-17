@@ -194,8 +194,8 @@ const NewOrUpdateSessionForm = ({ tags, session = undefined, isTopicSuggestion =
                 </FormItem>
               )}
             />
-            {!isTopicSuggestion &&
-              (!shouldUpdate || (user && firstPresenter && firstPresenter.id === user.id)) &&
+            {((!isTopicSuggestion && !firstPresenter) ||
+              (!isTopicSuggestion && (!shouldUpdate || (user && firstPresenter && firstPresenter.id === user.id)))) &&
               <FormField
                 control={form.control}
                 name="allowMultiplePresenters"
