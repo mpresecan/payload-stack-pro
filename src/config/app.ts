@@ -135,7 +135,7 @@ export const siteConfig = {
     // },
     // {
     //   href: "https://adventleaders.com/unconference",
-    //   label: "2nd Annual Advent UNconference",
+    //   label: "3th Annual Advent UNconference",
     //   newTab: false,
     // },
   ] as HeaderItem[],

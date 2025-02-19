@@ -3,8 +3,8 @@ import { BiSolidChevronsRight } from 'react-icons/bi'
 
 const footerLinks: { id: number; title: string; url: string }[][] = [
   [
-    { id: 1, title: '2nd Annual Advent UNconference', url: 'https://adventleaders.com/unconference' },
-    { id: 2, title: 'Operation HASTEN', url: 'https://adventleaders.com/operation-hasten' },
+    { id: 1, title: '3th Annual Advent UNconference', url: 'https://adventleaders.com/unconference' },
+    { id: 2, title: 'Outpost Planning Workshop', url: 'https://www.youtube.com/watch?v=mklJ7c4AeRI&list=PL0r24EXiF0h2fEofH6KM--aNY8UBf43tZ' },
     { id: 3, title: 'Travel Guide', url: 'https://adventleaders.com/unconference/location' },
     { id: 4, title: 'Tribe of Issachar', url: 'https://adventleaders.com/think-tank' },
   ],

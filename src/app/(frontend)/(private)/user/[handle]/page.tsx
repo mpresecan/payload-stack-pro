@@ -28,7 +28,7 @@ const ProfilePage = async ({ params : {handle} }: Props) => {
   }
 
   return (
-    <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
+    <ContentLayout title="3th Annual Advent UNconference, Berivoi, Apr 23-27, 2025">
       <UserProfile user={user} />
     </ContentLayout>
   )

@@ -26,7 +26,7 @@ function HeroPill() {
         📣 Announcement
       </div>
       <p className="text-xs font-medium text-primary sm:text-sm">
-        2nd Annual UNconference
+        3nd Annual UNconference
       </p>
       <svg
         width="12"
@@ -116,7 +116,7 @@ function HeroCTA() {
         animate={{ opacity: 1 }}
         transition={{ delay: 1.0, duration: 0.8 }}
       >
-        Request an invite to the 2nd Annual UNconference.
+        Request an invite to the 3nd Annual UNconference.
       </motion.p>
     </>
   );

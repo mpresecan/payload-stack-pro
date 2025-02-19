@@ -72,11 +72,24 @@ export function getMenuList(pathname: string): Group[] {
           newTab: true,
         },
         {
-          href: "https://adventleaders.com/operation-hasten",
-          label: "Operation HASTEN",
+          href: "",
+          label: "Watch before event!",
           active: pathname.includes("/operation-hasten"),
           icon: ChevronsDown,
-          submenus: [],
+          submenus: [
+            {
+              href: "https://www.youtube.com/watch?v=mklJ7c4AeRI&list=PL0r24EXiF0h2fEofH6KM--aNY8UBf43tZ",
+              label: 'Outpost Planning Workshop',
+              active: false,
+              newTab: true,
+            },
+            {
+              href: "https://adventleaders.com/operation-hasten",
+              label: 'Operation HASTEN',
+              active: false,
+              newTab: true,
+            },
+          ],
           newTab: true,
         },
         {

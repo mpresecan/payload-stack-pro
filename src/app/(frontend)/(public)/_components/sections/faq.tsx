@@ -36,7 +36,7 @@ const faqs = [
     question: 'Where and when is the next Advent UNconference?',
     answer: (
       <span>
-        The next Advent UNconference will be held in-person at <strong>Advent Center, Berivoi, Romania, from October 16-19</strong>. Participants are encouraged to register in advance to secure their spot and to contribute to shaping the event by proposing discussion topics.
+        The next Advent UNconference will be held in-person at <strong>Advent Center, Berivoi, Romania, from April 23-27, 2025</strong>. Participants are encouraged to register in advance to secure their spot and to contribute to shaping the event by proposing discussion topics.
         </span>
     ),
   },

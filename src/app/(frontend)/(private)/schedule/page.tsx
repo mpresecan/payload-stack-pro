@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const SchedulePage = () => {
   return (
-    <ContentLayout title="2n Annual Advent UNconference, Berivoi, Oct 16-19, 2024">
+    <ContentLayout title="3th Annual Advent UNconference, Berivoi, Apr 23-27, 2025">
       <div className="container mx-auto p-0 max-w-3xl">
         <div className="flex flex-row justify-between">
           <h1 className="text-3xl font-black mb-6">Schedule</h1>
