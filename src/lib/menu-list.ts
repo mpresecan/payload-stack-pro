@@ -1,7 +1,7 @@
 import {
   Users,
   Settings,
-  LucideIcon, NotebookText, Info, Flame, ChevronsDown, Navigation, User, CalendarIcon, ShoppingBasket,
+  LucideIcon, NotebookText, Info, Flame, ChevronsDown, Navigation, User, CalendarIcon, ShoppingBasket, Play,
 } from 'lucide-react'
 
 type Submenu = {
@@ -73,9 +73,9 @@ export function getMenuList(pathname: string): Group[] {
         },
         {
           href: "",
-          label: "Watch before event!",
+          label: "MUST WATCH!",
           active: pathname.includes("/operation-hasten"),
-          icon: ChevronsDown,
+          icon: Play,
           submenus: [
             {
               href: "https://www.youtube.com/watch?v=mklJ7c4AeRI&list=PL0r24EXiF0h2fEofH6KM--aNY8UBf43tZ",
