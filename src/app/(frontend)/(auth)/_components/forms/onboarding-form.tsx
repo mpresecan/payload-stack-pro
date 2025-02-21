@@ -105,7 +105,7 @@ const OnboardingForm = () => {
           name="handle"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>What is Your Handle?</FormLabel>
+              <FormLabel>What is Your Handle (username)?</FormLabel>
               <div className="flex">
                 <div
                   className="flex items-center border border-border px-2 text-muted-foreground rounded border-r-0 cursor-default">@
